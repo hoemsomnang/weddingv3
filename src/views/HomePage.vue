@@ -12,19 +12,19 @@
 
       <!-- 2. Lower Envelope Body / Pocket -->
       <div class="envelope-pocket">
-        <img src="/envelope-pocket.png" alt="Envelope Pocket" />
+        <img :src="pocketImg" alt="Envelope Pocket" />
       </div>
 
       <!-- 3. Top Folding Scalloped Flap (3D Hinge) -->
       <div class="envelope-flap-wrapper">
         <div class="flap-front">
-          <img src="/envelope-flap.png" alt="Scalloped Flap" />
+          <img :src="flapImg" alt="Scalloped Flap" />
         </div>
         <div class="flap-back"></div>
 
         <!-- Gold Seal Emblem on Flap Tip -->
         <div class="gold-seal" :class="{ 'seal-hidden': isOpen }">
-          <img src="/gold-seal-sr.png" alt="Gold Seal SR" />
+          <img :src="sealImg" alt="Gold Seal SR" />
         </div>
       </div>
     </div>
@@ -33,6 +33,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import flapImg from '@/assets/envelope/envelope-flap.png'
+import pocketImg from '@/assets/envelope/envelope-pocket.png'
+import sealImg from '@/assets/envelope/gold-seal-sr.png'
 
 const isOpen = ref(false)
 
