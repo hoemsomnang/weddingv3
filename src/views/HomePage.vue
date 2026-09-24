@@ -42,38 +42,24 @@
           <img :src="goldSealCoverImg" :alt="weddingText.accessibility.envelopeSealAlt" />
         </div>
       </div>
-    </div>
 
-    <!-- Back to Cover Button (discreet, accessible when envelope is shown) -->
-    <button
-      v-if="isCoverOpen"
-      class="cover-return-btn"
-      @click.stop="returnToCover"
-      :title="weddingText.accessibility.backToCoverBtn"
-    >
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-      </svg>
-    </button>
-
-    <!-- Cover Overlay (Pure transparent overlay for text & center seal) -->
-    <Transition name="overlay-fade">
-      <div
-        v-if="!isCoverOpen"
-        class="cover-overlay"
-        :class="{
-          'stage-disappear': isDisappearingOther
-        }"
-        @click="openCover"
-      >
-        <div class="cover-card" @click.stop="openCover">
+      <!-- 4. Cover Overlay (Directly overlaid on envelope scene) -->
+      <Transition name="overlay-fade">
+        <div
+          v-if="!isCoverOpen"
+          class="cover-overlay"
+          :class="{
+            'stage-disappear': isDisappearingOther
+          }"
+          @click.stop="openCover"
+        >
           <div class="cover-content" @click.stop="openCover">
             <!-- 1. Top Heading: សិរីមង្គល អាពាហ៍ពិពាហ៍ -->
             <div class="cover-header">
               <h2 class="cover-title-khmer">{{ weddingText.cover.titleKhmer }}</h2>
             </div>
 
-            <!-- 2. Center Gold Seal: gold-seal-transparent.png (click to reveal current page) -->
+            <!-- 2. Center Gold Seal: gold-seal-transparent.webp (click to reveal current page) -->
             <div
               ref="coverSealBoxRef"
               class="cover-seal-box"
@@ -103,8 +89,20 @@
             </div>
           </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </div>
+
+    <!-- Back to Cover Button (discreet, accessible when envelope is shown) -->
+    <button
+      v-if="isCoverOpen"
+      class="cover-return-btn"
+      @click.stop="returnToCover"
+      :title="weddingText.accessibility.backToCoverBtn"
+    >
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+      </svg>
+    </button>
   </div>
 </template>
 
