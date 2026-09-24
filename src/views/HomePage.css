@@ -93,7 +93,9 @@
   -webkit-transform-style: preserve-3d;
   transform: translateZ(15px);
   -webkit-transform: translateZ(15px);
-  transition: transform 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 3.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease, visibility 0s;
   z-index: 10;
 }
 
@@ -176,20 +178,25 @@
 /* ------------------------------------------------------------- */
 /* When clicked: the entire envelope centers gracefully */
 .envelope-scene.is-open {
-  transform: translateY(8%) scale(0.96);
+  transform: scale(1.02);
 }
 
-/* Flap folds 178 degrees backward slowly */
+/* Flap folds backward and completely disappears when open */
 .envelope-scene.is-open .envelope-flap-wrapper {
   transform: rotateX(178deg) translateZ(15px);
   -webkit-transform: rotateX(178deg) translateZ(15px);
   z-index: 2;
-  transition: transform 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: transform 3.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s ease 1s, visibility 0s 2.2s;
 }
 
-.envelope-scene.is-open .flap-front {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-  transition: filter 3.5s ease;
+.envelope-scene.is-open .flap-front,
+.envelope-scene.is-open .flap-back {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease 1s, visibility 0s 2.2s;
 }
 
 /* Chamber golden radiance illuminates */
@@ -554,7 +561,7 @@
     margin: 0 auto;
   }
   .envelope-scene.is-open {
-    transform: translateY(14%) scale(0.88);
+    transform: scale(1.02);
   }
 }
 
