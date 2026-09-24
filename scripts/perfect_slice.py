@@ -1,8 +1,10 @@
-﻿from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
 # Base image
-im = Image.open("public/wedding-envelope-scallop.jpg").convert("RGBA")
+import os
+img_source = "scripts/wedding-envelope-scallop.jpg" if os.path.exists("scripts/wedding-envelope-scallop.jpg") else "public/wedding-envelope-scallop.jpg"
+im = Image.open(img_source).convert("RGBA")
 w, h = im.size
 
 # In wedding-envelope-scallop.jpg (768 x 1376):
