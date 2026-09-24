@@ -8,7 +8,7 @@
     >
       <!-- 1. Envelope Back Wall with Warm Golden Radiance -->
       <div class="envelope-back">
-        <div class="inner-glow"></div>
+        
       </div>
 
       <!-- 2. Lower Envelope Body / Seamless Pocket Base & 3D Split Gatefold Doors -->
@@ -111,11 +111,11 @@
 <script setup>
 import { ref } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
-import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.png'
-import flapImg from '@/assets/envelope/envelope-flap.png'
-import pocketImg from '@/assets/envelope/envelope-pocket.png'
-import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.png'
-import pocketRightImg from '@/assets/envelope/envelope-pocket-right.png'
+import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
+import flapImg from '@/assets/envelope/envelope-flap.webp'
+import pocketImg from '@/assets/envelope/envelope-pocket.webp'
+import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.webp'
+import pocketRightImg from '@/assets/envelope/envelope-pocket-right.webp'
 import './HomePage.css'
 
 const isCoverOpen = ref(false)

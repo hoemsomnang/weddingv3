@@ -66,6 +66,7 @@
 .envelope-pocket-wrapper {
   position: absolute;
   inset: 0;
+  z-index: 6;
   pointer-events: none;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
@@ -319,7 +320,7 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  padding: 16px;
+  padding: 12px;
   box-sizing: border-box;
   overflow: hidden;
   user-select: none;
@@ -328,11 +329,11 @@
 
 .cover-card {
   position: relative;
-  width: min(100%, calc((100dvh - 32px) * 9 / 16));
-  max-width: 410px;
+  width: min(100%, calc((100dvh - 24px) * 9 / 16));
+  max-width: 440px;
   aspect-ratio: 9 / 16;
-  border-radius: 20px;
-  overflow: visible;
+  border-radius: 24px;
+  overflow: hidden;
   box-shadow: none;
   border: none;
   outline: none;
@@ -344,7 +345,7 @@
   cursor: pointer;
   box-sizing: border-box;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   transform-origin: center center;
 }
 
@@ -633,42 +634,53 @@
 /* Mobile full-height optimization (Both 1st cover card & 2nd envelope page) */
 @media (max-width: 480px) {
   .home-container {
-    padding: 0;
+    padding: 12px;
     margin: 0;
+    width: 100vw;
+    height: 100dvh;
+    box-sizing: border-box;
+    background: #000000;
   }
   .cover-overlay {
-    padding: 0;
+    padding: 12px;
     margin: 0;
     background: transparent;
+    width: 100vw;
+    height: 100dvh;
+    box-sizing: border-box;
   }
   .cover-card,
   .envelope-scene {
-    width: 100vw;
-    max-width: 100vw;
-    height: 100dvh;
-    border-radius: 0;
-    box-shadow: none;
-    aspect-ratio: auto;
-    margin: 0;
+    width: min(calc(100vw - 24px), calc((100dvh - 24px) * 9 / 16));
+    max-width: 440px;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+    margin: 0 auto;
   }
   .cover-card:hover {
     transform: none;
-    box-shadow: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
   }
   .envelope-back {
-    border-radius: 0;
+    border-radius: 24px;
   }
   .flap-front,
   .flap-back {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
   }
   .envelope-pocket-wrapper,
-  .envelope-pocket-base,
-  .envelope-pocket-doors,
-  .pocket-door-left,
+  .envelope-pocket-base {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+  .pocket-door-left {
+    border-bottom-left-radius: 24px;
+  }
   .pocket-door-right {
-    border-radius: 0;
+    border-bottom-right-radius: 24px;
   }
   .envelope-scene.is-open {
     transform: none;
