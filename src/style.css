@@ -12,7 +12,7 @@ html, body {
   min-height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
-  background: #141311;
+  background: #caa044;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -21,4 +21,5 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: #caa044;
 }
