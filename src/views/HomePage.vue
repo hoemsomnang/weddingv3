@@ -125,6 +125,7 @@ const openCover = async () => {
 
   if (!coverSealEl || !targetSealEl) {
     isCoverOpen.value = true
+    isOpen.value = true
     isAnimatingCover.value = false
     return
   }
@@ -178,14 +179,19 @@ const openCover = async () => {
 
     await currentGlideAnim.finished
     // Small settle delay for visual perfection
-    await new Promise(resolve => setTimeout(resolve, 60))
+    await new Promise(resolve => setTimeout(resolve, 80))
 
     // -------------------------------------------------------------
-    // 3. Final handoff to envelope flap seal
+    // 3. Final handoff to envelope flap seal & automatically open flap
     // -------------------------------------------------------------
     isCoverOpen.value = true
+
+    // Smoothly and gracefully open the envelope flap (slow and majestic like seal-glow)
+    await new Promise(resolve => setTimeout(resolve, 450))
+    isOpen.value = true
   } catch (err) {
     isCoverOpen.value = true
+    isOpen.value = true
   } finally {
     isDisappearingOther.value = false
     isAnimatingCover.value = false
