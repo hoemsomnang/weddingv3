@@ -11,9 +11,14 @@
         <div class="inner-glow"></div>
       </div>
 
-      <!-- 2. Lower Envelope Body / Pocket -->
-      <div class="envelope-pocket">
-        <img :src="pocketImg" :alt="weddingText.accessibility.envelopePocketAlt" />
+      <!-- 2. Lower Envelope Body / Split Gatefold Pocket Doors (Left & Right) -->
+      <div class="envelope-pocket-doors">
+        <div class="pocket-door pocket-door-left">
+          <img :src="pocketLeftImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Left'" />
+        </div>
+        <div class="pocket-door pocket-door-right">
+          <img :src="pocketRightImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Right'" />
+        </div>
       </div>
 
       <!-- 3. Top Folding Scalloped Flap (3D Hinge) -->
@@ -103,7 +108,8 @@ import { ref } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.png'
 import flapImg from '@/assets/envelope/envelope-flap.png'
-import pocketImg from '@/assets/envelope/envelope-pocket.png'
+import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.png'
+import pocketRightImg from '@/assets/envelope/envelope-pocket-right.png'
 import './HomePage.css'
 
 const isCoverOpen = ref(false)
