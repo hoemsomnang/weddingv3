@@ -85,7 +85,7 @@
 
             <!-- 3. Bottom Text: សូមយាង និងគោរពអញ្ជើញ / WEDDING INVITATION -->
             <div class="cover-footer">
-              <p class="cover-khmer-sub">{{ weddingText.cover.invitationKhmer }}</p>
+              <h2 class="cover-khmer-sub">{{ weddingText.cover.invitationKhmer }}</h2>
               <div class="tap-hint-pill">
                 <span class="pulse-dot"></span>
                 <span>{{ weddingText.cover.tapHint }}</span>
@@ -104,6 +104,7 @@ import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.png'
 import flapImg from '@/assets/envelope/envelope-flap.png'
 import pocketImg from '@/assets/envelope/envelope-pocket.png'
+import './HomePage.css'
 
 const isCoverOpen = ref(false)
 const isOpen = ref(false)
@@ -209,5 +210,3 @@ const toggleEnvelope = () => {
   isOpen.value = !isOpen.value
 }
 </script>
-
-<style scoped src="./HomePage.css"></style>
