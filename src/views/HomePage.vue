@@ -11,13 +11,18 @@
         <div class="inner-glow"></div>
       </div>
 
-      <!-- 2. Lower Envelope Body / Split Gatefold Pocket Doors (Left & Right) -->
-      <div class="envelope-pocket-doors">
-        <div class="pocket-door pocket-door-left">
-          <img :src="pocketLeftImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Left'" />
+      <!-- 2. Lower Envelope Body / Seamless Pocket Base & 3D Split Gatefold Doors -->
+      <div class="envelope-pocket-wrapper">
+        <div class="envelope-pocket-base" :class="{ 'is-hidden': isOpen || isReturning }">
+          <img :src="pocketImg" :alt="weddingText.accessibility.envelopePocketAlt" />
         </div>
-        <div class="pocket-door pocket-door-right">
-          <img :src="pocketRightImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Right'" />
+        <div class="envelope-pocket-doors">
+          <div class="pocket-door pocket-door-left">
+            <img :src="pocketLeftImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Left'" />
+          </div>
+          <div class="pocket-door pocket-door-right">
+            <img :src="pocketRightImg" :alt="weddingText.accessibility.envelopePocketAlt + ' Right'" />
+          </div>
         </div>
       </div>
 
@@ -108,15 +113,18 @@ import { ref } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.png'
 import flapImg from '@/assets/envelope/envelope-flap.png'
+import pocketImg from '@/assets/envelope/envelope-pocket.png'
 import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.png'
 import pocketRightImg from '@/assets/envelope/envelope-pocket-right.png'
 import './HomePage.css'
 
 const isCoverOpen = ref(false)
 const isOpen = ref(false)
+const isReturning = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 let currentGlideAnim = null
+let returnTimer = null
 
 const envelopeSealRef = ref(null)
 const coverSealBoxRef = ref(null)
@@ -124,6 +132,8 @@ const coverSealImgRef = ref(null)
 
 const openCover = async () => {
   if (isCoverOpen.value || isAnimatingCover.value) return
+  isReturning.value = false
+  clearTimeout(returnTimer)
   isAnimatingCover.value = true
 
   const coverSealEl = coverSealBoxRef.value
@@ -212,13 +222,31 @@ const returnToCover = () => {
     } catch (e) {}
     currentGlideAnim = null
   }
+  isReturning.value = true
   isCoverOpen.value = false
   isOpen.value = false
   isDisappearingOther.value = false
   isAnimatingCover.value = false
+
+  clearTimeout(returnTimer)
+  returnTimer = setTimeout(() => {
+    isReturning.value = false
+  }, 3500)
 }
 
 const toggleEnvelope = () => {
-  isOpen.value = !isOpen.value
+  if (isOpen.value) {
+    // Closing / returning back: keep envelope-pocket.png hidden during return animation
+    isReturning.value = true
+    isOpen.value = false
+    clearTimeout(returnTimer)
+    returnTimer = setTimeout(() => {
+      isReturning.value = false
+    }, 3500)
+  } else {
+    isReturning.value = false
+    clearTimeout(returnTimer)
+    isOpen.value = true
+  }
 }
 </script>
