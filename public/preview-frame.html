@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation Frame Preview (SVG & Image)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Kantumruy+Pro:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #171614;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      font-family: 'Montserrat', sans-serif;
+      color: #eae5dc;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      color: #e5c57a;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    p.subtitle {
+      font-size: 13px;
+      color: #a39b8c;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .toggle-bar {
+      display: flex;
+      background: #252420;
+      border: 1px solid #3d3931;
+      border-radius: 30px;
+      padding: 4px;
+      margin-bottom: 24px;
+      gap: 6px;
+    }
+    .toggle-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: #b5ac9d;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .toggle-btn.active {
+      background: #c9a656;
+      color: #171614;
+      font-weight: 600;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      background: #f5f4ef;
+    }
+    .bg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+    .card-content {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 28px;
+      text-align: center;
+      color: #4a4235;
+    }
+    .monogram {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      letter-spacing: 5px;
+      color: #9d7b38;
+      border: 1px solid #d4af62;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.65);
+      box-shadow: 0 4px 14px rgba(184, 132, 38, 0.2);
+    }
+    .tagline {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: #8c7f6d;
+      margin-bottom: 12px;
+    }
+    .couple-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: 46px;
+      line-height: 1.15;
+      color: #93712b;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
+    }
+    .ampersand {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      display: block;
+      color: #bfa15f;
+      margin: 2px 0;
+    }
+    .khmer-subtext {
+      font-family: 'Kantumruy Pro', sans-serif;
+      font-size: 13px;
+      color: #6d6455;
+      margin: 12px 0 18px;
+      letter-spacing: 0.5px;
+    }
+    .divider {
+      width: 90px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c4a768, transparent);
+      margin: 14px 0;
+    }
+    .date-box {
+      font-family: 'Cinzel', serif;
+      font-size: 12.5px;
+      letter-spacing: 2.5px;
+      color: #635848;
+      margin-top: 10px;
+    }
+    .date-highlight {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #8f6c24;
+      display: block;
+      margin: 5px 0;
+    }
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      padding: 9px 18px;
+      background: #2c2923;
+      color: #d8cebc;
+      border: 1px solid #4a4437;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: #c9a656;
+      color: #171614;
+      border-color: #c9a656;
+    }
+  </style>
+</head>
+<body>
+  <h1>Floral Relief Frame</h1>
+  <p class="subtitle">3D Carved Plaster & Pearl Floral Wedding Background</p>
+  
+  <div class="toggle-bar">
+    <button class="toggle-btn active" id="btn-svg" onclick="setBg('svg')">Vector SVG</button>
+    <button class="toggle-btn" id="btn-jpg" onclick="setBg('jpg')">Photo Render (JPG)</button>
+  </div>
+
+  <div class="container">
+    <!-- Background layers -->
+    <img id="bg-img" src="/wedding-floral-frame.svg" alt="Floral Background" class="bg-layer">
+    
+    <div class="card-content">
+      <div class="monogram">S&S</div>
+      <div class="tagline">Together with their families</div>
+      <div class="couple-names">
+        Sonton
+        <span class="ampersand">&</span>
+        Santini
+      </div>
+      <div class="khmer-subtext">សិរីសួស្តី អាពាហ៍ពិពាហ៍</div>
+      <div class="divider"></div>
+      <div class="date-box">
+        SATURDAY
+        <span class="date-highlight">FEBRUARY 14, 2026</span>
+        AT 5:00 IN THE EVENING
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="/wedding-floral-frame.svg" download class="btn">Download SVG (Vector)</a>
+    <a href="/wedding-floral-frame.jpg" download class="btn">Download JPG (8K Render)</a>
+  </div>
+
+  <script>
+    function setBg(type) {
+      const img = document.getElementById('bg-img');
+      const btnSvg = document.getElementById('btn-svg');
+      const btnJpg = document.getElementById('btn-jpg');
+      
+      if (type === 'svg') {
+        img.src = '/wedding-floral-frame.svg';
+        btnSvg.classList.add('active');
+        btnJpg.classList.remove('active');
+      } else {
+        img.src = '/wedding-floral-frame.jpg';
+        btnJpg.classList.add('active');
+        btnSvg.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
