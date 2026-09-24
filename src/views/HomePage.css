@@ -42,6 +42,28 @@
   -webkit-transform: translateZ(0px);
 }
 
+.envelope-back-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+  display: block;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  animation: video-fade-in 0.8s ease forwards;
+}
+
+@keyframes video-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Warm Golden Glow Inside Chamber */
 .inner-glow {
   position: absolute;

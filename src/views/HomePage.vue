@@ -6,9 +6,18 @@
       :class="{ 'is-open': isOpen }"
       @click="toggleEnvelope"
     >
-      <!-- 1. Envelope Back Wall with Warm Golden Radiance -->
+      <!-- 1. Envelope Back Wall with Warm Golden Radiance & Lazy-Loaded Video -->
       <div class="envelope-back">
-        
+        <video
+          v-if="hasOpenedOnce"
+          ref="backVideoRef"
+          class="envelope-back-video"
+          :src="previewVideo"
+          loop
+          muted
+          playsinline
+          preload="auto"
+        ></video>
       </div>
 
       <!-- 2. Lower Envelope Body / Seamless Pocket Base & 3D Split Gatefold Doors -->
@@ -107,13 +116,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
 import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.webp'
 import pocketRightImg from '@/assets/envelope/envelope-pocket-right.webp'
+import previewVideo from '@/assets/video/preview-video.mp4'
 import './HomePage.css'
 
 const isCoverOpen = ref(false)
@@ -121,6 +131,8 @@ const isOpen = ref(false)
 const isReturning = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
+const hasOpenedOnce = ref(false)
+const backVideoRef = ref(null)
 let currentGlideAnim = null
 let returnTimer = null
 
@@ -130,6 +142,7 @@ const coverSealImgRef = ref(null)
 
 const openCover = async () => {
   if (isCoverOpen.value || isAnimatingCover.value) return
+  hasOpenedOnce.value = true
   isReturning.value = false
   clearTimeout(returnTimer)
   isAnimatingCover.value = true
@@ -226,6 +239,13 @@ const returnToCover = () => {
   isDisappearingOther.value = false
   isAnimatingCover.value = false
 
+  if (backVideoRef.value) {
+    backVideoRef.value.pause()
+    try {
+      backVideoRef.value.currentTime = 0
+    } catch (e) {}
+  }
+
   clearTimeout(returnTimer)
   returnTimer = setTimeout(() => {
     isReturning.value = false
@@ -240,6 +260,12 @@ const toggleEnvelope = () => {
     clearTimeout(returnTimer)
     returnTimer = setTimeout(() => {
       isReturning.value = false
+      if (!isOpen.value && backVideoRef.value) {
+        backVideoRef.value.pause()
+        try {
+          backVideoRef.value.currentTime = 0
+        } catch (e) {}
+      }
     }, 3500)
   } else {
     isReturning.value = false
@@ -247,4 +273,25 @@ const toggleEnvelope = () => {
     isOpen.value = true
   }
 }
+
+watch(isOpen, async (newVal) => {
+  if (newVal) {
+    hasOpenedOnce.value = true
+    await nextTick()
+    const video = backVideoRef.value
+    if (video) {
+      const startPlayback = () => {
+        try {
+          video.currentTime = 0
+          video.play().catch(() => {})
+        } catch (e) {}
+      }
+      if (video.readyState >= 2) {
+        startPlayback()
+      } else {
+        video.addEventListener('canplay', startPlayback, { once: true })
+      }
+    }
+  }
+})
 </script>
