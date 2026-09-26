@@ -106,13 +106,22 @@
         </div>
       </div>
 
-      <!-- 4. Overlay Background (Disappears slowly to reveal background and palace items) -->
-      <div class="curtain-overlay" :class="{ 'curtain-opening': isCurtainOpening }">
-        <img
-          :src="curtainOverlayImg"
-          alt="Curtain Overlay"
-          class="curtain-overlay-img"
-        />
+      <!-- 4. Real Theatrical Stage Curtain Overlay (Parts open to left/right and draws back after zoom out) -->
+      <div class="curtain-stage-wrapper" :class="{ 'is-active': isCurtainOpening }">
+        <div class="curtain-door curtain-door-left">
+          <img
+            :src="curtainOverlayImg"
+            alt="Royal Curtain Left"
+            class="curtain-door-img"
+          />
+        </div>
+        <div class="curtain-door curtain-door-right">
+          <img
+            :src="curtainOverlayImg"
+            alt="Royal Curtain Right"
+            class="curtain-door-img"
+          />
+        </div>
       </div>
 
       <!-- 5. Edge Purple Rose Bouquets on Left & Right (Animate when zoom nears the end) -->

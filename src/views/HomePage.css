@@ -345,21 +345,29 @@
   }
 }
 
-/* 4. Curtain Overlay Layer */
-.curtain-overlay {
+/* 4. Theatrical Stage Curtain Overlay (Parts open to left/right and draws back after zoom out) */
+.curtain-stage-wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 20;
   pointer-events: none;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  opacity: 1;
-  transform: scale(1);
+  overflow: hidden;
 }
 
-.curtain-overlay-img {
+.curtain-door {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.curtain-door-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -367,44 +375,79 @@
   display: block;
 }
 
-/* Animate curtain opening when clicking gold seal, then slowly reappearing after zoom out */
-.curtain-overlay.curtain-opening {
-  animation: curtainSequence 32s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+/* Left Half: clip from 0 to 50% width + 1px overlap for subpixel precision */
+.curtain-door-left {
+  clip-path: polygon(0 0, calc(50% + 1px) 0, calc(50% + 1px) 100%, 0 100%);
+  -webkit-clip-path: polygon(0 0, calc(50% + 1px) 0, calc(50% + 1px) 100%, 0 100%);
 }
 
-@keyframes curtainSequence {
-  0% {
+/* Right Half: clip from 50% to 100% width */
+.curtain-door-right {
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  -webkit-clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+}
+
+/* Active Animation: Left parts smoothly to the left, Right parts smoothly to the right */
+.curtain-stage-wrapper.is-active .curtain-door-left {
+  animation: curtainPartLeft 32s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+.curtain-stage-wrapper.is-active .curtain-door-right {
+  animation: curtainPartRight 32s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+@keyframes curtainPartLeft {
+  0%, 1.25% {
+    transform: translate3d(0, 0, 0);
     opacity: 1;
-    transform: scale(1);
     visibility: visible;
   }
-  1.5% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  10.9% {
+  8.75% {
+    transform: translate3d(-105%, 0, 0);
     opacity: 0;
-    transform: scale(1.15);
     visibility: hidden;
   }
-  11%, 85% {
+  8.75%, 86% {
+    transform: translate3d(-105%, 0, 0);
     opacity: 0;
-    transform: scale(1.15);
     visibility: hidden;
   }
-  86% {
+  86.5% {
+    transform: translate3d(-105%, 0, 0);
     opacity: 0;
-    transform: scale(1.06);
     visibility: visible;
   }
-  93% {
-    opacity: 0.65;
-    transform: scale(1.02);
-    visibility: visible;
-  }
-  100% {
+  95.5%, 100% {
+    transform: translate3d(0, 0, 0);
     opacity: 1;
-    transform: scale(1);
+    visibility: visible;
+  }
+}
+
+@keyframes curtainPartRight {
+  0%, 1.25% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+  }
+  8.75% {
+    transform: translate3d(105%, 0, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+  8.75%, 86% {
+    transform: translate3d(105%, 0, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+  86.5% {
+    transform: translate3d(105%, 0, 0);
+    opacity: 0;
+    visibility: visible;
+  }
+  95.5%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
     visibility: visible;
   }
 }
