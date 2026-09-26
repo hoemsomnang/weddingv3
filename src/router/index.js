@@ -16,6 +16,12 @@ const routes = [
     meta: { title: 'Second Page' }
   },
   {
+    path: '/video-preview',
+    name: 'VideoPreview',
+    component: () => import('../views/video-preview.vue'),
+    meta: { title: 'Video Preview' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }

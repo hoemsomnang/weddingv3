@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" width="120" height="100" class="svg-butterfly">
+  <defs>
+    <!-- Radiant Wing Gradients -->
+    <linearGradient id="purpleGoldWingL" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#4a154b" />
+      <stop offset="45%" stop-color="#7b1fa2" />
+      <stop offset="85%" stop-color="#ba68c8" />
+      <stop offset="100%" stop-color="#ffd54f" />
+    </linearGradient>
+    <linearGradient id="purpleGoldWingR" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#4a154b" />
+      <stop offset="45%" stop-color="#7b1fa2" />
+      <stop offset="85%" stop-color="#ba68c8" />
+      <stop offset="100%" stop-color="#ffd54f" />
+    </linearGradient>
+    <linearGradient id="goldVein" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8e1" />
+      <stop offset="50%" stop-color="#ffd700" />
+      <stop offset="100%" stop-color="#ffb300" />
+    </linearGradient>
+    <filter id="butterflyGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Central Body & Antennae -->
+  <g class="butterfly-body" filter="url(#butterflyGlow)">
+    <!-- Antennae -->
+    <path d="M58,35 Q50,15 42,12 M62,35 Q70,15 78,12" fill="none" stroke="#ffd700" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="41" cy="12" r="1.5" fill="#fff" />
+    <circle cx="79" cy="12" r="1.5" fill="#fff" />
+    <!-- Head & Body -->
+    <ellipse cx="60" cy="38" rx="2.5" ry="3.5" fill="#ffd700" />
+    <path d="M58,41 C57,48 57,62 60,70 C63,62 63,48 62,41 Z" fill="url(#goldVein)" />
+  </g>
+
+  <!-- Left Wings Group (Animates 3D in CSS) -->
+  <g class="wing wing-left" style="transform-origin: 59px 50px;">
+    <!-- Forewing Upper -->
+    <path d="M58,40 C45,15 15,10 6,24 C0,34 5,55 35,56 C48,56 56,48 58,40 Z" 
+          fill="url(#purpleGoldWingL)" stroke="#ffd700" stroke-width="1" filter="url(#butterflyGlow)"/>
+    <!-- Hindwing Lower -->
+    <path d="M57,50 C40,55 20,62 25,78 C30,90 52,86 56,62 Z" 
+          fill="url(#purpleGoldWingL)" stroke="#ffd700" stroke-width="0.8" opacity="0.95"/>
+    <!-- Ornate Veins / Filigree -->
+    <path d="M58,40 Q35,32 15,25 M58,40 Q32,45 18,48 M57,50 Q42,66 32,78" 
+          fill="none" stroke="#ffd700" stroke-width="0.6" opacity="0.8"/>
+    <!-- Edge Jewels -->
+    <circle cx="9" cy="22" r="1" fill="#fff" />
+    <circle cx="15" cy="16" r="1" fill="#fff" />
+    <circle cx="25" cy="13" r="1" fill="#fff" />
+    <circle cx="28" cy="85" r="0.8" fill="#ffd700" />
+  </g>
+
+  <!-- Right Wings Group (Animates 3D in CSS) -->
+  <g class="wing wing-right" style="transform-origin: 61px 50px;">
+    <!-- Forewing Upper -->
+    <path d="M62,40 C75,15 105,10 114,24 C120,34 115,55 85,56 C72,56 64,48 62,40 Z" 
+          fill="url(#purpleGoldWingR)" stroke="#ffd700" stroke-width="1" filter="url(#butterflyGlow)"/>
+    <!-- Hindwing Lower -->
+    <path d="M63,50 C80,55 100,62 95,78 C90,90 68,86 64,62 Z" 
+          fill="url(#purpleGoldWingR)" stroke="#ffd700" stroke-width="0.8" opacity="0.95"/>
+    <!-- Ornate Veins / Filigree -->
+    <path d="M62,40 Q85,32 105,25 M62,40 Q88,45 102,48 M63,50 Q78,66 88,78" 
+          fill="none" stroke="#ffd700" stroke-width="0.6" opacity="0.8"/>
+    <!-- Edge Jewels -->
+    <circle cx="111" cy="22" r="1" fill="#fff" />
+    <circle cx="105" cy="16" r="1" fill="#fff" />
+    <circle cx="95" cy="13" r="1" fill="#fff" />
+    <circle cx="92" cy="85" r="0.8" fill="#ffd700" />
+  </g>
+</svg>

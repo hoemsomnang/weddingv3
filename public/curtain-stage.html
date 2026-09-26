@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Curtain Opening Physics - Video vs Real Event</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Kantumruy+Pro:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-primary: #d4af37;
+      --gold-light: #fef08a;
+      --gold-dark: #855806;
+      --purple-deep: #1a0826;
+      --stage-w: 420px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 25%, #250b38 0%, #0d0414 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+      font-family: 'Montserrat', sans-serif;
+      color: #ede7dc;
+      overflow-x: hidden;
+    }
+
+    .header-bar {
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 680px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      letter-spacing: 2.5px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 12px rgba(212, 175, 55, 0.45);
+    }
+
+    .subtitle {
+      font-size: 13.5px;
+      color: #d1c4e0;
+      line-height: 1.5;
+    }
+
+    /* MODE SELECTOR TABS */
+    .mode-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      background: rgba(22, 6, 32, 0.75);
+      padding: 6px;
+      border-radius: 30px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      font-size: 12.5px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: #bfa8d4;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.25, 1);
+    }
+
+    .tab-btn:hover {
+      color: #fef08a;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: #170724;
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.45);
+    }
+
+    /* THEATER STAGE FRAME (9:16 Ratio) */
+    .stage-container {
+      position: relative;
+      width: 100%;
+      max-width: var(--stage-w);
+      aspect-ratio: 9 / 16;
+      border-radius: 22px;
+      overflow: hidden;
+      perspective: 1200px;
+      box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.85),
+        0 0 0 1.5px rgba(212, 175, 55, 0.4),
+        inset 0 0 25px rgba(0, 0, 0, 0.85);
+      background: #0d0414;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* ============================================================= */
+    /* 1. BACKGROUND PALACE BALLROOM (The Grand Reveal)               */
+    /* ============================================================= */
+    .ballroom-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ballroom-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.0);
+      transition: transform 3.5s cubic-bezier(0.2, 0.8, 0.25, 1);
+    }
+
+    .stage-container.is-open .ballroom-img {
+      transform: scale(1.06);
+    }
+
+    /* Ambient Warm Radiant Glow */
+    .ambient-glow {
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(254, 240, 138, 0.28) 0%, rgba(168, 85, 247, 0.15) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 1.5s ease 0.4s;
+    }
+
+    .stage-container.is-open .ambient-glow {
+      opacity: 1;
+    }
+
+    /* Flickering Candlelights */
+    .candle-cluster {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 1.2s ease 0.5s;
+    }
+
+    .stage-container.is-open .candle-cluster {
+      opacity: 1;
+    }
+
+    .candle-spark {
+      position: absolute;
+      width: 4.5px;
+      height: 4.5px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 
+        0 0 6px #ffe082,
+        0 0 14px #ffb300,
+        0 0 22px rgba(255, 179, 0, 0.65);
+      animation: candleFlicker 2s infinite ease-in-out;
+    }
+
+    .candle-spark:nth-child(1) { left: 24%; top: 58%; animation-delay: 0.1s; }
+    .candle-spark:nth-child(2) { left: 28%; top: 62%; animation-delay: 0.7s; }
+    .candle-spark:nth-child(3) { left: 32%; top: 66%; animation-delay: 0.3s; }
+    .candle-spark:nth-child(4) { left: 35%; top: 70%; animation-delay: 1.1s; }
+    .candle-spark:nth-child(5) { left: 20%; top: 72%; animation-delay: 0.5s; }
+    .candle-spark:nth-child(6) { right: 24%; top: 58%; animation-delay: 0.4s; }
+    .candle-spark:nth-child(7) { right: 28%; top: 62%; animation-delay: 0.9s; }
+    .candle-spark:nth-child(8) { right: 32%; top: 66%; animation-delay: 0.2s; }
+    .candle-spark:nth-child(9) { right: 35%; top: 70%; animation-delay: 0.8s; }
+    .candle-spark:nth-child(10) { right: 20%; top: 72%; animation-delay: 1.4s; }
+
+    @keyframes candleFlicker {
+      0%, 100% { opacity: 0.65; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    /* Floating 3D Butterflies */
+    .butterflies-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1.5s ease 0.6s;
+    }
+
+    .stage-container.is-open .butterflies-container {
+      opacity: 1;
+    }
+
+    .butterfly-agent {
+      position: absolute;
+      width: 44px;
+      height: 38px;
+    }
+
+    .butterfly-1 {
+      bottom: 27%;
+      right: 28%;
+      animation: flightPath1 8s infinite alternate ease-in-out;
+    }
+
+    @keyframes flightPath1 {
+      0% { transform: translate(0, 0) rotate(-15deg) scale(0.85); }
+      50% { transform: translate(-30px, -45px) rotate(8deg) scale(0.95); }
+      100% { transform: translate(20px, -75px) rotate(-10deg) scale(0.8); }
+    }
+
+    .butterfly-2 {
+      top: 34%;
+      left: 28%;
+      animation: flightPath2 9.5s infinite alternate ease-in-out 1s;
+    }
+
+    @keyframes flightPath2 {
+      0% { transform: translate(0, 0) rotate(18deg) scale(0.68); }
+      50% { transform: translate(40px, 20px) rotate(-8deg) scale(0.78); }
+      100% { transform: translate(10px, -30px) rotate(12deg) scale(0.62); }
+    }
+
+    /* ============================================================= */
+    /* 2. MODE 1: OPERA / TABLEAU CURTAIN (EXACT VIDEO MATCH)        */
+    /* How preview-video.mp4 opens:                                  */
+    /* - Top Valance lifts straight UP out of frame                  */
+    /* - Center curtains pull DIAGONALLY UP & OUTWARD (Italian Pull) */
+    /* - Forms an expanding curved gothic arch (revealing top first) */
+    /* - Curtains gather and bunch into decorative side drapery      */
+    /* ============================================================= */
+    .mode-tableau {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Top Scalloped Valance */
+    .valance-fly {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 26.5%;
+      z-index: 25;
+      pointer-events: none;
+      transform: translateY(0);
+      transition: transform 2.0s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 1.8s ease;
+      filter: drop-shadow(0 14px 22px rgba(10, 2, 16, 0.9));
+    }
+
+    .valance-fly img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .stage-container.is-open .valance-fly {
+      /* Lifts vertically upward like the video */
+      transform: translateY(-112%);
+      opacity: 0;
+    }
+
+    /* Left Tableau Curtain Panel */
+    .tableau-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 51.5%;
+      height: 100%;
+      transform-origin: 0% 0%;
+      overflow: hidden;
+      /* Smooth 5-point curved arch mask */
+      clip-path: polygon(0% 0%, 100% 0%, 100% 40%, 100% 100%, 0% 100%);
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      transition: clip-path 2.4s cubic-bezier(0.25, 1, 0.35, 1),
+                  transform 2.4s cubic-bezier(0.25, 1, 0.35, 1),
+                  filter 2.4s ease;
+      filter: drop-shadow(6px 0 15px rgba(0, 0, 0, 0.7));
+    }
+
+    .tableau-left img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left top;
+    }
+
+    /* Right Tableau Curtain Panel */
+    .tableau-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 51.5%;
+      height: 100%;
+      transform-origin: 100% 0%;
+      overflow: hidden;
+      /* Smooth 5-point curved arch mask */
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 40%);
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      transition: clip-path 2.4s cubic-bezier(0.25, 1, 0.35, 1),
+                  transform 2.4s cubic-bezier(0.25, 1, 0.35, 1),
+                  filter 2.4s ease;
+      filter: drop-shadow(-6px 0 15px rgba(0, 0, 0, 0.7));
+    }
+
+    .tableau-right img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right top;
+    }
+
+    /* Shadow pleat overlay (gathers as curtain opens) */
+    .gather-shadow-overlay {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.55) 0px,
+        transparent 15px,
+        rgba(0, 0, 0, 0.6) 30px
+      );
+      opacity: 0;
+      transition: opacity 2.0s ease;
+      pointer-events: none;
+    }
+
+    /* TABLEAU ACTIVE STATE: DIAGONAL SWEEP + CURVED ARCH */
+    .stage-container.is-open .tableau-left {
+      /* Inner edge draws upward and outward in a catenary curve */
+      clip-path: polygon(0% 0%, 65% 0%, 12% 45%, 4% 85%, 0% 100%);
+      transform: translate3d(-30%, -8%, 0) scale(0.72, 0.92) skewY(-8deg);
+      filter: drop-shadow(15px 0 25px rgba(0, 0, 0, 0.9));
+    }
+
+    .stage-container.is-open .tableau-right {
+      /* Inner edge draws upward and outward symmetrically */
+      clip-path: polygon(35% 0%, 100% 0%, 100% 100%, 96% 85%, 88% 45%);
+      transform: translate3d(30%, -8%, 0) scale(0.72, 0.92) skewY(8deg);
+      filter: drop-shadow(-15px 0 25px rgba(0, 0, 0, 0.9));
+    }
+
+    .stage-container.is-open .gather-shadow-overlay {
+      opacity: 0.75;
+    }
+
+    /* ============================================================= */
+    /* 3. MODE 2: REAL EVENT 3D PLEATED ACCORDION GATHERING          */
+    /* In real-world stage curtains, velvet folds compress & bunch   */
+    /* ============================================================= */
+    .mode-accordion {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      display: none;
+    }
+
+    .accordion-half {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      perspective: 800px;
+    }
+
+    .accordion-left {
+      left: 0;
+    }
+
+    .accordion-right {
+      right: 0;
+    }
+
+    .pleat-strip {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 17%;
+      height: 100%;
+      background-image: url('/curtains/pic2-suitable-flush.jpg');
+      background-size: 1200% 100%;
+      transform-origin: 0% 50%;
+      transition: all 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: inset -2px 0 6px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Left Pleats 0 through 5 */
+    .pleat-l-0 { left: 0%; background-position: 0% 0; }
+    .pleat-l-1 { left: 16.66%; background-position: 9.09% 0; }
+    .pleat-l-2 { left: 33.33%; background-position: 18.18% 0; }
+    .pleat-l-3 { left: 50.00%; background-position: 27.27% 0; }
+    .pleat-l-4 { left: 66.66%; background-position: 36.36% 0; }
+    .pleat-l-5 { left: 83.33%; background-position: 45.45% 0; }
+
+    /* Right Pleats 0 through 5 */
+    .pleat-r-0 { right: 83.33%; background-position: 54.54% 0; transform-origin: 100% 50%; }
+    .pleat-r-1 { right: 66.66%; background-position: 63.63% 0; transform-origin: 100% 50%; }
+    .pleat-r-2 { right: 50.00%; background-position: 72.72% 0; transform-origin: 100% 50%; }
+    .pleat-r-3 { right: 33.33%; background-position: 81.81% 0; transform-origin: 100% 50%; }
+    .pleat-r-4 { right: 16.66%; background-position: 90.90% 0; transform-origin: 100% 50%; }
+    .pleat-r-5 { right: 0%; background-position: 100% 0; transform-origin: 100% 50%; }
+
+    /* ACCORDION OPEN: Real physical compression into side pillars */
+    .stage-container.is-open .pleat-l-0 { left: 0%; transform: scaleX(0.75); }
+    .stage-container.is-open .pleat-l-1 { left: 2%; transform: scaleX(0.65) rotateY(22deg); }
+    .stage-container.is-open .pleat-l-2 { left: 4%; transform: scaleX(0.55) rotateY(-22deg); }
+    .stage-container.is-open .pleat-l-3 { left: 6%; transform: scaleX(0.45) rotateY(22deg); }
+    .stage-container.is-open .pleat-l-4 { left: 8%; transform: scaleX(0.35) rotateY(-22deg) translateY(-8%); }
+    .stage-container.is-open .pleat-l-5 { left: 10%; transform: scaleX(0.25) rotateY(25deg) translateY(-14%); opacity: 0.9; }
+
+    .stage-container.is-open .pleat-r-0 { right: 10%; transform: scaleX(0.25) rotateY(-25deg) translateY(-14%); opacity: 0.9; }
+    .stage-container.is-open .pleat-r-1 { right: 8%; transform: scaleX(0.35) rotateY(22deg) translateY(-8%); }
+    .stage-container.is-open .pleat-r-2 { right: 6%; transform: scaleX(0.45) rotateY(-22deg); }
+    .stage-container.is-open .pleat-r-3 { right: 4%; transform: scaleX(0.55) rotateY(22deg); }
+    .stage-container.is-open .pleat-r-4 { right: 2%; transform: scaleX(0.65) rotateY(-22deg); }
+    .stage-container.is-open .pleat-r-5 { right: 0%; transform: scaleX(0.75); }
+
+    /* ============================================================= */
+    /* 4. MODE 3: DIRECT ORIGINAL VIDEO PLAYER                       */
+    /* ============================================================= */
+    .mode-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      display: none;
+      background: #000;
+    }
+
+    .mode-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ------------------------------------------------------------- */
+    /* TAP HINT BADGE                                                */
+    /* ------------------------------------------------------------- */
+    .tap-hint-badge {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      background: rgba(30, 8, 44, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 30px;
+      padding: 9px 20px;
+      font-size: 12.5px;
+      color: #fef08a;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      transition: all 0.4s ease;
+      pointer-events: auto;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffd700;
+      box-shadow: 0 0 10px #ffd700;
+      animation: pulseAnim 1.8s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    /* CONTROLS */
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      background: #250b36;
+      border: 1px solid #58247a;
+      color: #ede4f5;
+      font-size: 13.5px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn:hover, .btn.active {
+      background: var(--gold-primary);
+      color: #170724;
+      border-color: var(--gold-primary);
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+    }
+
+    /* COMPARISON & EXPLANATION CARD */
+    .explanation-card {
+      margin-top: 35px;
+      max-width: 680px;
+      background: rgba(22, 6, 32, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 17px;
+      color: #fef08a;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .breakdown-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      gap: 12px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #ded3eb;
+    }
+
+    .item-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid var(--gold-primary);
+      color: #fef08a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .item-content strong {
+      color: #ffd700;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(212, 175, 55, 0.25);
+      color: #fef08a;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <h1>Stage Curtain Opening Physics</h1>
+    <p class="subtitle" id="status-hint">Opera / Tableau Drape (Exact Video-Match Curved Arch Pull)</p>
+  </div>
+
+  <!-- MODE SELECTOR -->
+  <div class="mode-selector">
+    <button class="tab-btn active" onclick="switchMode('tableau')">🎭 Opera / Tableau Drape (CSS)</button>
+    <button class="tab-btn" onclick="switchMode('accordion')">🎪 3D Pleat Gathering</button>
+    <button class="tab-btn" onclick="switchMode('purple-video')">✨ Rendered Purple Video (3 Images)</button>
+    <button class="tab-btn" onclick="switchMode('video')">🎬 Original Red Reference</button>
+  </div>
+
+  <!-- THEATER STAGE FRAME -->
+  <div class="stage-container" id="stage" onclick="toggleCurtains()">
+    
+    <!-- 1. Background Palace Ballroom (Revealed behind curtains) -->
+    <div class="ballroom-layer">
+      <img src="/curtains/purple-ballroom-royal.jpg" alt="Grand Ballroom Hall" class="ballroom-img">
+    </div>
+
+    <!-- 2. Ambient Radiant Chandelier Shimmer -->
+    <div class="ambient-glow"></div>
+
+    <!-- 3. Flickering Candlelights along Staircase -->
+    <div class="candle-cluster">
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+      <div class="candle-spark"></div>
+    </div>
+
+    <!-- 4. Floating 3D SVG Butterflies -->
+    <div class="butterflies-container">
+      <div class="butterfly-agent butterfly-1">
+        <img src="/curtains/butterfly.svg" alt="Animated Butterfly" style="width:100%;height:100%;">
+      </div>
+      <div class="butterfly-agent butterfly-2">
+        <img src="/curtains/butterfly.svg" alt="Animated Butterfly" style="width:100%;height:100%;">
+      </div>
+    </div>
+
+    <!-- 5. MODE 1: OPERA / TABLEAU CURTAINS (EXACT VIDEO MATCH) -->
+    <div class="mode-tableau" id="mode-tableau-wrapper">
+      <!-- Left Tableau Panel: Curved Diagonal Draw -->
+      <div class="tableau-left">
+        <img src="/curtains/curtain-left.webp" alt="Left Curtain Panel">
+        <div class="gather-shadow-overlay"></div>
+      </div>
+
+      <!-- Right Tableau Panel: Curved Diagonal Draw -->
+      <div class="tableau-right">
+        <img src="/curtains/curtain-right.webp" alt="Right Curtain Panel">
+        <div class="gather-shadow-overlay"></div>
+      </div>
+
+      <!-- Top Valance (Lifts vertically upward) -->
+      <div class="valance-fly">
+        <img src="/curtains/curtain-valance.webp" alt="Top Scalloped Valance">
+      </div>
+    </div>
+
+    <!-- 6. MODE 2: 3D MULTI-PLEAT ACCORDION GATHERING -->
+    <div class="mode-accordion" id="mode-accordion-wrapper">
+      <div class="accordion-half accordion-left">
+        <div class="pleat-strip pleat-l-0"></div>
+        <div class="pleat-strip pleat-l-1"></div>
+        <div class="pleat-strip pleat-l-2"></div>
+        <div class="pleat-strip pleat-l-3"></div>
+        <div class="pleat-strip pleat-l-4"></div>
+        <div class="pleat-strip pleat-l-5"></div>
+      </div>
+      <div class="accordion-half accordion-right">
+        <div class="pleat-strip pleat-r-0"></div>
+        <div class="pleat-strip pleat-r-1"></div>
+        <div class="pleat-strip pleat-r-2"></div>
+        <div class="pleat-strip pleat-r-3"></div>
+        <div class="pleat-strip pleat-r-4"></div>
+        <div class="pleat-strip pleat-r-5"></div>
+      </div>
+      <!-- Top Valance (Shared) -->
+      <div class="valance-fly" id="valance-accordion">
+        <img src="/curtains/curtain-valance.webp" alt="Top Scalloped Valance">
+      </div>
+    </div>
+
+    <!-- 7. MODE 3: DIRECT ORIGINAL VIDEO PLAYER -->
+    <div class="mode-video" id="mode-video-wrapper">
+      <video id="ref-video" src="/src/assets/video/preview-video.mp4" loop muted playsinline></video>
+    </div>
+
+    <!-- 8. MODE 4: RENDERED PURPLE VIDEO (ALL 3 IMAGES COMBINED) -->
+    <div class="mode-video" id="mode-purple-video-wrapper">
+      <video id="purple-video" src="/purple-wedding-curtain.mp4" loop muted playsinline></video>
+    </div>
+
+    <!-- 9. Tap Hint Badge -->
+    <div class="tap-hint-badge" id="tap-badge">
+      <span class="pulse-dot"></span>
+      <span id="badge-text">Tap Stage to Open</span>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="btn" id="btn-toggle" onclick="toggleCurtains()">Open Stage Curtains</button>
+    <button class="btn" id="btn-loop" onclick="toggleAutoLoop()">Auto Loop (Like Video)</button>
+    <button class="btn" onclick="resetClosed()">Reset Closed</button>
+  </div>
+
+  <!-- BREAKDOWN & EXPLANATION CARD -->
+  <div class="explanation-card">
+    <div class="card-title">
+      <span>👑</span> How preview-video.mp4 Opens vs Flat Code Sliding
+    </div>
+    <ul class="breakdown-list">
+      <li class="breakdown-item">
+        <div class="item-num">1</div>
+        <div class="item-content">
+          <span class="badge-tag">Curtain Type</span>
+          <strong>Opera / Tableau (Wagner Drape):</strong> In <code>preview-video.mp4</code>, the curtains are NOT flat sliding slabs! Cords pull the fabric diagonally upward and outward from the center, forming a magnificent <strong>curved arch opening</strong>.
+        </div>
+      </li>
+      <li class="breakdown-item">
+        <div class="item-num">2</div>
+        <div class="item-content">
+          <span class="badge-tag">Valance Action</span>
+          <strong>Vertical Valance Fly:</strong> At 2.0s, the top scalloped valance fringe lifts straight up out of frame, clearing the view for the proscenium arch.
+        </div>
+      </li>
+      <li class="breakdown-item">
+        <div class="item-num">3</div>
+        <div class="item-content">
+          <span class="badge-tag">Reveal Order</span>
+          <strong>Chandelier First, Stairs Second:</strong> Because the arch opens from the top-center first, the crystal chandelier is revealed at the peak, followed by the sweeping staircase as the bottom draws to the sides.
+        </div>
+      </li>
+      <li class="breakdown-item">
+        <div class="item-num">4</div>
+        <div class="item-content">
+          <span class="badge-tag">Fabric Physics</span>
+          <strong>Gathering & Pleating:</strong> Unlike flat image cutouts that slide out like elevator doors, real velvet curtains bunch into thick vertical folds (simulated in Mode 1 with curved clip-paths & shadows, and in Mode 2 with 3D accordion fluting).
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- AI VIDEO GENERATION PROMPT GUIDE CARD -->
+  <div class="explanation-card" style="margin-top: 20px; border-color: rgba(168, 85, 247, 0.5);">
+    <div class="card-title" style="color: #e9d5ff;">
+      <span>🎬</span> AI Video Generation Prompt (Kling / Runway / Luma / Minimax)
+    </div>
+    <div style="font-size: 13px; color: #ded3eb; line-height: 1.6; margin-bottom: 14px;">
+      To generate this exact video with 100% photorealistic 3D cloth physics, use the 3 images in an <strong>Image-to-Video (Start & End Frame)</strong> workflow:
+    </div>
+
+    <div style="background: rgba(15, 3, 25, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+      <div style="font-size: 12px; font-weight: 600; color: #ffd700; margin-bottom: 6px;">
+        📌 IMAGE SETUP:
+      </div>
+      <div style="font-size: 12px; color: #c4b5d4; line-height: 1.6;">
+        • <strong>Start Frame (First Image):</strong> <code>pic2-suitable-flush.jpg</code> (Closed royal purple velvet curtains)<br>
+        • <strong>End Frame (Final Image):</strong> <code>purple-staircase-with-chandelier.jpg</code> (Composite of <code>crystal-chandelier.jpg</code> + <code>purple-staircase-clean.jpg</code>)<br>
+        • <strong>Aspect Ratio:</strong> 9:16 (Portrait Mobile)
+      </div>
+    </div>
+
+    <div style="background: rgba(15, 3, 25, 0.8); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 12px; padding: 14px;">
+      <div style="font-size: 12px; font-weight: 600; color: #f0abfc; margin-bottom: 6px;">
+        ✨ COPY-PASTE PROMPT:
+      </div>
+      <div style="font-family: monospace; font-size: 11.5px; color: #fae8ff; background: rgba(30, 10, 48, 0.7); padding: 10px; border-radius: 8px; line-height: 1.5; user-select: all; border: 1px dashed rgba(212, 175, 55, 0.4);">
+Cinematic 8K masterpiece, slow smooth camera push-in zoom. The heavy royal purple velvet stage curtains pull open diagonally from the center in an elegant Opera tableau drape. The top gold-embroidered damask valance fringe lifts upward out of frame, smoothly revealing the magnificent sparkling crystal chandelier glowing with warm candlelight at the top of the cathedral arch. As the purple curtains sweep outward and bunch into rich decorative side draperies, the grand palace dual staircase covered in candlelights, violet rose petals, and fluttering crystal butterflies is revealed in breathtaking photorealistic detail. Volumetric warm lighting, magical fairy dust glints, realistic cloth physics, 60fps, ultra-high definition.
+      </div>
+      <div style="font-size: 11px; color: #a855f7; margin-top: 8px;">
+        💡 Camera settings: Zoom In (+3), Tilt Up (+1), Motion Score: 4-5
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const toggleBtn = document.getElementById('btn-toggle');
+    const loopBtn = document.getElementById('btn-loop');
+    const badgeText = document.getElementById('badge-text');
+    const statusHint = document.getElementById('status-hint');
+    const refVideo = document.getElementById('ref-video');
+    const purpleVideo = document.getElementById('purple-video');
+
+    const tableauWrapper = document.getElementById('mode-tableau-wrapper');
+    const accordionWrapper = document.getElementById('mode-accordion-wrapper');
+    const videoWrapper = document.getElementById('mode-video-wrapper');
+    const purpleVideoWrapper = document.getElementById('mode-purple-video-wrapper');
+
+    let currentMode = 'tableau';
+    let isAutoLooping = false;
+    let loopInterval = null;
+
+    function switchMode(mode) {
+      if (isAutoLooping) stopAutoLoop();
+      currentMode = mode;
+      
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Hide all modes
+      tableauWrapper.style.display = 'none';
+      accordionWrapper.style.display = 'none';
+      videoWrapper.style.display = 'none';
+      purpleVideoWrapper.style.display = 'none';
+      refVideo.pause();
+      purpleVideo.pause();
+
+      stage.classList.remove('is-open');
+
+      if (mode === 'tableau') {
+        tableauWrapper.style.display = 'block';
+        statusHint.textContent = '🎭 Opera / Tableau Drape: Diagonal curved arch pull in pure CSS';
+        badgeText.textContent = 'Tap Stage to Open';
+      } else if (mode === 'accordion') {
+        accordionWrapper.style.display = 'block';
+        statusHint.textContent = '🎪 3D Pleat Gathering: Real event stage velvet bunching on tracks';
+        badgeText.textContent = 'Tap Stage to Open';
+      } else if (mode === 'purple-video') {
+        purpleVideoWrapper.style.display = 'block';
+        purpleVideo.currentTime = 0;
+        purpleVideo.play();
+        statusHint.textContent = '✨ Rendered Purple Video: All 3 images combined with camera zoom & sparkles';
+        badgeText.textContent = 'Playing Rendered Purple Video';
+      } else if (mode === 'video') {
+        videoWrapper.style.display = 'block';
+        refVideo.currentTime = 0;
+        refVideo.play();
+        statusHint.textContent = '🎬 Original preview-video.mp4 Reference (AI 3D cloth physics)';
+        badgeText.textContent = 'Playing preview-video.mp4';
+      }
+      updateUi(false);
+    }
+
+    function toggleCurtains() {
+      if (currentMode === 'video') {
+        if (refVideo.paused) refVideo.play();
+        else refVideo.pause();
+        return;
+      }
+      if (currentMode === 'purple-video') {
+        if (purpleVideo.paused) purpleVideo.play();
+        else purpleVideo.pause();
+        return;
+      }
+      if (isAutoLooping) stopAutoLoop();
+      const isOpen = stage.classList.toggle('is-open');
+      updateUi(isOpen);
+    }
+
+    function resetClosed() {
+      if (isAutoLooping) stopAutoLoop();
+      stage.classList.remove('is-open');
+      if (currentMode === 'video') {
+        refVideo.currentTime = 0;
+        refVideo.play();
+      }
+      if (currentMode === 'purple-video') {
+        purpleVideo.currentTime = 0;
+        purpleVideo.play();
+      }
+      updateUi(false);
+    }
+
+    function updateUi(isOpen) {
+      if (isOpen) {
+        toggleBtn.textContent = 'Close Stage Curtains';
+        badgeText.textContent = 'Tap to Close Curtains';
+      } else {
+        toggleBtn.textContent = 'Open Stage Curtains';
+        badgeText.textContent = 'Tap Stage to Open';
+      }
+    }
+
+    function toggleAutoLoop() {
+      if (isAutoLooping) {
+        stopAutoLoop();
+      } else {
+        startAutoLoop();
+      }
+    }
+
+    function startAutoLoop() {
+      isAutoLooping = true;
+      loopBtn.classList.add('active');
+      loopBtn.textContent = 'Stop Auto Loop';
+
+      const runCycle = () => {
+        stage.classList.remove('is-open');
+        updateUi(false);
+
+        setTimeout(() => {
+          if (!isAutoLooping) return;
+          stage.classList.add('is-open');
+          updateUi(true);
+        }, 1500);
+
+        setTimeout(() => {
+          if (!isAutoLooping) return;
+          stage.classList.remove('is-open');
+          updateUi(false);
+        }, 12000);
+      };
+
+      runCycle();
+      loopInterval = setInterval(runCycle, 16000);
+    }
+
+    function stopAutoLoop() {
+      isAutoLooping = false;
+      loopBtn.classList.remove('active');
+      loopBtn.textContent = 'Auto Loop (Like Video)';
+      clearInterval(loopInterval);
+      loopInterval = null;
+    }
+  </script>
+</body>
+</html>
