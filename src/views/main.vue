@@ -205,22 +205,19 @@
         </div>
       </div>
 
-      <!-- 7. Left Side White Roses Bouquet -->
-      <div class="left-roses-bouquet">
-        <img
-          :src="whiteRosesImg"
-          alt="White Roses Bouquet Left"
-          class="roses-img"
-        />
-      </div>
 
-      <!-- 8. Right Side White Roses Bouquet -->
-      <div class="right-roses-bouquet">
-        <img
-          :src="whiteRosesImg"
-          alt="White Roses Bouquet Right"
-          class="roses-img"
-        />
+      <!-- Extra Flowers (Left and Right) -->
+      <div class="extra-flower flower-5">
+        <img :src="flower2Img" alt="Flower 2 Extra Left" class="roses-img" />
+      </div>
+      <div class="extra-flower flower-3">
+        <img :src="flower2Img" alt="Flower 2 Left" class="roses-img" />
+      </div>
+      <div class="extra-flower flower-2">
+        <img :src="flower2Img" alt="Flower 2 Right" class="roses-img" />
+      </div>
+      <div class="extra-flower flower-4">
+        <img :src="flower2Img" alt="Flower 2 Extra Right" class="roses-img" />
       </div>
     </div>
   </div>
@@ -228,14 +225,13 @@
 
 <script setup>
 import backdropImg from '@/assets/sage-wedding-backdrop-symmetric.jpg'
-import peoniesGarlandImg from '@/assets/items/white-peonies-garland-transparent.png'
 import pendantGreenImg from '@/assets/items/pendant-lamp-green-transparent.png'
 import pendantWarmImg from '@/assets/items/pendant-lamp-warm-transparent.png'
 import tieredChandelierImg from '@/assets/items/tiered-crystal-chandelier-transparent.png'
 import butterflyImg from '@/assets/items/wedding-butterfly.svg'
 import monogramCrestImg from '@/assets/wedding_monogram_crest_sr_trans.webp'
 import goldDividerImg from '@/assets/items/gold-wedding-divider.png'
-import whiteRosesImg from '@/assets/items/white-roses-bouquet-transparent.png'
+import flower2Img from '@/assets/flower-2-transparent.png'
 import invitation from '@/config/invitation.js'
 </script>
 
@@ -987,6 +983,84 @@ import invitation from '@/config/invitation.js'
 
 .right-roses-bouquet .roses-img {
   transform: scaleX(-1);
+}
+
+.extra-flower {
+  position: absolute;
+  pointer-events: none;
+}
+
+.extra-flower .roses-img {
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.15) saturate(0.55) brightness(0.95) contrast(0.9);
+}
+
+.flower-1 {
+  right: 15%;
+  transform: rotate(-10deg);
+}
+
+.flower-3 {
+  left: -5%;
+  bottom: -2%;
+  width: 25%;
+  z-index: 10;
+  animation: swayFlowerLeft 5s ease-in-out infinite alternate -1s;
+}
+
+@keyframes swayFlowerLeft {
+  0% { transform: rotate(26deg); }
+  100% { transform: rotate(31deg); }
+}
+
+.flower-3 .roses-img {
+  transform: scaleX(-1);
+}
+
+.flower-5 {
+    left: 3%;
+    bottom: -5%;
+    width: 25%;
+    z-index: 10;
+    animation: swayFlowerLeft2 6s ease-in-out infinite alternate -0.5s;
+}
+
+.flower-5 .roses-img {
+    transform: scaleX(-1) rotate(310deg);
+}
+
+@keyframes swayFlowerLeft2 {
+  0% { transform: rotate(1deg); }
+  100% { transform: rotate(5deg); }
+}
+
+.flower-2 {
+    right: -5%;
+    bottom: -2%;
+    width: 25%;
+    z-index: 10;
+    animation: swayFlowerRight 5.5s ease-in-out infinite alternate -2s;
+}
+
+@keyframes swayFlowerRight {
+  0% { transform: rotate(330deg); }
+  100% { transform: rotate(335deg); }
+}
+
+.flower-4 {
+    right: 3%;
+    bottom: -5%;
+    width: 25%;
+    z-index: 10;
+    animation: swayFlowerRight2 6s ease-in-out infinite alternate -0.5s;
+}
+
+.flower-4 .roses-img {
+    transform: rotate(310deg);
+}
+
+@keyframes swayFlowerRight2 {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(-1deg); }
 }
 
 .roses-img,
