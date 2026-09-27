@@ -324,7 +324,7 @@ import invitation from '@/config/invitation.js'
 
 /* Left Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-left-warm-1 {
-  top: -10.5%;
+  top: -15.5%;
   left: 7.0%;
   width: 10.5%;
   z-index: 4;
@@ -365,7 +365,7 @@ import invitation from '@/config/invitation.js'
 
 /* Right Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-right-warm-1 {
-  top: -10.5%;
+  top: -15.5%;
   right: 7.0%;
   width: 10.5%;
   z-index: 4;
