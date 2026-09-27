@@ -1014,7 +1014,7 @@ import invitation from '@/config/invitation.js'
 }
 
 .extra-flower .roses-img {
-  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.15) saturate(0.55) brightness(0.95) contrast(0.9);
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.35) saturate(0.7) brightness(0.9) contrast(0.85);
 }
 
 .flower-1 {
@@ -1096,7 +1096,6 @@ import invitation from '@/config/invitation.js'
 
 .lotus-tall-left .roses-img {
     transform: scaleX(-1) rotate(5deg);
-    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
 }
 
 .lotus-left {
@@ -1108,7 +1107,6 @@ import invitation from '@/config/invitation.js'
 
 .lotus-left .roses-img {
     transform: scaleX(-1) rotate(15deg);
-    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
 }
 
 .lotus-tall-right {
@@ -1121,7 +1119,6 @@ import invitation from '@/config/invitation.js'
 
 .lotus-tall-right .roses-img {
     transform: rotate(-5deg);
-    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
 }
 
 .lotus-right {
@@ -1133,7 +1130,6 @@ import invitation from '@/config/invitation.js'
 
 .lotus-right .roses-img {
     transform: rotate(355deg);
-    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
 }
 
 .lotus-3-right {
@@ -1145,7 +1141,6 @@ import invitation from '@/config/invitation.js'
 }
 
 .lotus-3-right .roses-img {
-    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
     transform: rotate(350deg);
 }
 
