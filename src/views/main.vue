@@ -285,10 +285,10 @@ import invitation from '@/config/invitation.js'
 /* Tiered Crystal Chandelier */
 .chandelier-layer {
   position: absolute;
-  top: -13%;
+  top: -15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%;
+  width: 55%;
   z-index: 6;
   pointer-events: none;
   transform-origin: 50% 0%;
