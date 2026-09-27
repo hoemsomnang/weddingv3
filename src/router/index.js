@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
-import SecondPage from '../views/SecondPage.vue'
 
 const routes = [
   {
@@ -8,12 +7,6 @@ const routes = [
     name: 'HomePage',
     component: HomePage,
     meta: { title: 'Home' }
-  },
-  {
-    path: '/second',
-    name: 'SecondPage',
-    component: SecondPage,
-    meta: { title: 'Second Page' }
   },
   {
     path: '/video-preview',

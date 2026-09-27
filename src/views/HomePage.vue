@@ -1,15 +1,18 @@
 <template>
   <div class="home-container">
-    <!-- Existing Envelope Scene (Kept 100% the same as requested) -->
+
+    <!-- ═══════════════════════════════════════════════
+         ENVELOPE SCENE (unchanged)
+    ════════════════════════════════════════════════ -->
     <div
       class="envelope-scene"
       :class="{ 'is-open': isOpen }"
       @click="toggleEnvelope"
     >
-      <!-- 1. Envelope Back Wall with Palace Animation Scene -->
+      <!-- 1. Envelope Back Wall -->
       <div class="envelope-back"></div>
 
-      <!-- 2. Lower Envelope Body / Seamless Pocket Base & 3D Split Gatefold Doors -->
+      <!-- 2. Lower Envelope Body -->
       <div class="envelope-pocket-wrapper">
         <div class="envelope-pocket-base" :class="{ 'is-hidden': isOpen || isReturning }">
           <img :src="pocketImg" :alt="weddingText.accessibility.envelopePocketAlt" />
@@ -24,40 +27,29 @@
         </div>
       </div>
 
-      <!-- 3. Top Folding Scalloped Flap (3D Hinge) -->
+      <!-- 3. Top Folding Flap -->
       <div class="envelope-flap-wrapper">
         <div class="flap-front">
           <img :src="flapImg" :alt="weddingText.accessibility.envelopeFlapAlt" />
         </div>
         <div class="flap-back"></div>
-
-        <!-- Gold Seal Emblem on Flap Tip -->
-        <div
-          ref="envelopeSealRef"
-          class="gold-seal"
-          :class="{ 'seal-hidden': isOpen || !isCoverOpen }"
-        >
+        <div ref="envelopeSealRef" class="gold-seal" :class="{ 'seal-hidden': isOpen || !isCoverOpen }">
           <img :src="goldSealCoverImg" :alt="weddingText.accessibility.envelopeSealAlt" />
         </div>
       </div>
 
-      <!-- 4. Cover Overlay (Directly overlaid on envelope scene) -->
+      <!-- 4. Cover Overlay -->
       <Transition name="overlay-fade">
         <div
           v-if="!isCoverOpen"
           class="cover-overlay"
-          :class="{
-            'stage-disappear': isDisappearingOther
-          }"
+          :class="{ 'stage-disappear': isDisappearingOther }"
           @click.stop="openCover"
         >
           <div class="cover-content" @click.stop="openCover">
-            <!-- 1. Top Heading: សិរីមង្គល អាពាហ៍ពិពាហ៍ -->
             <div class="cover-header">
               <h2 class="cover-title-khmer">{{ weddingText.cover.titleKhmer }}</h2>
             </div>
-
-            <!-- 2. Center Gold Seal: gold-seal-transparent.webp (click to reveal current page) -->
             <div
               ref="coverSealBoxRef"
               class="cover-seal-box"
@@ -69,15 +61,8 @@
               :title="weddingText.accessibility.sealButtonTitle"
             >
               <div class="seal-glow"></div>
-              <img
-                ref="coverSealImgRef"
-                :src="goldSealCoverImg"
-                :alt="weddingText.accessibility.coverSealAlt"
-                class="cover-seal-img"
-              />
+              <img ref="coverSealImgRef" :src="goldSealCoverImg" :alt="weddingText.accessibility.coverSealAlt" class="cover-seal-img" />
             </div>
-
-            <!-- 3. Bottom Text: សូមយាង និងគោរពអញ្ជើញ / WEDDING INVITATION -->
             <div class="cover-footer">
               <h2 class="cover-khmer-sub">{{ weddingText.cover.invitationKhmer }}</h2>
               <div class="tap-hint-pill">
@@ -90,9 +75,9 @@
       </Transition>
     </div>
 
-    <!-- Back to Cover Button (discreet, accessible when envelope is shown) -->
+    <!-- Back to Cover Button -->
     <button
-      v-if="isCoverOpen"
+      v-if="isCoverOpen && !showInvitation"
       class="cover-return-btn"
       @click.stop="returnToCover"
       :title="weddingText.accessibility.backToCoverBtn"
@@ -101,11 +86,144 @@
         <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
       </svg>
     </button>
+
+    <!-- ═══════════════════════════════════════════════
+         MAIN INVITATION (fades in after envelope opens)
+    ════════════════════════════════════════════════ -->
+    <Transition name="main-fade">
+      <div v-if="showInvitation" class="main-on-top">
+
+        <div class="main-page">
+          <div class="main-screen">
+            <!-- 1. Fullscreen Base Backdrop -->
+            <img :src="backdropImg" alt="Sage Wedding Backdrop" class="main-bg-img" />
+
+            <!-- 2. Tiered Crystal Chandelier -->
+            <div class="chandelier-layer">
+              <img :src="tieredChandelierImg" alt="Tiered Crystal Chandelier" class="layer-img chandelier-img" />
+            </div>
+
+            <!-- 3. Left Hanging Pendant Lamps -->
+            <div class="pendant-lamp lamp-left-green-1"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-left-warm-1"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-left-green-2"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-left-warm-2"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-left-green-3"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+
+            <!-- 4. Right Hanging Pendant Lamps -->
+            <div class="pendant-lamp lamp-right-green-1"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-right-warm-1"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-right-green-2"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-right-warm-2"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            <div class="pendant-lamp lamp-right-green-3"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+
+            <!-- 5. Flying Butterflies -->
+            <div class="flying-butterflies-layer">
+              <div class="butterfly-item b1"><div class="butterfly-flapper"><img :src="butterflyImg" alt="Wedding Butterfly" class="butterfly-graphic" /></div></div>
+              <div class="butterfly-item b2"><div class="butterfly-flapper"><img :src="butterflyImg" alt="Wedding Butterfly" class="butterfly-graphic" /></div></div>
+              <div class="butterfly-item b3"><div class="butterfly-flapper"><img :src="butterflyImg" alt="Wedding Butterfly" class="butterfly-graphic" /></div></div>
+              <div class="butterfly-item b4"><div class="butterfly-flapper"><img :src="butterflyImg" alt="Wedding Butterfly" class="butterfly-graphic" /></div></div>
+            </div>
+
+            <!-- 6. Invitation Details Card -->
+            <div class="invitation-overlay">
+              <div class="invitation-card">
+                <!-- PAGE 1: Cover & Countdown -->
+                <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
+                  <div class="page-content-wrapper">
+                    <h1 class="invitation-heading anim-cover-item">{{ invitation.pageTitle }}</h1>
+                    <div class="parents-row anim-cover-item">
+                      <div class="parents-group groom-parents">
+                        <div class="parent-entry"><span class="parent-role">{{ invitation.groomFather.role }}</span><span class="parent-name">{{ invitation.groomFather.name }}</span></div>
+                        <div class="parent-entry"><span class="parent-role">{{ invitation.groomMother.role }}</span><span class="parent-name">{{ invitation.groomMother.name }}</span></div>
+                      </div>
+                      <div class="parents-group bride-parents">
+                        <div class="parent-entry"><span class="parent-role">{{ invitation.brideFather.role }}</span><span class="parent-name">{{ invitation.brideFather.name }}</span></div>
+                        <div class="parent-entry"><span class="parent-role">{{ invitation.brideMother.role }}</span><span class="parent-name">{{ invitation.brideMother.name }}</span></div>
+                      </div>
+                    </div>
+                    <div class="honor-invite-section anim-cover-item">
+                      <p class="honor-invite-title">{{ invitation.honorInviteText }}</p>
+                      <p v-for="(line, idx) in invitation.invitationLines" :key="idx" class="invitation-line">{{ line }}</p>
+                    </div>
+                    <div class="couple-section anim-cover-item">
+                      <div class="couple-side groom-side"><span class="couple-role">{{ invitation.groomRole }}</span><span class="couple-name">{{ invitation.groomName }}</span></div>
+                      <div class="couple-ampersand"><img :src="monogramCrestImg" alt="Wedding Monogram Crest S&R" class="couple-crest-img" /></div>
+                      <div class="couple-side bride-side"><span class="couple-role">{{ invitation.brideRole }}</span><span class="couple-name">{{ invitation.brideName }}</span></div>
+                    </div>
+                    <div class="event-schedule-section anim-cover-item">
+                      <p class="lunar-date">{{ invitation.lunarDate }}</p>
+                      <p class="solar-date">{{ invitation.solarDate }}</p>
+                      <div class="schedule-divider"><img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" /></div>
+                      <p class="reception-time">{{ invitation.receptionTime }}</p>
+                    </div>
+                    <div class="countdown-section">
+                      <div class="countdown-grid">
+                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.days).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.days }}</span></div>
+                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.hours).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.hours }}</span></div>
+                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.mins).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.mins }}</span></div>
+                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.secs).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.secs }}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- PAGE 2: Agenda Section -->
+                <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
+                  <div class="page-content-wrapper agenda-page-content">
+                    <h2 class="section-title anim-item" style="transition-delay: 0.1s">{{ invitation.agendaTitle }}</h2>
+                    <div v-for="(day, dIdx) in invitation.agendaDays" :key="dIdx" class="agenda-day">
+                      <h3 class="agenda-day-title anim-item" style="transition-delay: 0.2s">{{ day.dayTitle }}</h3>
+                      <div class="agenda-timeline">
+                        <div v-for="(item, iIdx) in day.schedule" :key="iIdx" class="agenda-item anim-item" :style="`transition-delay: ${0.3 + (iIdx * 0.15)}s`">
+                          <div class="agenda-time">{{ item.time }}</div>
+                          <div class="agenda-dot"></div>
+                          <div class="agenda-content">
+                            <img v-if="agendaIcons[item.icon]" :src="agendaIcons[item.icon]" class="agenda-icon-img" :alt="item.title" />
+                            <span class="agenda-item-title">{{ item.title }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <!-- Fixed Bottom Actions -->
+              <div class="fixed-bottom-actions">
+                <div class="scroll-up-hint" @click="scrollToNextPage" style="cursor: pointer;">
+                  <div class="chevrons">
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                  </div>
+                  <span class="scroll-up-text">{{ invitation.scrollUpText }}</span>
+                </div>
+                <div class="action-buttons">
+                  <button class="action-btn"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
+                  <button class="action-btn"><img :src="btnLocation" alt="Location" class="action-icon" /></button>
+                  <button class="action-btn"><img :src="btnGallery" alt="Gallery" class="action-icon" /></button>
+                  <button class="action-btn"><img :src="btnWishes" alt="Wishes" class="action-icon" /></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Wedding Couple -->
+            <div class="wedding-couple-layer">
+              <img :src="weddingCoupleImg" alt="Wedding Couple" class="wedding-couple-img" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </Transition>
+
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+// ── Envelope imports ──
 import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
@@ -113,13 +231,38 @@ import pocketImg from '@/assets/envelope/envelope-pocket.webp'
 import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.webp'
 import pocketRightImg from '@/assets/envelope/envelope-pocket-right.webp'
 
+// ── Main invitation imports ──
+import backdropImg from '@/assets/sage-wedding-backdrop.with-lamps.jpg'
+import pendantGreenImg from '@/assets/items/pendant-lamp-green-transparent.png'
+import pendantWarmImg from '@/assets/items/pendant-lamp-warm-transparent.png'
+import tieredChandelierImg from '@/assets/items/tiered-crystal-chandelier-transparent.png'
+import butterflyImg from '@/assets/items/wedding-butterfly.svg'
+import monogramCrestImg from '@/assets/wedding_monogram_crest_sr_trans.webp'
+import goldDividerImg from '@/assets/items/gold-wedding-divider.png'
+import weddingCoupleImg from '@/assets/wedding-couple-2-transparent.png'
+import invitation from '@/config/invitation.js'
+import btnCalendar from '@/assets/items/btn_calendar.svg'
+import btnLocation from '@/assets/items/btn_location.svg'
+import btnGallery from '@/assets/items/btn_gallery.svg'
+import btnWishes from '@/assets/items/btn_wishes.svg'
+import iconWelcome from '@/assets/items/agenda_01_welcome.webp'
+import iconFruit from '@/assets/items/agenda_02_fruit.webp'
+import iconHall from '@/assets/items/agenda_03_hall.webp'
+import iconMonks from '@/assets/items/agenda_05_monks.webp'
+import iconHaircut from '@/assets/items/agenda_06_haircut.webp'
+import iconThread from '@/assets/items/agenda_07_thread.webp'
+import iconLunch from '@/assets/items/agenda_08_lunch.webp'
+import iconBanquet from '@/assets/items/agenda_09_banquet.webp'
+
 import './HomePage.css'
 
+// ── Envelope state ──
 const isCoverOpen = ref(false)
 const isOpen = ref(false)
 const isReturning = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
+const showInvitation = ref(false)
 let currentGlideAnim = null
 let returnTimer = null
 
@@ -127,6 +270,41 @@ const envelopeSealRef = ref(null)
 const coverSealBoxRef = ref(null)
 const coverSealImgRef = ref(null)
 
+// ── Main invitation state ──
+const agendaIcons = { welcome: iconWelcome, fruit: iconFruit, hall: iconHall, monks: iconMonks, haircut: iconHaircut, thread: iconThread, lunch: iconLunch, banquet: iconBanquet }
+const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
+const isCoverInView = ref(true)
+const isAgendaInView = ref(false)
+let timerInterval = null
+let observer = null
+
+const toKhmerNumber = (numStr) => {
+  const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩']
+  return String(numStr).replace(/\d/g, (d) => khmerDigits[d])
+}
+
+const scrollToNextPage = () => {
+  const container = document.querySelector('.invitation-card')
+  if (container) container.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
+}
+
+const updateCountdown = () => {
+  if (!invitation.targetDate) return
+  const diff = new Date(invitation.targetDate).getTime() - Date.now()
+  if (diff > 0) {
+    timeLeft.value = {
+      days: Math.floor(diff / 86400000),
+      hours: Math.floor((diff % 86400000) / 3600000),
+      mins: Math.floor((diff % 3600000) / 60000),
+      secs: Math.floor((diff % 60000) / 1000)
+    }
+  } else {
+    timeLeft.value = { days: 0, hours: 0, mins: 0, secs: 0 }
+    if (timerInterval) clearInterval(timerInterval)
+  }
+}
+
+// ── Envelope logic ──
 const openCover = async () => {
   if (isCoverOpen.value || isAnimatingCover.value) return
   isReturning.value = false
@@ -143,65 +321,51 @@ const openCover = async () => {
     return
   }
 
-  // Pre-calculate coordinates & target scale
   const sourceRect = coverSealEl.getBoundingClientRect()
   const targetRect = targetSealEl.getBoundingClientRect()
-
   const deltaX = (targetRect.left + targetRect.width / 2) - (sourceRect.left + sourceRect.width / 2)
   const deltaY = (targetRect.top + targetRect.height / 2) - (sourceRect.top + sourceRect.height / 2)
   const targetScale = targetRect.width / sourceRect.width
 
-  // -------------------------------------------------------------
-  // 1. "just slow disapear text":
-  // Slowly fade out cover text (header, footer, hint, seal glow)
-  // -------------------------------------------------------------
   isDisappearingOther.value = true
-
-  // Wait for text to fade away smoothly (~750ms + 100ms pause)
   await new Promise(resolve => setTimeout(resolve, 850))
 
-  // -------------------------------------------------------------
-  // 2. "and slowly animate like current":
-  // Gold seal slowly glides and scales into its flap dock position
-  // -------------------------------------------------------------
   try {
     currentGlideAnim = coverSealEl.animate(
       [
-        {
-          transform: 'translate(0px, 0px) scale(1)',
-          filter: 'drop-shadow(0 14px 28px rgba(60, 42, 10, 0.5))',
-          offset: 0
-        },
-        {
-          transform: `translate(${deltaX * 0.38}px, ${deltaY * 0.42}px) scale(${1 - (1 - targetScale) * 0.68})`,
-          filter: 'drop-shadow(0 10px 20px rgba(60, 42, 10, 0.48))',
-          offset: 0.45
-        },
-        {
-          transform: `translate(${deltaX}px, ${deltaY}px) scale(${targetScale})`,
-          filter: 'drop-shadow(0 6px 12px rgba(60, 42, 10, 0.45))',
-          offset: 1
-        }
+        { transform: 'translate(0px, 0px) scale(1)', filter: 'drop-shadow(0 14px 28px rgba(60, 42, 10, 0.5))', offset: 0 },
+        { transform: `translate(${deltaX * 0.38}px, ${deltaY * 0.42}px) scale(${1 - (1 - targetScale) * 0.68})`, filter: 'drop-shadow(0 10px 20px rgba(60, 42, 10, 0.48))', offset: 0.45 },
+        { transform: `translate(${deltaX}px, ${deltaY}px) scale(${targetScale})`, filter: 'drop-shadow(0 6px 12px rgba(60, 42, 10, 0.45))', offset: 1 }
       ],
-      {
-        duration: 1100,
-        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-        fill: 'forwards'
-      }
+      { duration: 1100, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
     )
-
     await currentGlideAnim.finished
-    // Small settle delay for visual perfection
     await new Promise(resolve => setTimeout(resolve, 80))
 
-    // -------------------------------------------------------------
-    // 3. Final handoff to envelope flap seal & automatically open flap
-    // -------------------------------------------------------------
     isCoverOpen.value = true
-
-    // Smoothly and gracefully open the envelope flap (slow and majestic like seal-glow)
     await new Promise(resolve => setTimeout(resolve, 450))
     isOpen.value = true
+
+    // Show invitation after envelope fully opens — never hides again
+    await new Promise(resolve => setTimeout(resolve, 600))
+    showInvitation.value = true
+
+    // Start countdown & observer after invitation shows
+    updateCountdown()
+    timerInterval = setInterval(updateCountdown, 1000)
+
+    await new Promise(resolve => setTimeout(resolve, 100))
+    const coverEl = document.getElementById('page-cover')
+    const agendaEl = document.getElementById('page-agenda')
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
+      })
+    }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
+    if (coverEl) observer.observe(coverEl)
+    if (agendaEl) observer.observe(agendaEl)
+
   } catch (err) {
     isCoverOpen.value = true
     isOpen.value = true
@@ -214,9 +378,7 @@ const openCover = async () => {
 
 const returnToCover = () => {
   if (currentGlideAnim) {
-    try {
-      currentGlideAnim.cancel()
-    } catch (e) {}
+    try { currentGlideAnim.cancel() } catch (e) {}
     currentGlideAnim = null
   }
   isReturning.value = true
@@ -224,26 +386,25 @@ const returnToCover = () => {
   isOpen.value = false
   isDisappearingOther.value = false
   isAnimatingCover.value = false
-
   clearTimeout(returnTimer)
-  returnTimer = setTimeout(() => {
-    isReturning.value = false
-  }, 3500)
+  returnTimer = setTimeout(() => { isReturning.value = false }, 3500)
 }
 
 const toggleEnvelope = () => {
   if (isOpen.value) {
-    // Closing / returning back: keep envelope-pocket.png hidden during return animation
     isReturning.value = true
     isOpen.value = false
     clearTimeout(returnTimer)
-    returnTimer = setTimeout(() => {
-      isReturning.value = false
-    }, 3500)
+    returnTimer = setTimeout(() => { isReturning.value = false }, 3500)
   } else {
     isReturning.value = false
     clearTimeout(returnTimer)
     isOpen.value = true
   }
 }
+
+onUnmounted(() => {
+  if (timerInterval) clearInterval(timerInterval)
+  if (observer) observer.disconnect()
+})
 </script>

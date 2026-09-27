@@ -247,7 +247,7 @@
         <!-- Fixed Bottom Actions -->
         <div class="fixed-bottom-actions">
           <!-- Scroll Up Hint -->
-          <div class="scroll-up-hint">
+          <div class="scroll-up-hint" @click="scrollToNextPage" style="cursor: pointer;">
             <div class="chevrons">
               <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
               <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
@@ -375,6 +375,13 @@ let timerInterval = null;
 let observer = null;
 const isCoverInView = ref(true);
 const isAgendaInView = ref(false);
+
+const scrollToNextPage = () => {
+  const container = document.querySelector('.invitation-card');
+  if (container) {
+    container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+  }
+};
 
 const updateCountdown = () => {
   if (!invitation.targetDate) return;
@@ -1009,7 +1016,7 @@ onUnmounted(() => {
   font-size: 18px;
   color: #835b12;
   margin-bottom: 20px;
-  text-shadow: 0 0 2px #ffffff;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
 }
 .agenda-day {
   margin-bottom: 20px;
@@ -1025,6 +1032,7 @@ onUnmounted(() => {
   font-weight: 700;
   margin-bottom: 15px;
   text-align: center;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
 }
 .agenda-timeline {
   display: flex;
@@ -1056,6 +1064,7 @@ onUnmounted(() => {
   text-align: right;
   flex-shrink: 0;
   padding-top: 2px;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
 }
 .agenda-dot {
   width: 7px;
@@ -1086,6 +1095,7 @@ onUnmounted(() => {
   color: #435249;
   line-height: 1.4;
   font-weight: 700;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
 }
 
 .fixed-bottom-actions {
