@@ -206,7 +206,7 @@
       </div>
 
 
-      <!-- Extra Flowers (Left and Right) -->
+      <!-- Extra Flowers (Left and Right)
       <div class="extra-flower flower-5">
         <img :src="flower2Img" alt="Flower 2 Extra Left" class="roses-img" />
       </div>
@@ -220,7 +220,7 @@
         <img :src="flower2Img" alt="Flower 2 Extra Right" class="roses-img" />
       </div>
       
-      <!-- Lotus Flowers -->
+      // Lotus Flowers
       <div class="extra-flower lotus-tall-left">
         <img :src="lotusTallImg" alt="Lotus Tall Left" class="roses-img" />
       </div>
@@ -233,16 +233,18 @@
       </div>
       <div class="extra-flower lotus-right">
         <img :src="lotusImg" alt="Lotus Right" class="roses-img" />
-      </div>
+      </div>  
       
-      <!-- Wedding Couple -->
-      <div class="wedding-couple-layer">
-        <img :src="weddingCoupleImg" alt="Wedding Couple" class="wedding-couple-img" />
-      </div>
+     
       
-      <!-- New Lotus Next to Tall Right -->
+     New Lotus Next to Tall Right 
       <div class="extra-flower lotus-3-right">
         <img :src="lotus3Img" alt="Lotus 3 Right" class="roses-img" />
+      </div>-->
+
+       <!-- Wedding Couple -->
+      <div class="wedding-couple-layer">
+        <img :src="weddingCoupleImg" alt="Wedding Couple" class="wedding-couple-img" />
       </div>
     </div>
   </div>
