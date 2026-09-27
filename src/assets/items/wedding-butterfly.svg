@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" width="120" height="100">
+  <defs>
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#fffbee" stop-opacity="0.9"/>
+      <stop offset="80%" stop-color="#fde68a" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="goldVein" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Left Wing Group -->
+  <g class="wing-left" style="transform-origin: 60px 50px;">
+    <!-- Forewing Left -->
+    <path d="M60,45 C50,25 25,8 8,18 C-3,25 2,48 25,56 C42,61 58,52 60,48 Z" 
+          fill="url(#wingGrad)" stroke="url(#goldVein)" stroke-width="1.2" filter="url(#glow)"/>
+    <!-- Hindwing Left -->
+    <path d="M60,52 C48,58 20,62 16,74 C12,86 28,95 42,88 C54,82 58,62 60,55 Z" 
+          fill="url(#wingGrad)" stroke="url(#goldVein)" stroke-width="1.0"/>
+    <!-- Veins Left -->
+    <path d="M60,45 Q35,32 15,22 M60,47 Q32,45 18,48 M60,50 Q38,55 24,68 M60,55 Q42,70 32,82" 
+          fill="none" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.75"/>
+    <!-- Dots on Wing Edge -->
+    <circle cx="10" cy="22" r="1.2" fill="#ffffff"/>
+    <circle cx="14" cy="32" r="1.2" fill="#ffffff"/>
+    <circle cx="20" cy="44" r="1.2" fill="#ffffff"/>
+    <circle cx="22" cy="78" r="1.2" fill="#ffffff"/>
+    <circle cx="32" cy="87" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- Right Wing Group -->
+  <g class="wing-right" style="transform-origin: 60px 50px;">
+    <!-- Forewing Right -->
+    <path d="M60,45 C70,25 95,8 112,18 C123,25 118,48 95,56 C78,61 62,52 60,48 Z" 
+          fill="url(#wingGrad)" stroke="url(#goldVein)" stroke-width="1.2" filter="url(#glow)"/>
+    <!-- Hindwing Right -->
+    <path d="M60,52 C72,58 100,62 104,74 C108,86 92,95 78,88 C66,82 62,62 60,55 Z" 
+          fill="url(#wingGrad)" stroke="url(#goldVein)" stroke-width="1.0"/>
+    <!-- Veins Right -->
+    <path d="M60,45 Q85,32 105,22 M60,47 Q88,45 102,48 M60,50 Q82,55 96,68 M60,55 Q78,70 88,82" 
+          fill="none" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.75"/>
+    <!-- Dots on Wing Edge -->
+    <circle cx="110" cy="22" r="1.2" fill="#ffffff"/>
+    <circle cx="106" cy="32" r="1.2" fill="#ffffff"/>
+    <circle cx="100" cy="44" r="1.2" fill="#ffffff"/>
+    <circle cx="98" cy="78" r="1.2" fill="#ffffff"/>
+    <circle cx="88" cy="87" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- Center Butterfly Body & Antennae -->
+  <g class="butterfly-body">
+    <!-- Antennae -->
+    <path d="M59,38 Q52,24 45,20 M61,38 Q68,24 75,20" 
+          fill="none" stroke="#b45309" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="45" cy="20" r="1.5" fill="#d4af37"/>
+    <circle cx="75" cy="20" r="1.5" fill="#d4af37"/>
+    <!-- Head -->
+    <ellipse cx="60" cy="40" rx="2.5" ry="3" fill="#b45309"/>
+    <!-- Thorax & Abdomen -->
+    <ellipse cx="60" cy="50" rx="2.2" ry="7" fill="#d4af37"/>
+    <ellipse cx="60" cy="62" rx="1.8" ry="6" fill="#b45309"/>
+  </g>
+</svg>

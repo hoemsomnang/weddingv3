@@ -22,6 +22,12 @@ const routes = [
     meta: { title: 'Video Preview' }
   },
   {
+    path: '/main',
+    name: 'Main',
+    component: () => import('../views/main.vue'),
+    meta: { title: 'Main' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }

@@ -1,148 +1,5 @@
 <template>
   <div class="home-container">
-    <!-- Video Preview Palace Scene as Fullscreen Background (replaces edge gold color) -->
-    <div
-      class="home-scene-background"
-      :class="{ 'is-active': hasOpenedOnce }"
-      :key="scenePlayKey"
-    >
-      <!-- Camera Zoom Stage: Zooms in to wedding-throne-chairs then zooms out slowly back -->
-      <div class="camera-zoom-stage">
-        <!-- 1. Background Image -->
-        <img
-          :src="purpleStaircaseImg"
-          alt="Purple Staircase"
-          class="preview-bg-image"
-        />
-
-        <!-- 2. Royal Wedding Palace Items Layer -->
-        <div class="palace-items-layer">
-          <!-- 2a. Royal Golden Wedding Monogram / Seal (In Upper Cathedral Arch) -->
-          <div class="item-monogram">
-            <img
-              :src="weddingMonogramImg"
-              alt="Royal Wedding Monogram Seal"
-            />
-          </div>
-
-          <!-- 2b. Royal Floral Wedding Arch (Top Landing Doorway) -->
-          <div class="item-floral-arch">
-            <img
-              :src="floralArchImg"
-              alt="Royal Floral Wedding Arch"
-            />
-          </div>
-
-          <!-- 2c. Twin Royal Throne Chairs (Inside Arch on Top Landing) -->
-          <div class="item-throne-chairs">
-            <img
-              :src="throneChairsImg"
-              alt="Twin Royal Wedding Thrones"
-            />
-          </div>
-        </div>
-
-        <!-- 3. 3 Crystal Chandeliers on Top: Left, Center, Right -->
-        <div class="chandeliers-container">
-          <!-- Left Chandelier -->
-          <div class="chandelier-item chandelier-left">
-            <img
-              :src="crystalChandelierImg"
-              alt="Crystal Chandelier Left"
-              class="chandelier-img"
-            />
-            <div class="flames-group">
-              <span class="candle-flame f-top"></span>
-              <span class="candle-flame f-mid-l"></span>
-              <span class="candle-flame f-mid-r"></span>
-              <span class="candle-flame f-inner-l"></span>
-              <span class="candle-flame f-inner-r"></span>
-              <span class="candle-flame f-outer-l"></span>
-              <span class="candle-flame f-outer-r"></span>
-              <span class="candle-flame f-edge-l"></span>
-              <span class="candle-flame f-edge-r"></span>
-            </div>
-          </div>
-
-          <!-- Center Chandelier -->
-          <div class="chandelier-item chandelier-center">
-            <img
-              :src="crystalChandelierImg"
-              alt="Crystal Chandelier Center"
-              class="chandelier-img"
-            />
-            <div class="flames-group">
-              <span class="candle-flame f-top"></span>
-              <span class="candle-flame f-mid-l"></span>
-              <span class="candle-flame f-mid-r"></span>
-              <span class="candle-flame f-inner-l"></span>
-              <span class="candle-flame f-inner-r"></span>
-              <span class="candle-flame f-outer-l"></span>
-              <span class="candle-flame f-outer-r"></span>
-              <span class="candle-flame f-edge-l"></span>
-              <span class="candle-flame f-edge-r"></span>
-            </div>
-          </div>
-
-          <!-- Right Chandelier -->
-          <div class="chandelier-item chandelier-right">
-            <img
-              :src="crystalChandelierImg"
-              alt="Crystal Chandelier Right"
-              class="chandelier-img"
-            />
-            <div class="flames-group">
-              <span class="candle-flame f-top"></span>
-              <span class="candle-flame f-mid-l"></span>
-              <span class="candle-flame f-mid-r"></span>
-              <span class="candle-flame f-inner-l"></span>
-              <span class="candle-flame f-inner-r"></span>
-              <span class="candle-flame f-outer-l"></span>
-              <span class="candle-flame f-outer-r"></span>
-              <span class="candle-flame f-edge-l"></span>
-              <span class="candle-flame f-edge-r"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Real Theatrical Stage Curtain Overlay (Parts open to left/right and draws back after zoom out) -->
-      <div class="curtain-stage-wrapper" :class="{ 'is-active': isCurtainOpening }">
-        <div class="curtain-door curtain-door-left">
-          <img
-            :src="curtainOverlayImg"
-            alt="Royal Curtain Left"
-            class="curtain-door-img"
-          />
-        </div>
-        <div class="curtain-door curtain-door-right">
-          <img
-            :src="curtainOverlayImg"
-            alt="Royal Curtain Right"
-            class="curtain-door-img"
-          />
-        </div>
-      </div>
-
-      <!-- 5. Edge Purple Rose Bouquets on Left & Right (Animate when zoom nears the end) -->
-      <div class="zoom-edge-bouquet bouquet-left">
-        <div class="bouquet-float float-left">
-          <img
-            :src="purpleRoseBouquetImg"
-            alt="Purple Rose Bouquet Left"
-          />
-        </div>
-      </div>
-      <div class="zoom-edge-bouquet bouquet-right">
-        <div class="bouquet-float float-right">
-          <img
-            :src="purpleRoseBouquetImg"
-            alt="Purple Rose Bouquet Right"
-          />
-        </div>
-      </div>
-    </div>
-
     <!-- Existing Envelope Scene (Kept 100% the same as requested) -->
     <div
       class="envelope-scene"
@@ -248,22 +105,13 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
 import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.webp'
 import pocketRightImg from '@/assets/envelope/envelope-pocket-right.webp'
-
-// Palace Scene Assets from video-preview
-import purpleStaircaseImg from '@/assets/purple-staircase-clean.jpg'
-import crystalChandelierImg from '@/assets/crystal-chandelier-transparent.png'
-import weddingMonogramImg from '@/assets/items/wedding-monogram-seal.png'
-import floralArchImg from '@/assets/items/royal-floral-wedding-arch.png'
-import throneChairsImg from '@/assets/items/wedding-throne-chairs.png'
-import purpleRoseBouquetImg from '@/assets/items/purple-rose-bouquet.png'
-import curtainOverlayImg from '@/assets/curtain-open-step2-parting-transparent.png'
 
 import './HomePage.css'
 
@@ -274,18 +122,6 @@ const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 let currentGlideAnim = null
 let returnTimer = null
-
-// Video Preview Palace Scene Controls
-const hasOpenedOnce = ref(false)
-const scenePlayKey = ref(0)
-const isCurtainOpening = ref(false)
-
-watch(isOpen, (newVal) => {
-  if (newVal) {
-    hasOpenedOnce.value = true
-    scenePlayKey.value++
-  }
-})
 
 const envelopeSealRef = ref(null)
 const coverSealBoxRef = ref(null)
@@ -303,11 +139,6 @@ const openCover = async () => {
   if (!coverSealEl || !targetSealEl) {
     isCoverOpen.value = true
     isOpen.value = true
-    setTimeout(() => {
-      if (isOpen.value && isCoverOpen.value) {
-        isCurtainOpening.value = true
-      }
-    }, 2200)
     isAnimatingCover.value = false
     return
   }
@@ -371,20 +202,9 @@ const openCover = async () => {
     // Smoothly and gracefully open the envelope flap (slow and majestic like seal-glow)
     await new Promise(resolve => setTimeout(resolve, 450))
     isOpen.value = true
-
-    // Wait until the envelope is DONE opening (~2.2s) so the background curtain is clearly displayed first
-    await new Promise(resolve => setTimeout(resolve, 2200))
-    if (isOpen.value && isCoverOpen.value) {
-      isCurtainOpening.value = true
-    }
   } catch (err) {
     isCoverOpen.value = true
     isOpen.value = true
-    setTimeout(() => {
-      if (isOpen.value && isCoverOpen.value) {
-        isCurtainOpening.value = true
-      }
-    }, 2200)
   } finally {
     isDisappearingOther.value = false
     isAnimatingCover.value = false
@@ -402,7 +222,6 @@ const returnToCover = () => {
   isReturning.value = true
   isCoverOpen.value = false
   isOpen.value = false
-  isCurtainOpening.value = false
   isDisappearingOther.value = false
   isAnimatingCover.value = false
 
