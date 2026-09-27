@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Crisp Metallic Gold Gradient -->
+    <linearGradient id="goldGradGal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8f5b0c"/>
+      <stop offset="30%" stop-color="#cf9c31"/>
+      <stop offset="60%" stop-color="#ffd878"/>
+      <stop offset="85%" stop-color="#b88320"/>
+      <stop offset="100%" stop-color="#7a4b08"/>
+    </linearGradient>
+
+    <!-- Dark Gold Shadow Accent -->
+    <linearGradient id="goldDarkGal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#693c02"/>
+      <stop offset="100%" stop-color="#4a2800"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Photo / Picture Frame Outer Border -->
+  <rect x="7" y="12" width="50" height="40" rx="8" ry="8"
+        fill="none"
+        stroke="url(#goldGradGal)"
+        stroke-width="4.5"/>
+  <rect x="7" y="12" width="50" height="40" rx="8" ry="8"
+        fill="none"
+        stroke="url(#goldDarkGal)"
+        stroke-width="1.2"/>
+
+  <!-- Sun / Moon inside frame -->
+  <circle cx="21" cy="24" r="4.5"
+          fill="url(#goldGradGal)"
+          stroke="url(#goldDarkGal)"
+          stroke-width="1"/>
+
+  <!-- Mountain Peaks Scene inside frame -->
+  <path d="M 12 48
+           L 26 31
+           C 27.2 29.5 29.5 29.5 30.7 31
+           L 38 40
+           L 44.5 32.5
+           C 45.7 31.2 47.8 31.2 49 32.5
+           L 52 36
+           L 52 48 Z"
+        fill="url(#goldGradGal)"
+        stroke="url(#goldDarkGal)"
+        stroke-width="1.2"
+        stroke-linejoin="round"/>
+</svg>

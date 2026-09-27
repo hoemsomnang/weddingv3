@@ -128,79 +128,147 @@
       <!-- 6. Invitation Details Card -->
       <div class="invitation-overlay">
         <div class="invitation-card">
-          <!-- Monogram Crest -->
-          <div v-if="invitation.initials && invitation.initials.length" class="monogram-badge">
-            <span class="monogram-char">{{ invitation.initials[0] }}</span>
-            <span class="monogram-dot">✦</span>
-            <span class="monogram-char">{{ invitation.initials[1] }}</span>
+          <!-- PAGE 1: Cover & Countdown -->
+          <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
+            <div class="page-content-wrapper">
+              <!-- Page Heading: សិរីមង្គលអាពាហ៍ពិពាហ៍ -->
+              <h1 class="invitation-heading anim-cover-item">{{ invitation.pageTitle }}</h1>
+
+              <!-- Parents Section -->
+              <div class="parents-row anim-cover-item">
+                <div class="parents-group groom-parents">
+                  <div class="parent-entry">
+                    <span class="parent-role">{{ invitation.groomFather.role }}</span>
+                    <span class="parent-name">{{ invitation.groomFather.name }}</span>
+                  </div>
+                  <div class="parent-entry">
+                    <span class="parent-role">{{ invitation.groomMother.role }}</span>
+                    <span class="parent-name">{{ invitation.groomMother.name }}</span>
+                  </div>
+                </div>
+                <div class="parents-group bride-parents">
+                  <div class="parent-entry">
+                    <span class="parent-role">{{ invitation.brideFather.role }}</span>
+                    <span class="parent-name">{{ invitation.brideFather.name }}</span>
+                  </div>
+                  <div class="parent-entry">
+                    <span class="parent-role">{{ invitation.brideMother.role }}</span>
+                    <span class="parent-name">{{ invitation.brideMother.name }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Honor Invite Message -->
+              <div class="honor-invite-section anim-cover-item">
+                <p class="honor-invite-title">{{ invitation.honorInviteText }}</p>
+                <p
+                  v-for="(line, idx) in invitation.invitationLines"
+                  :key="idx"
+                  class="invitation-line"
+                >
+                  {{ line }}
+                </p>
+              </div>
+
+              <!-- Couple Section -->
+              <div class="couple-section anim-cover-item">
+                <div class="couple-side groom-side">
+                  <span class="couple-role">{{ invitation.groomRole }}</span>
+                  <span class="couple-name">{{ invitation.groomName }}</span>
+                </div>
+                <div class="couple-ampersand">
+                  <img
+                    :src="monogramCrestImg"
+                    alt="Wedding Monogram Crest S&R"
+                    class="couple-crest-img"
+                  />
+                </div>
+                <div class="couple-side bride-side">
+                  <span class="couple-role">{{ invitation.brideRole }}</span>
+                  <span class="couple-name">{{ invitation.brideName }}</span>
+                </div>
+              </div>
+
+              <!-- Wedding Date & Venue Section -->
+              <div class="event-schedule-section anim-cover-item">
+                <p class="lunar-date">{{ invitation.lunarDate }}</p>
+                <p class="solar-date">{{ invitation.solarDate }}</p>
+                <div class="schedule-divider">
+                  <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                </div>
+                <p class="reception-time">{{ invitation.receptionTime }}</p>
+              </div>
+
+              <!-- Countdown Section -->
+              <div class="countdown-section">
+                <div class="countdown-grid">
+                  <div class="countdown-item anim-cover-item">
+                    <span class="countdown-value">{{ toKhmerNumber(String(timeLeft.days).padStart(2, '0')) }}</span>
+                    <span class="countdown-label">{{ invitation.countdownLabels.days }}</span>
+                  </div>
+                  <div class="countdown-item anim-cover-item">
+                    <span class="countdown-value">{{ toKhmerNumber(String(timeLeft.hours).padStart(2, '0')) }}</span>
+                    <span class="countdown-label">{{ invitation.countdownLabels.hours }}</span>
+                  </div>
+                  <div class="countdown-item anim-cover-item">
+                    <span class="countdown-value">{{ toKhmerNumber(String(timeLeft.mins).padStart(2, '0')) }}</span>
+                    <span class="countdown-label">{{ invitation.countdownLabels.mins }}</span>
+                  </div>
+                  <div class="countdown-item anim-cover-item">
+                    <span class="countdown-value">{{ toKhmerNumber(String(timeLeft.secs).padStart(2, '0')) }}</span>
+                    <span class="countdown-label">{{ invitation.countdownLabels.secs }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PAGE 2: Agenda Section -->
+          <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
+            <div class="page-content-wrapper agenda-page-content">
+              <h2 class="section-title anim-item" style="transition-delay: 0.1s">{{ invitation.agendaTitle }}</h2>
+              <div v-for="(day, dIdx) in invitation.agendaDays" :key="dIdx" class="agenda-day">
+                <h3 class="agenda-day-title anim-item" style="transition-delay: 0.2s">{{ day.dayTitle }}</h3>
+                <div class="agenda-timeline">
+                  <div v-for="(item, iIdx) in day.schedule" :key="iIdx" class="agenda-item anim-item" :style="`transition-delay: ${0.3 + (iIdx * 0.15)}s`">
+                    <div class="agenda-time">{{ item.time }}</div>
+                    <div class="agenda-dot"></div>
+                    <div class="agenda-content">
+                      <img v-if="agendaIcons[item.icon]" :src="agendaIcons[item.icon]" class="agenda-icon-img" :alt="item.title" />
+                      <span class="agenda-item-title">{{ item.title }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Fixed Bottom Actions -->
+        <div class="fixed-bottom-actions">
+          <!-- Scroll Up Hint -->
+          <div class="scroll-up-hint">
+            <div class="chevrons">
+              <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+              <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </div>
+            <span class="scroll-up-text">{{ invitation.scrollUpText }}</span>
           </div>
 
-          <!-- Page Heading: សិរីមង្គលអាពាហ៍ពិពាហ៍ -->
-          <h1 class="invitation-heading">{{ invitation.pageTitle }}</h1>
-
-          <!-- Parents Section -->
-          <div class="parents-row">
-            <div class="parents-group groom-parents">
-              <div class="parent-entry">
-                <span class="parent-role">{{ invitation.groomFather.role }}</span>
-                <span class="parent-name">{{ invitation.groomFather.name }}</span>
-              </div>
-              <div class="parent-entry">
-                <span class="parent-role">{{ invitation.groomMother.role }}</span>
-                <span class="parent-name">{{ invitation.groomMother.name }}</span>
-              </div>
-            </div>
-            <div class="parents-group bride-parents">
-              <div class="parent-entry">
-                <span class="parent-role">{{ invitation.brideFather.role }}</span>
-                <span class="parent-name">{{ invitation.brideFather.name }}</span>
-              </div>
-              <div class="parent-entry">
-                <span class="parent-role">{{ invitation.brideMother.role }}</span>
-                <span class="parent-name">{{ invitation.brideMother.name }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Honor Invite Message -->
-          <div class="honor-invite-section">
-            <p class="honor-invite-title">{{ invitation.honorInviteText }}</p>
-            <p
-              v-for="(line, idx) in invitation.invitationLines"
-              :key="idx"
-              class="invitation-line"
-            >
-              {{ line }}
-            </p>
-          </div>
-
-          <!-- Couple Section -->
-          <div class="couple-section">
-            <div class="couple-side groom-side">
-              <span class="couple-role">{{ invitation.groomRole }}</span>
-              <span class="couple-name">{{ invitation.groomName }}</span>
-            </div>
-            <div class="couple-ampersand">
-              <img
-                :src="monogramCrestImg"
-                alt="Wedding Monogram Crest S&R"
-                class="couple-crest-img"
-              />
-            </div>
-            <div class="couple-side bride-side">
-              <span class="couple-role">{{ invitation.brideRole }}</span>
-              <span class="couple-name">{{ invitation.brideName }}</span>
-            </div>
-          </div>
-
-          <!-- Wedding Date & Venue Section -->
-          <div class="event-schedule-section">
-            <p class="lunar-date">{{ invitation.lunarDate }}</p>
-            <p class="solar-date">{{ invitation.solarDate }}</p>
-            <div class="schedule-divider">
-              <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
-            </div>
-            <p class="reception-time">{{ invitation.receptionTime }}</p>
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="action-btn">
+              <img :src="btnCalendar" alt="Calendar" class="action-icon" />
+            </button>
+            <button class="action-btn">
+              <img :src="btnLocation" alt="Location" class="action-icon" />
+            </button>
+            <button class="action-btn">
+              <img :src="btnGallery" alt="Gallery" class="action-icon" />
+            </button>
+            <button class="action-btn">
+              <img :src="btnWishes" alt="Wishes" class="action-icon" />
+            </button>
           </div>
         </div>
       </div>
@@ -264,6 +332,97 @@ import lotusTallImg from '@/assets/lotus-tall-transparent.png'
 import lotus3Img from '@/assets/lotus-3-transparent.png'
 import weddingCoupleImg from '@/assets/wedding-couple-2-transparent.png'
 import invitation from '@/config/invitation.js'
+import btnCalendar from '@/assets/items/btn_calendar.svg'
+import btnLocation from '@/assets/items/btn_location.svg'
+import btnGallery from '@/assets/items/btn_gallery.svg'
+import btnWishes from '@/assets/items/btn_wishes.svg'
+
+import iconWelcome from '@/assets/items/agenda_01_welcome.webp'
+import iconFruit from '@/assets/items/agenda_02_fruit.webp'
+import iconHall from '@/assets/items/agenda_03_hall.webp'
+import iconMonks from '@/assets/items/agenda_05_monks.webp'
+import iconHaircut from '@/assets/items/agenda_06_haircut.webp'
+import iconThread from '@/assets/items/agenda_07_thread.webp'
+import iconLunch from '@/assets/items/agenda_08_lunch.webp'
+import iconBanquet from '@/assets/items/agenda_09_banquet.webp'
+
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const agendaIcons = {
+  welcome: iconWelcome,
+  fruit: iconFruit,
+  hall: iconHall,
+  monks: iconMonks,
+  haircut: iconHaircut,
+  thread: iconThread,
+  lunch: iconLunch,
+  banquet: iconBanquet
+}
+
+const timeLeft = ref({
+  days: 0,
+  hours: 0,
+  mins: 0,
+  secs: 0
+});
+
+const toKhmerNumber = (numStr) => {
+  const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+  return String(numStr).replace(/\d/g, (d) => khmerDigits[d]);
+};
+
+let timerInterval = null;
+let observer = null;
+const isCoverInView = ref(true);
+const isAgendaInView = ref(false);
+
+const updateCountdown = () => {
+  if (!invitation.targetDate) return;
+  const targetTime = new Date(invitation.targetDate).getTime();
+  const now = new Date().getTime();
+  const diff = targetTime - now;
+
+  if (diff > 0) {
+    timeLeft.value = {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+      mins: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+      secs: Math.floor((diff % (1000 * 60)) / 1000)
+    };
+  } else {
+    timeLeft.value = { days: 0, hours: 0, mins: 0, secs: 0 };
+    if (timerInterval) clearInterval(timerInterval);
+  }
+};
+
+onMounted(() => {
+  updateCountdown();
+  timerInterval = setInterval(updateCountdown, 1000);
+
+  const coverEl = document.getElementById('page-cover');
+  const agendaEl = document.getElementById('page-agenda');
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.target.id === 'page-cover') {
+        isCoverInView.value = entry.isIntersecting;
+      }
+      if (entry.target.id === 'page-agenda') {
+        isAgendaInView.value = entry.isIntersecting;
+      }
+    });
+  }, { 
+    root: document.querySelector('.invitation-card'),
+    threshold: 0.25 
+  });
+
+  if (coverEl) observer.observe(coverEl);
+  if (agendaEl) observer.observe(agendaEl);
+});
+
+onUnmounted(() => {
+  if (timerInterval) clearInterval(timerInterval);
+  if (observer) observer.disconnect();
+});
 </script>
 
 <style scoped>
@@ -294,7 +453,7 @@ import invitation from '@/config/invitation.js'
 }
 
 .main-bg-img {
-  width: 100%;
+  width: 103%;
   height: 100%;
   object-fit: cover;
   object-position: center;
@@ -303,7 +462,7 @@ import invitation from '@/config/invitation.js'
 
 /* Layered Elements */
 .layer-img {
-  width: 100%;
+  width: 96%;
   height: auto;
   display: block;
   pointer-events: none;
@@ -750,33 +909,196 @@ import invitation from '@/config/invitation.js'
 /* 6. Wedding Invitation Card Overlay & Typography */
 .invitation-overlay {
   position: absolute;
-  top: 18%;
-  bottom: 3%;
+  top: 0%;
+  bottom: 0%;
   left: 4.5%;
   right: 4.5%;
   z-index: 8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.invitation-overlay::-webkit-scrollbar {
-  display: none;
 }
 
 .invitation-card {
   width: 100%;
   background: transparent;
-  padding: 8px 4px;
   box-sizing: border-box;
   text-align: center;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  /* Mask to fade out text slowly as it approaches the top (30px) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 10px, black 30px, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 10px, black 30px, black 100%);
+}
+
+.snap-page {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.page-content-wrapper {
+  padding: 18vh 4px 150px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 7px;
+}
+
+.agenda-page-content {
+  padding-top: 10vh; /* customized padding for agenda page to center it better */
+}
+
+.invitation-card::-webkit-scrollbar {
+  display: none;
+}
+
+/* Luxury Staggered Scroll Entrance Transitions (V2 Style) */
+.anim-item, .anim-cover-item, .countdown-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+}
+
+.section-animate-in .anim-item,
+.section-animate-in .anim-cover-item,
+.section-animate-in .countdown-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Parallel Cascading Delays for Cover Section */
+.section-animate-in .invitation-heading { transition-delay: 0.1s; }
+.section-animate-in .parents-row { transition-delay: 0.3s; }
+.section-animate-in .honor-invite-section { transition-delay: 0.5s; }
+.section-animate-in .couple-section { transition-delay: 0.7s; }
+.section-animate-in .event-schedule-section { transition-delay: 0.9s; }
+
+.section-animate-in .countdown-item:nth-child(1) { transition-delay: 1.1s; }
+.section-animate-in .countdown-item:nth-child(2) { transition-delay: 1.25s; }
+.section-animate-in .countdown-item:nth-child(3) { transition-delay: 1.4s; }
+.section-animate-in .countdown-item:nth-child(4) { transition-delay: 1.55s; }
+
+.agenda-section {
+  width: 100%;
+}
+
+.anim-item {
+  opacity: 0;
+}
+.section-animate-in .anim-item {
+  animation: slideDownFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.section-title {
+  font-family: 'Moul', cursive;
+  font-size: 18px;
+  color: #835b12;
+  margin-bottom: 20px;
+  text-shadow: 0 0 2px #ffffff;
+}
+.agenda-day {
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.agenda-day-title {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 14px;
+  color: #435249;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.agenda-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+.agenda-timeline::before {
+  content: '';
+  position: absolute;
+  left: 75px;
+  top: 5px;
+  bottom: 5px;
+  width: 1px;
+  background: rgba(131, 91, 18, 0.3);
+}
+.agenda-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+}
+.agenda-time {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 12px;
+  color: #835b12;
+  font-weight: 700;
+  width: 65px;
+  text-align: right;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.agenda-dot {
+  width: 7px;
+  height: 7px;
+  background: #835b12;
+  border-radius: 50%;
+  margin-top: 5px;
+  z-index: 1;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+}
+.agenda-content {
+  flex: 1;
+  padding: 2px 0px 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.agenda-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.agenda-item-title {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 12px;
+  color: #435249;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.fixed-bottom-actions {
+  position: absolute;
+  bottom: 3%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 8px;
+  z-index: 10;
+  transform: translateY(20px);
 }
 
 .monogram-badge {
@@ -988,6 +1310,126 @@ import invitation from '@/config/invitation.js'
   text-align: center;
   max-width: 96%;
   text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1);
+}
+
+.countdown-section {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(184, 135, 40, 0.4);
+  border-radius: 8px;
+  padding: 6px 10px;
+  min-width: 45px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(2px);
+}
+
+.countdown-value {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #835b12;
+  text-shadow: 0 0 2px #ffffff;
+}
+
+.countdown-label {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 10px;
+  color: #435249;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.scroll-up-hint {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+  color: #835b12;
+  animation: bounceHint 2s infinite;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.chevrons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 20px;
+}
+
+.chevron {
+  height: 14px;
+  margin-top: -6px;
+}
+
+.scroll-up-text {
+  font-family: 'Kantumruy Pro', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+@keyframes bounceHint {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.action-btn {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  background: linear-gradient(145deg, #43524938 0%, #43524947 100%);
+  border: 1.5px solid #835b128c;
+  border-radius: clamp(14px, 3.8vw, 18px);
+  outline: none;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: clamp(52px, 15.5vw, 68px);
+  height: clamp(44px, 13vw, 56px);
+  margin: 0;
+  padding: 0;
+  transition: transform .22s cubic-bezier(.34, 1.56, .64, 1), box-shadow .22s, background-color .22s;
+  display: flex;
+  box-shadow: 0 4px 12px #4352492e, inset 0 1px 1.5px #fff6;
+}
+
+.action-btn:active {
+  transform: scale(0.9);
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .left-roses-bouquet {
