@@ -322,10 +322,22 @@ import invitation from '@/config/invitation.js'
   background: linear-gradient(to bottom, rgba(160, 130, 60, 0.7), rgba(212, 175, 55, 0.9));
 }
 
+/* Anti-culling extension: prevents mobile browsers from hiding lamps positioned with negative top */
+.pendant-lamp::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 250px;
+  background: transparent;
+  pointer-events: none;
+}
+
 /* Left Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-left-warm-1 {
   top: -15.5%;
-  left: 7.0%;
+  left: 4.5%;
   width: 10.5%;
   z-index: 4;
   animation: swayLeftToRight 5.8s ease-in-out infinite alternate -1.4s;
@@ -366,7 +378,7 @@ import invitation from '@/config/invitation.js'
 /* Right Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-right-warm-1 {
   top: -15.5%;
-  right: 7.0%;
+  right: 4.5%;
   width: 10.5%;
   z-index: 4;
   animation: swayRightToLeft 6.0s ease-in-out infinite alternate -2.7s;
