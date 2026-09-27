@@ -234,6 +234,11 @@
       <div class="extra-flower lotus-right">
         <img :src="lotusImg" alt="Lotus Right" class="roses-img" />
       </div>
+      
+      <!-- New Lotus Next to Tall Right -->
+      <div class="extra-flower lotus-3-right">
+        <img :src="lotus3Img" alt="Lotus 3 Right" class="roses-img" />
+      </div>
     </div>
   </div>
 </template>
@@ -249,6 +254,7 @@ import goldDividerImg from '@/assets/items/gold-wedding-divider.png'
 import flower2Img from '@/assets/flower-2-transparent.png'
 import lotusImg from '@/assets/lotus-transparent.png'
 import lotusTallImg from '@/assets/lotus-tall-transparent.png'
+import lotus3Img from '@/assets/lotus-3-transparent.png'
 import invitation from '@/config/invitation.js'
 </script>
 
@@ -1128,6 +1134,19 @@ import invitation from '@/config/invitation.js'
 .lotus-right .roses-img {
     transform: rotate(355deg);
     filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
+}
+
+.lotus-3-right {
+    right: 42%;
+    bottom: -2%;
+    width: 18%;
+    z-index: 6;
+    animation: swayFlowerRight 6s ease-in-out infinite alternate -1s;
+}
+
+.lotus-3-right .roses-img {
+    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.05) saturate(0.35) brightness(1.05) contrast(0.95);
+    transform: rotate(350deg);
 }
 
 .roses-img,
