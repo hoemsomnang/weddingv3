@@ -235,6 +235,11 @@
         <img :src="lotusImg" alt="Lotus Right" class="roses-img" />
       </div>
       
+      <!-- Wedding Couple -->
+      <div class="wedding-couple-layer">
+        <img :src="weddingCoupleImg" alt="Wedding Couple" class="wedding-couple-img" />
+      </div>
+      
       <!-- New Lotus Next to Tall Right -->
       <div class="extra-flower lotus-3-right">
         <img :src="lotus3Img" alt="Lotus 3 Right" class="roses-img" />
@@ -255,6 +260,7 @@ import flower2Img from '@/assets/flower-2-transparent.png'
 import lotusImg from '@/assets/lotus-transparent.png'
 import lotusTallImg from '@/assets/lotus-tall-transparent.png'
 import lotus3Img from '@/assets/lotus-3-transparent.png'
+import weddingCoupleImg from '@/assets/wedding-couple-2-transparent.png'
 import invitation from '@/config/invitation.js'
 </script>
 
@@ -1142,6 +1148,24 @@ import invitation from '@/config/invitation.js'
 
 .lotus-3-right .roses-img {
     transform: rotate(350deg);
+}
+
+.wedding-couple-layer {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 1%;
+    width: 60%;
+    z-index: 0;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+}
+
+.wedding-couple-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.1) saturate(0.8) brightness(0.95) blur(0.8px);
 }
 
 .roses-img,
