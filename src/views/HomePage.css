@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d0414;
+  background: #caa044;
   padding: 12px;
   box-sizing: border-box;
   overflow: hidden;
@@ -606,7 +606,7 @@
     width: 100vw;
     height: 100dvh;
     box-sizing: border-box;
-    background: #0d0414;
+    background: #caa044;
   }
   .envelope-scene {
     width: min(calc(100vw - 24px), calc((100dvh - 24px) * 9 / 16));

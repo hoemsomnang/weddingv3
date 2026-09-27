@@ -172,7 +172,7 @@ import curtainOverlayImg from '@/assets/curtain-open-step2-parting-transparent.p
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 15px 40px rgba(50, 35, 5, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.6);
-  background-color: #0d0414;
+  background-color: #caa044;
 }
 
 /* Camera Zoom Stage: Zooms in till wedding-throne-chairs then zooms out slowly back */

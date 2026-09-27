@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0d0414;
+  background: #caa044;
   user-select: none;
   perspective: 1200px;
 }

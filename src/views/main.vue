@@ -247,7 +247,7 @@ import invitation from '@/config/invitation.js'
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d0414;
+  background: #caa044;
   padding: 12px;
   box-sizing: border-box;
   overflow: hidden;
@@ -293,7 +293,7 @@ import invitation from '@/config/invitation.js'
   pointer-events: none;
   transform-origin: 50% 0%;
   will-change: transform;
-  animation: swayChandelier 7.5s ease-in-out infinite alternate;
+  animation: swayChandelier 7.5s ease-in-out infinite alternate -2.5s;
 }
 
 .chandelier-img {
@@ -324,11 +324,11 @@ import invitation from '@/config/invitation.js'
 
 /* Left Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-left-warm-1 {
-  top: -15.5%;
+  top: -10.5%;
   left: 4.5%;
   width: 10.5%;
   z-index: 4;
-  animation: swayLeftToRight 5.8s ease-in-out infinite alternate;
+  animation: swayLeftToRight 5.8s ease-in-out infinite alternate -1.4s;
 }
 
 .lamp-left-green-1 {
@@ -336,7 +336,7 @@ import invitation from '@/config/invitation.js'
   left: 1.0%;
   width: 10.5%;
   z-index: 5;
-  animation: swayRightToLeft 6.4s ease-in-out infinite alternate 0.5s;
+  animation: swayRightToLeft 6.4s ease-in-out infinite alternate -3.2s;
 }
 
 .lamp-left-warm-2 {
@@ -344,7 +344,7 @@ import invitation from '@/config/invitation.js'
   left: 12.0%;
   width: 10.5%;
   z-index: 4;
-  animation: swayLeftToRight 7.1s ease-in-out infinite alternate 1.2s;
+  animation: swayLeftToRight 7.1s ease-in-out infinite alternate -4.5s;
 }
 
 .lamp-left-green-2 {
@@ -352,7 +352,7 @@ import invitation from '@/config/invitation.js'
   left: 6.0%;
   width: 10.5%;
   z-index: 6;
-  animation: swayRightToLeft 5.6s ease-in-out infinite alternate 0.8s;
+  animation: swayRightToLeft 5.6s ease-in-out infinite alternate -2.1s;
 }
 
 .lamp-left-green-3 {
@@ -360,16 +360,16 @@ import invitation from '@/config/invitation.js'
   left: -1.0%;
   width: 10.5%;
   z-index: 7;
-  animation: swayLeftToRight 6.8s ease-in-out infinite alternate 0.3s;
+  animation: swayLeftToRight 6.8s ease-in-out infinite alternate -0.9s;
 }
 
 /* Right Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-right-warm-1 {
-  top: -15.5%;
+  top: -10.5%;
   right: 4.5%;
   width: 10.5%;
   z-index: 4;
-  animation: swayRightToLeft 6.0s ease-in-out infinite alternate 0.4s;
+  animation: swayRightToLeft 6.0s ease-in-out infinite alternate -2.7s;
 }
 
 .lamp-right-green-1 {
@@ -377,7 +377,7 @@ import invitation from '@/config/invitation.js'
   right: 1.0%;
   width: 10.5%;
   z-index: 5;
-  animation: swayLeftToRight 6.6s ease-in-out infinite alternate 1.0s;
+  animation: swayLeftToRight 6.6s ease-in-out infinite alternate -4.0s;
 }
 
 .lamp-right-warm-2 {
@@ -385,7 +385,7 @@ import invitation from '@/config/invitation.js'
   right: 12.0%;
   width: 10.5%;
   z-index: 4;
-  animation: swayRightToLeft 5.7s ease-in-out infinite alternate 0.2s;
+  animation: swayRightToLeft 5.7s ease-in-out infinite alternate -1.8s;
 }
 
 .lamp-right-green-2 {
@@ -393,7 +393,7 @@ import invitation from '@/config/invitation.js'
   right: 6.0%;
   width: 10.5%;
   z-index: 6;
-  animation: swayLeftToRight 7.0s ease-in-out infinite alternate 0.7s;
+  animation: swayLeftToRight 7.0s ease-in-out infinite alternate -3.5s;
 }
 
 .lamp-right-green-3 {
@@ -401,7 +401,7 @@ import invitation from '@/config/invitation.js'
   right: -1.0%;
   width: 10.5%;
   z-index: 7;
-  animation: swayRightToLeft 6.3s ease-in-out infinite alternate 1.4s;
+  animation: swayRightToLeft 6.3s ease-in-out infinite alternate -5.1s;
 }
 
 /* Sway Animations: Left to Right & Right to Left */
@@ -478,18 +478,18 @@ import invitation from '@/config/invitation.js'
   }
 }
 
-/* Staggered flame flickering delays */
-.lamp-left-warm-1 .lamp-flame { animation-delay: 0.1s; }
-.lamp-left-green-1 .lamp-flame { animation-delay: 0.4s; }
-.lamp-left-warm-2 .lamp-flame { animation-delay: 0.9s; }
-.lamp-left-green-2 .lamp-flame { animation-delay: 0.2s; }
-.lamp-left-green-3 .lamp-flame { animation-delay: 0.7s; }
+/* Staggered flame flickering delays (negative delays for immediate smooth rendering) */
+.lamp-left-warm-1 .lamp-flame { animation-delay: -0.2s; }
+.lamp-left-green-1 .lamp-flame { animation-delay: -0.7s; }
+.lamp-left-warm-2 .lamp-flame { animation-delay: -1.3s; }
+.lamp-left-green-2 .lamp-flame { animation-delay: -0.4s; }
+.lamp-left-green-3 .lamp-flame { animation-delay: -1.0s; }
 
-.lamp-right-warm-1 .lamp-flame { animation-delay: 0.3s; }
-.lamp-right-green-1 .lamp-flame { animation-delay: 0.8s; }
-.lamp-right-warm-2 .lamp-flame { animation-delay: 0.5s; }
-.lamp-right-green-2 .lamp-flame { animation-delay: 1.1s; }
-.lamp-right-green-3 .lamp-flame { animation-delay: 0.6s; }
+.lamp-right-warm-1 .lamp-flame { animation-delay: -0.5s; }
+.lamp-right-green-1 .lamp-flame { animation-delay: -1.1s; }
+.lamp-right-warm-2 .lamp-flame { animation-delay: -0.8s; }
+.lamp-right-green-2 .lamp-flame { animation-delay: -1.5s; }
+.lamp-right-green-3 .lamp-flame { animation-delay: -0.3s; }
 
 /* 5. Flying Butterflies Layer */
 .flying-butterflies-layer {
@@ -535,22 +535,22 @@ import invitation from '@/config/invitation.js'
 /* Butterfly Sizes & Flight Assignments */
 .b1 {
   width: 32px;
-  animation: flyButterfly1 16s ease-in-out infinite;
+  animation: flyButterfly1 16s ease-in-out infinite -2s;
 }
 
 .b2 {
   width: 28px;
-  animation: flyButterfly2 18s ease-in-out infinite 3s;
+  animation: flyButterfly2 18s ease-in-out infinite -7s;
 }
 
 .b3 {
   width: 36px;
-  animation: flyButterfly3 15s ease-in-out infinite 7s;
+  animation: flyButterfly3 15s ease-in-out infinite -11s;
 }
 
 .b4 {
   width: 24px;
-  animation: flyButterfly4 21s ease-in-out infinite 5s;
+  animation: flyButterfly4 21s ease-in-out infinite -4s;
 }
 
 /* Flight Path 1: Dances around left floral pillar and swoops up to arch */
