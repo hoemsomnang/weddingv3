@@ -227,7 +227,7 @@
 </template>
 
 <script setup>
-import backdropImg from '@/assets/sage-wedding-backdrop.jpg'
+import backdropImg from '@/assets/sage-wedding-backdrop-symmetric.jpg'
 import peoniesGarlandImg from '@/assets/items/white-peonies-garland-transparent.png'
 import pendantGreenImg from '@/assets/items/pendant-lamp-green-transparent.png'
 import pendantWarmImg from '@/assets/items/pendant-lamp-warm-transparent.png'
