@@ -219,12 +219,27 @@
       <div class="extra-flower flower-4">
         <img :src="flower2Img" alt="Flower 2 Extra Right" class="roses-img" />
       </div>
+      
+      <!-- Lotus Flowers -->
+      <div class="extra-flower lotus-tall-left">
+        <img :src="lotusTallImg" alt="Lotus Tall Left" class="roses-img" />
+      </div>
+      <div class="extra-flower lotus-left">
+        <img :src="lotusImg" alt="Lotus Left" class="roses-img" />
+      </div>
+      
+      <div class="extra-flower lotus-tall-right">
+        <img :src="lotusTallImg" alt="Lotus Tall Right" class="roses-img" />
+      </div>
+      <div class="extra-flower lotus-right">
+        <img :src="lotusImg" alt="Lotus Right" class="roses-img" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import backdropImg from '@/assets/sage-wedding-backdrop-symmetric.jpg'
+import backdropImg from '@/assets/sage-wedding-backdrop.with-lamps.jpg'
 import pendantGreenImg from '@/assets/items/pendant-lamp-green-transparent.png'
 import pendantWarmImg from '@/assets/items/pendant-lamp-warm-transparent.png'
 import tieredChandelierImg from '@/assets/items/tiered-crystal-chandelier-transparent.png'
@@ -232,6 +247,8 @@ import butterflyImg from '@/assets/items/wedding-butterfly.svg'
 import monogramCrestImg from '@/assets/wedding_monogram_crest_sr_trans.webp'
 import goldDividerImg from '@/assets/items/gold-wedding-divider.png'
 import flower2Img from '@/assets/flower-2-transparent.png'
+import lotusImg from '@/assets/lotus-transparent.png'
+import lotusTallImg from '@/assets/lotus-tall-transparent.png'
 import invitation from '@/config/invitation.js'
 </script>
 
@@ -1061,6 +1078,52 @@ import invitation from '@/config/invitation.js'
 @keyframes swayFlowerRight2 {
   0% { transform: rotate(-5deg); }
   100% { transform: rotate(-1deg); }
+}
+
+.lotus-tall-left {
+    left: 28%;
+    bottom: -2%;
+    width: 20%;
+    z-index: 4;
+    animation: swayFlowerLeft 6.5s ease-in-out infinite alternate -0.5s;
+}
+
+.lotus-tall-left .roses-img {
+    transform: scaleX(-1) rotate(5deg);
+}
+
+.lotus-left {
+    left: 30%;
+    bottom: -2%;
+    width: 15%;
+    z-index: 5;
+}
+
+.lotus-left .roses-img {
+    transform: scaleX(-1) rotate(15deg);
+}
+
+.lotus-tall-right {
+    right: 28%;
+    bottom: -2%;
+    width: 20%;
+    z-index: 4;
+    animation: swayFlowerRight 6.5s ease-in-out infinite alternate -1s;
+}
+
+.lotus-tall-right .roses-img {
+    transform: rotate(-5deg);
+}
+
+.lotus-right {
+    right: 30%;
+    bottom: -2%;
+    width: 15%;
+    z-index: 5;
+}
+
+.lotus-right .roses-img {
+    transform: rotate(355deg);
 }
 
 .roses-img,
