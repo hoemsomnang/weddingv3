@@ -325,7 +325,7 @@ import invitation from '@/config/invitation.js'
 /* Left Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-left-warm-1 {
   top: -10.5%;
-  left: 4.5%;
+  left: 7.0%;
   width: 10.5%;
   z-index: 4;
   animation: swayLeftToRight 5.8s ease-in-out infinite alternate -1.4s;
@@ -333,7 +333,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-left-green-1 {
   top: -11.5%;
-  left: 1.0%;
+  left: 3.5%;
   width: 10.5%;
   z-index: 5;
   animation: swayRightToLeft 6.4s ease-in-out infinite alternate -3.2s;
@@ -341,7 +341,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-left-warm-2 {
   top: -7.0%;
-  left: 12.0%;
+  left: 14.0%;
   width: 10.5%;
   z-index: 4;
   animation: swayLeftToRight 7.1s ease-in-out infinite alternate -4.5s;
@@ -349,7 +349,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-left-green-2 {
   top: -3.5%;
-  left: 6.0%;
+  left: 8.5%;
   width: 10.5%;
   z-index: 6;
   animation: swayRightToLeft 5.6s ease-in-out infinite alternate -2.1s;
@@ -357,7 +357,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-left-green-3 {
   top: 0%;
-  left: -1.0%;
+  left: 1.8%;
   width: 10.5%;
   z-index: 7;
   animation: swayLeftToRight 6.8s ease-in-out infinite alternate -0.9s;
@@ -366,7 +366,7 @@ import invitation from '@/config/invitation.js'
 /* Right Lamps Arrangement (Matches sage-wedding-backdrop.with-lamps.jpg: 3 green, 2 warm) */
 .lamp-right-warm-1 {
   top: -10.5%;
-  right: 4.5%;
+  right: 7.0%;
   width: 10.5%;
   z-index: 4;
   animation: swayRightToLeft 6.0s ease-in-out infinite alternate -2.7s;
@@ -374,7 +374,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-right-green-1 {
   top: -11.5%;
-  right: 1.0%;
+  right: 3.5%;
   width: 10.5%;
   z-index: 5;
   animation: swayLeftToRight 6.6s ease-in-out infinite alternate -4.0s;
@@ -382,7 +382,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-right-warm-2 {
   top: -7.0%;
-  right: 12.0%;
+  right: 14.0%;
   width: 10.5%;
   z-index: 4;
   animation: swayRightToLeft 5.7s ease-in-out infinite alternate -1.8s;
@@ -390,7 +390,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-right-green-2 {
   top: -3.5%;
-  right: 6.0%;
+  right: 8.5%;
   width: 10.5%;
   z-index: 6;
   animation: swayLeftToRight 7.0s ease-in-out infinite alternate -3.5s;
@@ -398,7 +398,7 @@ import invitation from '@/config/invitation.js'
 
 .lamp-right-green-3 {
   top: 0%;
-  right: -1.0%;
+  right: 1.8%;
   width: 10.5%;
   z-index: 7;
   animation: swayRightToLeft 6.3s ease-in-out infinite alternate -5.1s;
