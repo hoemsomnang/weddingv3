@@ -17,7 +17,9 @@
           playsinline 
           muted
           @ended="onVideoEnded"
-          :style="{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: showVideoScreen ? 1 : 0, transition: 'opacity 0.4s ease' }"
+          @timeupdate="onVideoTimeUpdate"
+          @click.stop="skipVideo"
+          :style="{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: showVideoScreen ? 1 : 0, transition: 'opacity 0.4s ease', cursor: 'pointer' }"
         ></video>
       </div>
 
@@ -97,12 +99,15 @@
     </button>
 
     <!-- ═══════════════════════════════════════════════
-         MAIN INVITATION (fades in after envelope opens)
+         MAIN INVITATION (emerges from palace door)
     ════════════════════════════════════════════════ -->
-    <Transition name="main-fade">
-      <div v-if="showInvitation" class="main-on-top">
+    <Transition name="door-emerge">
+      <div v-if="showInvitation" class="main-on-top" :class="{ 'is-door-emerging': isEmergingFromDoor }">
 
         <div class="main-page">
+          <!-- Golden radiance aura bursting from the palace doors -->
+          <div v-if="isEmergingFromDoor" class="door-light-radiance"></div>
+
           <div class="main-screen">
             <!-- 1. Fullscreen Base Backdrop -->
             <img :src="backdropImg" alt="Sage Wedding Backdrop" class="main-bg-img" />
@@ -297,6 +302,8 @@ const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
 const isCoverInView = ref(true)
 const isAgendaInView = ref(false)
 const previewVideoRef = ref(null)
+const isEmergingFromDoor = ref(false)
+let doorTransitionTimer = null
 let timerInterval = null
 let observer = null
 
@@ -310,21 +317,12 @@ const scrollToNextPage = () => {
   if (container) container.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
 }
 
-const onVideoEnded = () => {
-  showVideoScreen.value = false
-  showInvitation.value = true
-  
-  // Start countdown & observer after main page shows
-  updateCountdown()
-  if (timerInterval) clearInterval(timerInterval)
-  timerInterval = setInterval(updateCountdown, 1000)
-
-  // Wait for the main page to render, then setup intersection observer
+const setupScrollObserver = () => {
   setTimeout(() => {
     const agendaEl = document.getElementById('page-agenda')
     const coverEl = document.getElementById('page-cover')
     
-    // Setup intersection observer
+    if (observer) observer.disconnect()
     observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
@@ -333,13 +331,51 @@ const onVideoEnded = () => {
     }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
     if (coverEl) observer.observe(coverEl)
     if (agendaEl) observer.observe(agendaEl)
-  }, 100)
+  }, 150)
 }
 
-const skipVideo = () => {
+const onVideoTimeUpdate = () => {
+  if (!previewVideoRef.value) return
+
+  // Trigger door emergence when video reaches 10.00s
+  if (previewVideoRef.value.currentTime >= 10.00 && showVideoScreen.value && !showInvitation.value) {
+    showInvitation.value = true
+    isEmergingFromDoor.value = true
+
+    updateCountdown()
+    if (timerInterval) clearInterval(timerInterval)
+    timerInterval = setInterval(updateCountdown, 1000)
+    setupScrollObserver()
+
+    // Video plays as doors open and card emerges from door
+    if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
+    doorTransitionTimer = setTimeout(() => {
+      if (previewVideoRef.value) {
+        previewVideoRef.value.pause()
+      }
+      showVideoScreen.value = false
+      isEmergingFromDoor.value = false
+    }, 1400)
+  }
+}
+
+const onVideoEnded = () => {
+  if (!showVideoScreen.value && showInvitation.value) return
+  if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
   if (previewVideoRef.value) {
     previewVideoRef.value.pause()
   }
+  showVideoScreen.value = false
+  showInvitation.value = true
+  isEmergingFromDoor.value = false
+  
+  updateCountdown()
+  if (timerInterval) clearInterval(timerInterval)
+  timerInterval = setInterval(updateCountdown, 1000)
+  setupScrollObserver()
+}
+
+const skipVideo = () => {
   onVideoEnded()
 }
 
@@ -437,7 +473,7 @@ const openCover = async () => {
       // Skip video entirely on subsequent opens
       showInvitation.value = true
       updateCountdown()
-      startScrollObserver()
+      setupScrollObserver()
     }
 
   } catch (err) {
@@ -465,6 +501,7 @@ const returnToCover = () => {
 }
 
 const toggleEnvelope = () => {
+  if (showVideoScreen.value || showInvitation.value) return
   if (isOpen.value) {
     isReturning.value = true
     isOpen.value = false
@@ -479,6 +516,7 @@ const toggleEnvelope = () => {
 
 onUnmounted(() => {
   if (timerInterval) clearInterval(timerInterval)
+  if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
   if (observer) observer.disconnect()
 })
 </script>
