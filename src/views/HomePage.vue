@@ -316,8 +316,10 @@ const onVideoEnded = () => {
 
   // Wait for the main page to render, then setup intersection observer
   setTimeout(() => {
-    // Setup intersection observer
+    const agendaEl = document.getElementById('page-agenda')
     const coverEl = document.getElementById('page-cover')
+    
+    // Setup intersection observer
     observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
