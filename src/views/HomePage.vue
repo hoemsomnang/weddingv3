@@ -10,7 +10,15 @@
       @click="toggleEnvelope"
     >
       <!-- 1. Envelope Back Wall -->
-      <div class="envelope-back"></div>
+      <div class="envelope-back">
+        <video 
+          ref="previewVideoRef" 
+          src="/video/preview_video.mp4" 
+          playsinline 
+          @ended="onVideoEnded"
+          :style="{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: showVideoScreen ? 1 : 0, transition: 'opacity 0.4s ease' }"
+        ></video>
+      </div>
 
       <!-- 2. Lower Envelope Body -->
       <div class="envelope-pocket-wrapper">
@@ -168,7 +176,9 @@
                   </div>
                 </section>
 
-                <!-- PAGE 2: Agenda Section -->
+
+
+                <!-- PAGE 3: Agenda Section -->
                 <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
                   <div class="page-content-wrapper agenda-page-content">
                     <h2 class="section-title anim-item" style="transition-delay: 0.1s">{{ invitation.agendaTitle }}</h2>
@@ -211,10 +221,9 @@
             <div class="wedding-couple-layer">
               <img :src="weddingCoupleImg" alt="Wedding Couple" class="wedding-couple-img" />
             </div>
+            </div>
           </div>
         </div>
-
-      </div>
     </Transition>
 
   </div>
@@ -263,6 +272,7 @@ const isReturning = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 const showInvitation = ref(false)
+const showVideoScreen = ref(false)
 let currentGlideAnim = null
 let returnTimer = null
 
@@ -275,6 +285,7 @@ const agendaIcons = { welcome: iconWelcome, fruit: iconFruit, hall: iconHall, mo
 const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
 const isCoverInView = ref(true)
 const isAgendaInView = ref(false)
+const previewVideoRef = ref(null)
 let timerInterval = null
 let observer = null
 
@@ -286,6 +297,42 @@ const toKhmerNumber = (numStr) => {
 const scrollToNextPage = () => {
   const container = document.querySelector('.invitation-card')
   if (container) container.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
+}
+
+const onVideoEnded = () => {
+  showVideoScreen.value = false
+  showInvitation.value = true
+  
+  // Start countdown & observer after main page shows
+  updateCountdown()
+  if (timerInterval) clearInterval(timerInterval)
+  timerInterval = setInterval(updateCountdown, 1000)
+
+  // Wait for the main page to render, then auto-scroll to agenda
+  setTimeout(() => {
+    const agendaEl = document.getElementById('page-agenda')
+    if (agendaEl) {
+      agendaEl.scrollIntoView({ behavior: 'smooth' })
+    }
+    
+    // Setup intersection observer
+    const coverEl = document.getElementById('page-cover')
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
+      })
+    }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
+    if (coverEl) observer.observe(coverEl)
+    if (agendaEl) observer.observe(agendaEl)
+  }, 100)
+}
+
+const skipVideo = () => {
+  if (previewVideoRef.value) {
+    previewVideoRef.value.pause()
+  }
+  onVideoEnded()
 }
 
 const updateCountdown = () => {
@@ -310,6 +357,13 @@ const openCover = async () => {
   isReturning.value = false
   clearTimeout(returnTimer)
   isAnimatingCover.value = true
+
+  // Ensure video can play by starting it synchronously with the click
+  if (previewVideoRef.value) {
+    previewVideoRef.value.play().catch(() => {}).then(() => {
+      previewVideoRef.value.pause();
+    })
+  }
 
   const coverSealEl = coverSealBoxRef.value
   const targetSealEl = envelopeSealRef.value
@@ -346,25 +400,13 @@ const openCover = async () => {
     await new Promise(resolve => setTimeout(resolve, 450))
     isOpen.value = true
 
-    // Show invitation after envelope fully opens — never hides again
-    await new Promise(resolve => setTimeout(resolve, 600))
-    showInvitation.value = true
-
-    // Start countdown & observer after invitation shows
-    updateCountdown()
-    timerInterval = setInterval(updateCountdown, 1000)
-
-    await new Promise(resolve => setTimeout(resolve, 100))
-    const coverEl = document.getElementById('page-cover')
-    const agendaEl = document.getElementById('page-agenda')
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
-        if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
-      })
-    }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
-    if (coverEl) observer.observe(coverEl)
-    if (agendaEl) observer.observe(agendaEl)
+    // Show video shortly after envelope starts opening
+    await new Promise(resolve => setTimeout(resolve, 800))
+    showVideoScreen.value = true
+    
+    if (previewVideoRef.value) {
+      previewVideoRef.value.play().catch(e => console.log('Autoplay prevented', e))
+    }
 
   } catch (err) {
     isCoverOpen.value = true
