@@ -13,8 +13,9 @@
       <div class="envelope-back">
         <video 
           ref="previewVideoRef" 
-          src="/video/preview_video.mp4" 
+          src="/video/preview_video_compressed.mp4" 
           playsinline 
+          muted
           @ended="onVideoEnded"
           :style="{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: showVideoScreen ? 1 : 0, transition: 'opacity 0.4s ease' }"
         ></video>
@@ -273,6 +274,7 @@ import './HomePage.css'
 const isCoverOpen = ref(false)
 const isOpen = ref(false)
 const isReturning = ref(false)
+const hasPlayedVideo = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 const showInvitation = ref(false)
@@ -312,13 +314,8 @@ const onVideoEnded = () => {
   if (timerInterval) clearInterval(timerInterval)
   timerInterval = setInterval(updateCountdown, 1000)
 
-  // Wait for the main page to render, then auto-scroll to agenda
+  // Wait for the main page to render, then setup intersection observer
   setTimeout(() => {
-    const agendaEl = document.getElementById('page-agenda')
-    if (agendaEl) {
-      agendaEl.scrollIntoView({ behavior: 'smooth' })
-    }
-    
     // Setup intersection observer
     const coverEl = document.getElementById('page-cover')
     observer = new IntersectionObserver((entries) => {
@@ -363,7 +360,7 @@ const openCover = async () => {
   isAnimatingCover.value = true
 
   // Ensure video can play by starting it synchronously with the click
-  if (previewVideoRef.value) {
+  if (previewVideoRef.value && !hasPlayedVideo.value) {
     previewVideoRef.value.play().catch(() => {}).then(() => {
       previewVideoRef.value.pause();
     })
@@ -404,12 +401,21 @@ const openCover = async () => {
     await new Promise(resolve => setTimeout(resolve, 450))
     isOpen.value = true
 
-    // Show video shortly after envelope starts opening
-    await new Promise(resolve => setTimeout(resolve, 800))
-    showVideoScreen.value = true
-    
-    if (previewVideoRef.value) {
-      previewVideoRef.value.play().catch(e => console.log('Autoplay prevented', e))
+    if (!hasPlayedVideo.value) {
+      // Show video shortly after envelope starts opening
+      await new Promise(resolve => setTimeout(resolve, 800))
+      showVideoScreen.value = true
+      hasPlayedVideo.value = true
+      
+      if (previewVideoRef.value) {
+        previewVideoRef.value.currentTime = 0
+        previewVideoRef.value.play().catch(e => console.log('Autoplay prevented', e))
+      }
+    } else {
+      // Skip video entirely on subsequent opens
+      showInvitation.value = true
+      updateCountdown()
+      startScrollObserver()
     }
 
   } catch (err) {
