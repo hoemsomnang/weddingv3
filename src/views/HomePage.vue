@@ -275,6 +275,7 @@ const isCoverOpen = ref(false)
 const isOpen = ref(false)
 const isReturning = ref(false)
 const hasPlayedVideo = ref(false)
+const videoFailed = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 const showInvitation = ref(false)
@@ -363,9 +364,14 @@ const openCover = async () => {
 
   // Ensure video can play by starting it synchronously with the click
   if (previewVideoRef.value && !hasPlayedVideo.value) {
-    previewVideoRef.value.play().catch(() => {}).then(() => {
-      previewVideoRef.value.pause();
-    })
+    previewVideoRef.value.currentTime = 0;
+    const playPromise = previewVideoRef.value.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(e => {
+        console.log('Autoplay prevented initially:', e);
+        videoFailed.value = true;
+      });
+    }
   }
 
   const coverSealEl = coverSealBoxRef.value
@@ -404,14 +410,24 @@ const openCover = async () => {
     isOpen.value = true
 
     if (!hasPlayedVideo.value) {
-      // Show video shortly after envelope starts opening
-      await new Promise(resolve => setTimeout(resolve, 800))
-      showVideoScreen.value = true
       hasPlayedVideo.value = true
       
-      if (previewVideoRef.value) {
-        previewVideoRef.value.currentTime = 0
-        previewVideoRef.value.play().catch(e => console.log('Autoplay prevented', e))
+      if (videoFailed.value) {
+        // If it failed to play initially, skip it completely so we don't get stuck
+        onVideoEnded()
+      } else {
+        // Show video shortly after envelope starts opening
+        await new Promise(resolve => setTimeout(resolve, 800))
+        showVideoScreen.value = true
+        
+        // Video is already playing in the background, we just fade it in!
+        // In case it somehow paused, try playing again, but gracefully fallback if it fails.
+        if (previewVideoRef.value && previewVideoRef.value.paused) {
+          previewVideoRef.value.play().catch(e => {
+            console.log('Autoplay prevented at fade-in', e)
+            onVideoEnded()
+          })
+        }
       }
     } else {
       // Skip video entirely on subsequent opens
