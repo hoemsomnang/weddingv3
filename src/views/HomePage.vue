@@ -145,7 +145,7 @@
 
             <!-- 6. Invitation Details Card -->
             <div class="invitation-overlay">
-              <div class="invitation-card">
+              <div class="invitation-card" @scroll="onCardScroll">
                 <!-- PAGE 1: Cover & Countdown -->
                 <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
                   <div class="page-content-wrapper">
@@ -317,8 +317,17 @@ const scrollToNextPage = () => {
   if (container) container.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
 }
 
+const onCardScroll = (e) => {
+  if (e.target && e.target.scrollLeft !== 0) {
+    e.target.scrollLeft = 0
+  }
+}
+
 const setupScrollObserver = () => {
   setTimeout(() => {
+    const cardEl = document.querySelector('.invitation-card')
+    if (cardEl && cardEl.scrollLeft !== 0) cardEl.scrollLeft = 0
+
     const agendaEl = document.getElementById('page-agenda')
     const coverEl = document.getElementById('page-cover')
     
