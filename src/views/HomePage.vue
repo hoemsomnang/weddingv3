@@ -112,18 +112,22 @@
             </div>
 
             <!-- 3. Left Hanging Pendant Lamps -->
+            <!--
             <div class="pendant-lamp lamp-left-green-1"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-left-warm-1"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-left-green-2"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-left-warm-2"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-left-green-3"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            -->
 
             <!-- 4. Right Hanging Pendant Lamps -->
+            <!--
             <div class="pendant-lamp lamp-right-green-1"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-right-warm-1"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-right-green-2"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-right-warm-2"><img :src="pendantWarmImg" alt="Warm Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
             <div class="pendant-lamp lamp-right-green-3"><img :src="pendantGreenImg" alt="Green Pendant Lamp" class="layer-img" /><span class="lamp-flame"></span></div>
+            -->
 
             <!-- 5. Flying Butterflies -->
             <div class="flying-butterflies-layer">
@@ -241,7 +245,7 @@ import pocketLeftImg from '@/assets/envelope/envelope-pocket-left.webp'
 import pocketRightImg from '@/assets/envelope/envelope-pocket-right.webp'
 
 // ── Main invitation imports ──
-import backdropImg from '@/assets/sage-wedding-backdrop.with-lamps.jpg'
+import backdropImg from '@/assets/invitation_floral_frame.jpg'
 import pendantGreenImg from '@/assets/items/pendant-lamp-green-transparent.png'
 import pendantWarmImg from '@/assets/items/pendant-lamp-warm-transparent.png'
 import tieredChandelierImg from '@/assets/items/tiered-crystal-chandelier-transparent.png'
