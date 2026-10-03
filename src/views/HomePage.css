@@ -1006,20 +1006,22 @@
 .section-animate-in .countdown-item:nth-child(3) { transition-delay: 1.4s; }
 .section-animate-in .countdown-item:nth-child(4) { transition-delay: 1.55s; }
 
-.section-title { font-family: 'Moul', cursive; font-size: 18px; color: #835b12; margin-bottom: 20px; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
+.section-title { font-family: 'Moul', cursive; font-size: 18px; color: #a67212; margin-bottom: 20px; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
 .agenda-day { margin-bottom: 20px; width: 100%; text-align: left; padding: 0 10px; box-sizing: border-box; }
-.agenda-day-title { font-family: 'Kantumruy Pro', sans-serif; font-size: 14px; color: #435249; font-weight: 700; margin-bottom: 15px; text-align: center; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
-.agenda-timeline { display: flex; flex-direction: column; gap: 12px; position: relative; }
-.agenda-timeline::before { content: ''; position: absolute; left: 75px; top: 5px; bottom: 5px; width: 1px; background: rgba(131, 91, 18, 0.3); }
-.agenda-item { display: flex; align-items: flex-start; gap: 12px; position: relative; }
-.agenda-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 12px; color: #835b12; font-weight: 700; width: 65px; text-align: right; flex-shrink: 0; padding-top: 2px; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
-.agenda-dot { width: 7px; height: 7px; background: #835b12; border-radius: 50%; margin-top: 5px; z-index: 1; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8); flex-shrink: 0; }
-.agenda-content { flex: 1; padding: 2px 0px 8px 12px; display: flex; align-items: center; gap: 12px; }
-.agenda-icon-img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
-.agenda-item-title { font-family: 'Kantumruy Pro', sans-serif; font-size: 12px; color: #435249; line-height: 1.4; font-weight: 700; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
+.agenda-day-title { font-family: 'Kantumruy Pro', sans-serif; font-size: 14px; color: #4a3610; font-weight: 700; margin-bottom: 15px; text-align: center; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
+.agenda-timeline { display: flex; flex-direction: column; gap: 24px; position: relative; }
+.agenda-timeline::before { content: ''; position: absolute; left: 24px; top: 5px; bottom: 5px; width: 1px; background: rgba(131, 91, 18, 0.4); }
+.agenda-item { display: flex; align-items: center; gap: 16px; position: relative; }
+.agenda-icon-wrapper { width: 48px; height: 48px; border-radius: 50%; border: 1px solid #a67212; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.8); z-index: 2; position: relative; box-shadow: 0 0 0 4px rgba(131, 91, 18, 0.15); flex-shrink: 0; }
+.agenda-icon-img { width: 24px; height: 24px; object-fit: contain; }
+.agenda-content { flex: 1; display: flex; flex-direction: column; text-align: left; padding: 2px 0; }
+.agenda-time-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.agenda-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; color: #a67212; font-weight: 600; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95); white-space: nowrap; }
+.agenda-time-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(131, 91, 18, 0.4), transparent); }
+.agenda-item-title { font-family: 'Kantumruy Pro', sans-serif; font-size: 14px; color: #4a3610; font-weight: 700; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1); }
 
 .fixed-bottom-actions { position: absolute; bottom: 3%; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 8px; z-index: 10; transform: translateY(20px); }
-.scroll-up-hint { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 0px; color: #835b12; animation: bounceHint 2s infinite; text-shadow: 0 0 4px rgba(255, 255, 255, 0.8); }
+.scroll-up-hint { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 0px; color: #a67212; animation: bounceHint 2s infinite; text-shadow: 0 0 4px rgba(255, 255, 255, 0.8); }
 .chevrons { display: flex; flex-direction: column; align-items: center; height: 20px; }
 .chevron { height: 14px; margin-top: -6px; }
 .scroll-up-text { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
@@ -1029,38 +1031,38 @@
   60% { transform: translateY(-4px); }
 }
 .action-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 15px; width: 100%; }
-.action-btn { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: linear-gradient(145deg, #43524938 0%, #43524947 100%); border: 1.5px solid #835b128c; border-radius: clamp(14px, 3.8vw, 18px); outline: none; flex: none; justify-content: center; align-items: center; width: clamp(52px, 15.5vw, 68px); height: clamp(44px, 13vw, 56px); margin: 0; padding: 0; transition: transform .22s cubic-bezier(.34, 1.56, .64, 1), box-shadow .22s, background-color .22s; display: flex; box-shadow: 0 4px 12px #4352492e, inset 0 1px 1.5px #fff6; }
+.action-btn { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: linear-gradient(145deg, #43524938 0%, #43524947 100%); border: 1.5px solid #a672128c; border-radius: clamp(14px, 3.8vw, 18px); outline: none; flex: none; justify-content: center; align-items: center; width: clamp(52px, 15.5vw, 68px); height: clamp(44px, 13vw, 56px); margin: 0; padding: 0; transition: transform .22s cubic-bezier(.34, 1.56, .64, 1), box-shadow .22s, background-color .22s; display: flex; box-shadow: 0 4px 12px #4352492e, inset 0 1px 1.5px #fff6; }
 .action-btn:active { transform: scale(0.9); }
 .action-icon { width: 24px; height: 24px; object-fit: contain; }
 
-.invitation-heading { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 17px; color: #835b12; margin: 0; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); letter-spacing: 0.3px; }
+.invitation-heading { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 17px; color: #a67212; margin: 0; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); letter-spacing: 0.3px; }
 .parents-row { display: flex; justify-content: space-between; width: 100%; gap: 8px; margin-top: 2px; }
 .parents-group { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .groom-parents { text-align: left; }
 .bride-parents { text-align: right; }
 .parent-entry { font-family: 'Kantumruy Pro', sans-serif; font-size: 13.5px; color: #1a241e; line-height: 1.5; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
-.parent-role { color: #435249; margin-right: 3px; font-weight: 600; font-size: 13px; }
-.parent-name { font-weight: 700; color: #141c17; font-size: 14px; }
+.parent-role { color: #4a3610; margin-right: 3px; font-weight: 600; font-size: 13px; }
+.parent-name { font-weight: 700; color: #4a3610; font-size: 14px; }
 .honor-invite-section { margin-top: 2px; padding: 4px 2px; }
-.honor-invite-title { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #8f671b; margin: 0 0 4px 0; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
-.invitation-line { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; font-weight: 700; line-height: 1.65; color: #1c2620; margin: 0; text-align: center; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
+.honor-invite-title { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #a67212; margin: 0 0 4px 0; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
+.invitation-line { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; font-weight: 700; line-height: 1.65; color: #4a3610; margin: 0; text-align: center; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
 .couple-section { display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px; margin-top: 3px; padding: 7px 4px; }
 .couple-side { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
-.couple-role { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; color: #1c2620; font-weight: 700; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
-.couple-name { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 16px; color: #835b12; letter-spacing: 0.3px; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
+.couple-role { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; color: #4a3610; font-weight: 700; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
+.couple-name { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 16px; color: #a67212; letter-spacing: 0.3px; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
 .couple-ampersand { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 76px; height: 76px; }
 .couple-crest-img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.18)); }
 .event-schedule-section { margin-top: 3px; display: flex; flex-direction: column; align-items: center; gap: 3px; width: 100%; }
 .lunar-date { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; color: #2b3931; margin: 0; line-height: 1.45; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
-.solar-date { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #835b12; margin: 0; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
+.solar-date { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #a67212; margin: 0; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
 .schedule-divider { width: 180px; max-width: 65%; margin: 3px 0; display: flex; align-items: center; justify-content: center; }
 .divider-graphic { width: 100%; height: auto; display: block; filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.95)); }
-.reception-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; line-height: 1.55; color: #1c2620; margin: 0; text-align: center; max-width: 96%; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
+.reception-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; line-height: 1.55; color: #4a3610; margin: 0; text-align: center; max-width: 96%; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
 .countdown-section { margin-top: 8px; width: 100%; }
 .countdown-grid { display: flex; justify-content: center; gap: 12px; }
 .countdown-item { display: flex; flex-direction: column; align-items: center; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(184, 135, 40, 0.4); border-radius: 8px; padding: 6px 10px; min-width: 45px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); backdrop-filter: blur(2px); }
-.countdown-value { font-family: 'Kantumruy Pro', sans-serif; font-size: 16px; font-weight: 700; color: #835b12; text-shadow: 0 0 2px #ffffff; }
-.countdown-label { font-family: 'Kantumruy Pro', sans-serif; font-size: 10px; color: #435249; margin-top: 2px; font-weight: 600; }
+.countdown-value { font-family: 'Kantumruy Pro', sans-serif; font-size: 16px; font-weight: 700; color: #a67212; text-shadow: 0 0 2px #ffffff; }
+.countdown-label { font-family: 'Kantumruy Pro', sans-serif; font-size: 10px; color: #4a3610; margin-top: 2px; font-weight: 600; }
 
 .wedding-couple-layer { position: absolute; left: 20%; right: 20%; bottom: 1%; width: 60%; z-index: 0; pointer-events: none; display: flex; justify-content: center; }
 .wedding-couple-img { width: 100%; height: auto; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.28)) sepia(0.1) saturate(0.8) brightness(0.95) blur(0.8px); }

@@ -191,10 +191,14 @@
                       <h3 class="agenda-day-title anim-item" style="transition-delay: 0.2s">{{ day.dayTitle }}</h3>
                       <div class="agenda-timeline">
                         <div v-for="(item, iIdx) in day.schedule" :key="iIdx" class="agenda-item anim-item" :style="`transition-delay: ${0.3 + (iIdx * 0.15)}s`">
-                          <div class="agenda-time">{{ item.time }}</div>
-                          <div class="agenda-dot"></div>
-                          <div class="agenda-content">
+                          <div class="agenda-icon-wrapper">
                             <img v-if="agendaIcons[item.icon]" :src="agendaIcons[item.icon]" class="agenda-icon-img" :alt="item.title" />
+                          </div>
+                          <div class="agenda-content">
+                            <div class="agenda-time-row">
+                              <span class="agenda-time">{{ item.time }}</span>
+                              <span class="agenda-time-line"></span>
+                            </div>
                             <span class="agenda-item-title">{{ item.title }}</span>
                           </div>
                         </div>
