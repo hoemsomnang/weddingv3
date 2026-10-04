@@ -59,7 +59,13 @@
         >
           <div class="cover-content" @click.stop="openCover">
             <div class="cover-header">
-              <h2 class="cover-title-khmer">{{ weddingText.cover.titleKhmer }}</h2>
+              <h2 class="cover-title-khmer">
+                <img
+                  :src="weddingTitleKhmerImg"
+                  :alt="weddingText.cover.titleKhmer"
+                  class="cover-title-khmer-img"
+                />
+              </h2>
             </div>
             <div
               ref="coverSealBoxRef"
@@ -149,7 +155,13 @@
                 <!-- PAGE 1: Cover & Countdown -->
                 <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
                   <div class="page-content-wrapper">
-                    <h1 class="invitation-heading anim-cover-item">{{ invitation.pageTitle }}</h1>
+                    <h1 class="invitation-heading anim-cover-item">
+                      <img
+                        :src="weddingTitleKhmerImg"
+                        :alt="invitation.pageTitle"
+                        class="invitation-heading-img"
+                      />
+                    </h1>
                     <div class="parents-row anim-cover-item">
                       <div class="parents-group groom-parents">
                         <div class="parent-entry"><span class="parent-role">{{ invitation.groomFather.role }}</span><span class="parent-name">{{ invitation.groomFather.name }}</span></div>
@@ -248,6 +260,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 // ── Envelope imports ──
 import { weddingText } from '@/data/weddingText.js'
+import weddingTitleKhmerImg from '@/assets/wedding_title_khmer_transparent.png'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
