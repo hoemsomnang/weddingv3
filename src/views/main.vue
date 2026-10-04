@@ -1146,15 +1146,16 @@ onUnmounted(() => {
 }
 
 .parents-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
   width: 100%;
-  gap: 8px;
+  gap: 16px;
   margin-top: 2px;
 }
 
 .parents-group {
-  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -1162,10 +1163,12 @@ onUnmounted(() => {
 
 .groom-parents {
   text-align: left;
+  justify-self: start;
 }
 
 .bride-parents {
-  text-align: right;
+  text-align: left;
+  justify-self: end;
 }
 
 .parent-entry {

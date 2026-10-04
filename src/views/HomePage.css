@@ -1280,10 +1280,10 @@
           drop-shadow(0 1px 3px rgba(255, 255, 255, 1)) 
           drop-shadow(0 2px 4px rgba(90, 60, 10, 0.2));
 }
-.parents-row { display: flex; justify-content: space-between; width: 100%; max-width: 100%; gap: 10px; margin-top: 2px; box-sizing: border-box; }
-.parents-group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.groom-parents { text-align: left; }
-.bride-parents { text-align: right; }
+.parents-row { display: grid; grid-template-columns: 1fr auto; align-items: start; width: 100%; max-width: 100%; gap: 16px; margin-top: 2px; box-sizing: border-box; }
+.parents-group { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.groom-parents { text-align: left; justify-self: start; }
+.bride-parents { text-align: left; justify-self: end; }
 .parent-entry { font-family: 'Kantumruy Pro', sans-serif; font-size: 13px; color: #1a241e; line-height: 1.45; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); word-break: break-word; }
 .parent-role { color: #4a3610; margin-right: 3px; font-weight: 600; font-size: 13.5px; }
 .parent-name {
