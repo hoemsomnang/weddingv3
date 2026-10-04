@@ -160,7 +160,7 @@
               <div class="invitation-card" @scroll="onCardScroll">
                 <!-- PAGE 1: Cover & Countdown -->
                 <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
-                  <div class="page-content-wrapper">
+                  <div class="page-content-wrapper cover-page-content">
                     <h1 class="invitation-heading anim-cover-item">
                       <img
                         :src="weddingTitleKhmerImg"
@@ -168,37 +168,49 @@
                         class="invitation-heading-img"
                       />
                     </h1>
-                    <div class="parents-row anim-cover-item">
-                      <div class="parents-group groom-parents">
-                        <div class="parent-entry"><span class="parent-role">{{ invitation.groomFather.role }}</span><span class="parent-name">{{ invitation.groomFather.name }}</span></div>
-                        <div class="parent-entry"><span class="parent-role">{{ invitation.groomMother.role }}</span><span class="parent-name">{{ invitation.groomMother.name }}</span></div>
-                      </div>
-                      <div class="parents-group bride-parents">
-                        <div class="parent-entry"><span class="parent-role">{{ invitation.brideFather.role }}</span><span class="parent-name">{{ invitation.brideFather.name }}</span></div>
-                        <div class="parent-entry"><span class="parent-role">{{ invitation.brideMother.role }}</span><span class="parent-name">{{ invitation.brideMother.name }}</span></div>
-                      </div>
-                    </div>
-                    <div class="honor-invite-section anim-cover-item">
-                      <p class="honor-invite-title">{{ invitation.honorInviteText }}</p>
-                      <p v-for="(line, idx) in invitation.invitationLines" :key="idx" class="invitation-line">{{ line }}</p>
-                    </div>
-                    <div class="couple-section anim-cover-item">
-                      <div class="couple-side groom-side"><span class="couple-role">{{ invitation.groomRole }}</span><span class="couple-name">{{ invitation.groomName }}</span></div>
-                      <div class="couple-ampersand"><img :src="monogramCrestImg" alt="Wedding Monogram Crest S&R" class="couple-crest-img" /></div>
-                      <div class="couple-side bride-side"><span class="couple-role">{{ invitation.brideRole }}</span><span class="couple-name">{{ invitation.brideName }}</span></div>
-                    </div>
-                    <div class="event-schedule-section anim-cover-item">
-                      <p class="lunar-date">{{ invitation.lunarDate }}</p>
-                      <p class="solar-date">{{ invitation.solarDate }}</p>
-                      <div class="schedule-divider"><img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" /></div>
-                      <p class="reception-time">{{ invitation.receptionTime }}</p>
-                    </div>
-                    <div class="countdown-section">
-                      <div class="countdown-grid">
-                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.days).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.days }}</span></div>
-                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.hours).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.hours }}</span></div>
-                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.mins).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.mins }}</span></div>
-                        <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.secs).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.secs }}</span></div>
+
+                    <!-- Dedicated Invitation Luxury Card Container with Background Frame -->
+                    <div class="invitation-card-container anim-item" style="transition-delay: 0.25s">
+                      <div class="invitation-gold-frame">
+                        <!-- 3D Gold Khmer Corner Ornaments -->
+                        <img :src="corner3dTl" alt="3D Khmer Corner TL" class="invitation-kbach-corner corner-tl" />
+                        <img :src="corner3dTr" alt="3D Khmer Corner TR" class="invitation-kbach-corner corner-tr" />
+                        <img :src="corner3dBl" alt="3D Khmer Corner BL" class="invitation-kbach-corner corner-bl" />
+                        <img :src="corner3dBr" alt="3D Khmer Corner BR" class="invitation-kbach-corner corner-br" />
+
+                        <div class="parents-row anim-cover-item">
+                          <div class="parents-group groom-parents">
+                            <div class="parent-entry"><span class="parent-role">{{ invitation.groomFather.role }}</span><span class="parent-name">{{ invitation.groomFather.name }}</span></div>
+                            <div class="parent-entry"><span class="parent-role">{{ invitation.groomMother.role }}</span><span class="parent-name">{{ invitation.groomMother.name }}</span></div>
+                          </div>
+                          <div class="parents-group bride-parents">
+                            <div class="parent-entry"><span class="parent-role">{{ invitation.brideFather.role }}</span><span class="parent-name">{{ invitation.brideFather.name }}</span></div>
+                            <div class="parent-entry"><span class="parent-role">{{ invitation.brideMother.role }}</span><span class="parent-name">{{ invitation.brideMother.name }}</span></div>
+                          </div>
+                        </div>
+                        <div class="honor-invite-section anim-cover-item">
+                          <p class="honor-invite-title">{{ invitation.honorInviteText }}</p>
+                          <p v-for="(line, idx) in invitation.invitationLines" :key="idx" class="invitation-line">{{ line }}</p>
+                        </div>
+                        <div class="couple-section anim-cover-item">
+                          <div class="couple-side groom-side"><span class="couple-role">{{ invitation.groomRole }}</span><span class="couple-name">{{ invitation.groomName }}</span></div>
+                          <div class="couple-ampersand"><img :src="monogramCrestImg" alt="Wedding Monogram Crest S&R" class="couple-crest-img" /></div>
+                          <div class="couple-side bride-side"><span class="couple-role">{{ invitation.brideRole }}</span><span class="couple-name">{{ invitation.brideName }}</span></div>
+                        </div>
+                        <div class="event-schedule-section anim-cover-item">
+                          <p class="lunar-date">{{ invitation.lunarDate }}</p>
+                          <p class="solar-date">{{ invitation.solarDate }}</p>
+                          <div class="schedule-divider"><img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" /></div>
+                          <p class="reception-time">{{ invitation.receptionTime }}</p>
+                        </div>
+                        <div class="countdown-section">
+                          <div class="countdown-grid">
+                            <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.days).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.days }}</span></div>
+                            <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.hours).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.hours }}</span></div>
+                            <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.mins).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.mins }}</span></div>
+                            <div class="countdown-item anim-cover-item"><span class="countdown-value">{{ toKhmerNumber(String(timeLeft.secs).padStart(2, '0')) }}</span><span class="countdown-label">{{ invitation.countdownLabels.secs }}</span></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -248,8 +260,14 @@
                       />
                     </h2>
 
-                    <!-- Venue Info Box -->
+                    <!-- Venue Info Box with Luxury Background Frame & 3D Gold Corner Ornaments -->
                     <div class="location-card-box anim-item" style="transition-delay: 0.25s">
+                      <!-- 3D Gold Khmer Corner Ornaments -->
+                      <img :src="corner3dTl" alt="3D Khmer Corner TL" class="location-kbach-corner corner-tl" />
+                      <img :src="corner3dTr" alt="3D Khmer Corner TR" class="location-kbach-corner corner-tr" />
+                      <img :src="corner3dBl" alt="3D Khmer Corner BL" class="location-kbach-corner corner-bl" />
+                      <img :src="corner3dBr" alt="3D Khmer Corner BR" class="location-kbach-corner corner-br" />
+
                       <!-- Venue Name -->
                       <div class="location-info-row venue-title-row">
                         <div class="location-icon-circle">
@@ -439,7 +457,7 @@
                         <h2 class="gift-title-khmer">{{ invitation.giftTitle }}</h2>
                         <span class="gift-ornament-wing ornament-right"></span>
                       </div>
-                      <span class="gift-subtitle-en">{{ invitation.giftSubtitle }}</span>
+                    
                     </div>
 
                     <!-- Intro note -->

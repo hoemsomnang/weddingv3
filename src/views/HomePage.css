@@ -1131,6 +1131,14 @@
   overflow-x: hidden !important;
 }
 
+.cover-page-content {
+  padding-top: 6vh;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 140px;
+  gap: 8px;
+}
+
 .agenda-page-content {
   padding-top: 10vh;
   padding-left: 6px;
@@ -1327,7 +1335,85 @@
           drop-shadow(0 1px 3px rgba(255, 255, 255, 1)) 
           drop-shadow(0 2px 4px rgba(90, 60, 10, 0.2));
 }
-.parents-row { display: grid; grid-template-columns: 1fr auto; align-items: start; width: 100%; max-width: 100%; gap: 16px; margin-top: 2px; box-sizing: border-box; }
+
+/* ═══════════════════════════════════════════════
+   INVITATION COVER CARD FRAME (Dedicated Styles)
+════════════════════════════════════════════════ */
+.invitation-card-container {
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  padding: 4px;
+}
+
+.invitation-gold-frame {
+  position: relative;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92) 0%, rgba(254, 250, 242, 0.86) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid rgba(190, 142, 45, 0.5);
+  box-shadow: 0 12px 36px rgba(231, 162, 23, 0.15),
+              inset 0 1px 2px rgba(255, 255, 255, 0.95),
+              0 0 0 1px rgba(255, 255, 255, 0.6);
+  padding: 42px 18px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+/* 3D Gold Corner Ornaments for Invitation Card */
+.invitation-kbach-corner {
+  position: absolute;
+  width: clamp(36px, 10vw, 46px);
+  height: clamp(36px, 10vw, 46px);
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 2px 4px rgba(180, 130, 30, 0.3));
+  user-select: none;
+}
+
+.invitation-kbach-corner.corner-tl {
+  top: 0;
+  left: 0;
+  border: none !important;
+}
+
+.invitation-kbach-corner.corner-tr {
+  top: 0;
+  right: 0;
+  border: none !important;
+}
+
+.invitation-kbach-corner.corner-bl {
+  bottom: 0;
+  left: 0;
+  border: none !important;
+}
+
+.invitation-kbach-corner.corner-br {
+  bottom: 0;
+  right: 0;
+  border: none !important;
+}
+
+.parents-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+  gap: 16px;
+  margin-top: 2px;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
 .parents-group { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .groom-parents { text-align: left; justify-self: start; }
 .bride-parents { text-align: left; justify-self: end; }
@@ -1528,42 +1614,83 @@
 }
 
 .location-card-box {
+  position: relative;
   width: 100%;
-  max-width: 100%;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: 1px solid rgba(166, 114, 18, 0.35);
-  border-radius: 14px;
-  padding: 8px 12px;
-  box-shadow: none;
+  max-width: 480px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.92) 0%, rgba(254, 250, 242, 0.86) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid rgba(190, 142, 45, 0.5);
+  box-shadow: 0 12px 36px rgba(231, 162, 23, 0.15),
+              inset 0 1px 2px rgba(255, 255, 255, 0.95),
+              0 0 0 1px rgba(255, 255, 255, 0.6);
+  padding: 24px 18px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
+  gap: 10px;
+}
+
+/* 3D Gold Corner Ornaments for Location Card */
+.location-kbach-corner {
+  position: absolute;
+  width: clamp(34px, 9.5vw, 44px);
+  height: clamp(34px, 9.5vw, 44px);
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 2px 4px rgba(180, 130, 30, 0.3));
+  user-select: none;
+}
+
+.location-kbach-corner.corner-tl {
+  top: 0;
+  left: 0;
+  border: none !important;
+}
+
+.location-kbach-corner.corner-tr {
+  top: 0;
+  right: 0;
+  border: none !important;
+}
+
+.location-kbach-corner.corner-bl {
+  bottom: 0;
+  left: 0;
+  border: none !important;
+}
+
+.location-kbach-corner.corner-br {
+  bottom: 0;
+  right: 0;
+  border: none !important;
 }
 
 .location-info-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   text-align: left;
+  padding: 0 4px;
 }
 
 .location-icon-circle {
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: transparent;
-  border: 1px solid rgba(166, 114, 18, 0.4);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(166, 114, 18, 0.45);
   color: #a67212;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   margin-top: 1px;
-  box-shadow: none;
+  box-shadow: 0 2px 6px rgba(166, 114, 18, 0.15);
 }
 
 .location-icon-circle svg {
