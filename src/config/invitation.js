@@ -72,6 +72,33 @@ export const invitation = {
   albumSubtitle: 'SWEET MEMORIES',
   albumWishes: 'ស្នាមញញឹម និងអនុស្សាវរីយ៍ដ៏មានតម្លៃមិនអាចបំភ្លេចបាន',
 
+  /* ── Wedding Gifts & QR Code / ចំណងដៃអាពាហ៍ពិពាហ៍ ─────────── */
+  giftTitle: 'ចំណងដៃអាពាហ៍ពិពាហ៍',
+  giftSubtitle: 'WEDDING GIFTS & BLESSINGS',
+  giftDesc: 'សម្រាប់ភ្ញៀវកិត្តិយសដែលមានបំណងចងដៃ ឬជូនពរដល់គូស្វាមីភរិយាថ្មី អាចធ្វើការស្កេន QR Code ខាងក្រោមបានដោយមេត្រីភាព',
+  giftTabs: {
+    groom: 'កូនកំលោះ (Groom)',
+    bride: 'កូនក្រមុំ (Bride)',
+  },
+  giftAccounts: {
+    groom: {
+      nameEn: 'HIM SOMNANG',
+      nameKh: 'ហ៊ឹម សំណាង',
+      bank: 'ABA Bank / KHQR',
+      accountNumber: '002 858 968',
+      currency: 'USD / KHR',
+      note: 'ស្កេនតាមរយៈគ្រប់កម្មវិធីធនាគារ (Any Banking App)',
+    },
+    bride: {
+      nameEn: 'KHORN SAREN',
+      nameKh: 'ឃន សារ៉េន',
+      bank: 'ABA Bank / KHQR',
+      accountNumber: '002 987 654',
+      currency: 'USD / KHR',
+      note: 'ស្កេនតាមរយៈគ្រប់កម្មវិធីធនាគារ (Any Banking App)',
+    },
+  },
+
   /* ── Words of Gratitude / សេចក្តីថ្លែងអំណរគុណ ─────────────── */
   thanksTitle: 'សេចក្តីថ្លែងអំណរគុណ',
   thanksPara1: 'យើងខ្ញុំជាមាតាបិតានៃ កូនប្រុស-កូនស្រី\nសូមគោរពថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅបំផុតចំពោះ ឯកឧត្តម លោកជំទាវ លោកអ្នកឧកញ៉ា អ្នកឧកញ៉ា ឧកញ៉ា លោក លោកស្រី អ្នកនាង កញ្ញា ដែលបានអញ្ជើញចូលរួមជាអធិបតី និងជាភ្ញៀវកិត្តិយសក្នុង ពិធីមង្គលអាពាហ៍ពិពាហ៍ កូនប្រុស-កូនស្រី យើងខ្ញុំ។',

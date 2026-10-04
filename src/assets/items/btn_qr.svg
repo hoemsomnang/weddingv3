@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Crisp Metallic Gold Gradient -->
+    <linearGradient id="goldGradQR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8f5b0c"/>
+      <stop offset="30%" stop-color="#cf9c31"/>
+      <stop offset="60%" stop-color="#ffd878"/>
+      <stop offset="85%" stop-color="#b88320"/>
+      <stop offset="100%" stop-color="#7a4b08"/>
+    </linearGradient>
+
+    <!-- Dark Gold Shadow Accent -->
+    <linearGradient id="goldDarkQR" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#693c02"/>
+      <stop offset="100%" stop-color="#4a2800"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer QR Frame Corners / Target Finder -->
+  <path d="M 8 18 L 8 12 C 8 9.8 9.8 8 12 8 L 18 8" stroke="url(#goldGradQR)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 46 8 L 52 8 C 54.2 8 56 9.8 56 12 L 56 18" stroke="url(#goldGradQR)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 56 46 L 56 52 C 56 54.2 54.2 56 52 56 L 46 56" stroke="url(#goldGradQR)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 18 56 L 12 56 C 9.8 56 8 54.2 8 52 L 8 46" stroke="url(#goldGradQR)" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Top-Left QR Eye -->
+  <rect x="14" y="14" width="14" height="14" rx="3" stroke="url(#goldGradQR)" stroke-width="2.5" fill="none"/>
+  <rect x="18" y="18" width="6" height="6" rx="1.5" fill="url(#goldGradQR)"/>
+
+  <!-- Top-Right QR Eye -->
+  <rect x="36" y="14" width="14" height="14" rx="3" stroke="url(#goldGradQR)" stroke-width="2.5" fill="none"/>
+  <rect x="40" y="18" width="6" height="6" rx="1.5" fill="url(#goldGradQR)"/>
+
+  <!-- Bottom-Left QR Eye -->
+  <rect x="14" y="36" width="14" height="14" rx="3" stroke="url(#goldGradQR)" stroke-width="2.5" fill="none"/>
+  <rect x="18" y="40" width="6" height="6" rx="1.5" fill="url(#goldGradQR)"/>
+
+  <!-- Center QR Matrix Blocks / Heart Accent -->
+  <rect x="33" y="33" width="5" height="5" rx="1" fill="url(#goldGradQR)"/>
+  <rect x="45" y="33" width="5" height="5" rx="1" fill="url(#goldGradQR)"/>
+  <rect x="39" y="39" width="5" height="5" rx="1" fill="url(#goldGradQR)"/>
+  <rect x="33" y="45" width="5" height="5" rx="1" fill="url(#goldGradQR)"/>
+  <rect x="45" y="45" width="5" height="5" rx="1" fill="url(#goldGradQR)"/>
+</svg>

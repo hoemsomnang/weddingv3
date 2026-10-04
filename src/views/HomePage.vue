@@ -351,7 +351,7 @@
 
                     <!-- Subtitle & Love Quote -->
                     <div class="gallery-subtitle-wrapper anim-item" style="transition-delay: 0.2s">
-                      <span class="gallery-subtitle-en">{{ invitation.gallerySubtitle }}</span>
+                      
                       <p class="gallery-wishes-text">{{ invitation.galleryWishes }}</p>
                     </div>
 
@@ -427,22 +427,268 @@
                     </div>
                   </div>
                 </section>
+
+                <!-- PAGE 5: Wedding Gift & QR Code Section (ចំណងដៃអាពាហ៍ពិពាហ៍) -->
+                <section class="snap-page section-gift" id="page-gift" :class="{ 'section-animate-in': isGiftInView }">
+                  <div class="page-content-wrapper gift-page-content">
+
+                    <!-- Title Header -->
+                    <div class="gift-header-wrapper anim-item" style="transition-delay: 0.1s">
+                      <div class="gift-title-row">
+                        <span class="gift-ornament-wing ornament-left"></span>
+                        <h2 class="gift-title-khmer">{{ invitation.giftTitle }}</h2>
+                        <span class="gift-ornament-wing ornament-right"></span>
+                      </div>
+                      <span class="gift-subtitle-en">{{ invitation.giftSubtitle }}</span>
+                    </div>
+
+                    <!-- Intro note -->
+                    <p class="gift-intro-text anim-item" style="transition-delay: 0.15s">
+                      {{ invitation.giftDesc }}
+                    </p>
+
+                    <!-- Groom / Bride Selector Tabs -->
+                    <div class="gift-tabs-nav anim-item" style="transition-delay: 0.2s">
+                      <button
+                        class="gift-tab-btn"
+                        :class="{ 'is-active': activeQrTab === 'groom' }"
+                        @click="activeQrTab = 'groom'"
+                      >
+                        <span class="tab-emoji">🤵</span>
+                        <span class="tab-label">{{ invitation.giftTabs.groom }}</span>
+                      </button>
+                      <button
+                        class="gift-tab-btn"
+                        :class="{ 'is-active': activeQrTab === 'bride' }"
+                        @click="activeQrTab = 'bride'"
+                      >
+                        <span class="tab-emoji">👰</span>
+                        <span class="tab-label">{{ invitation.giftTabs.bride }}</span>
+                      </button>
+                    </div>
+
+                    <!-- KHQR Banking Card Container -->
+                    <div class="gift-card-wrapper anim-item" style="transition-delay: 0.28s">
+                      <div class="khqr-card-frame">
+                        <!-- Corner Filigree Ornaments -->
+                        <div class="thanks-corner corner-tl"></div>
+                        <div class="thanks-corner corner-tr"></div>
+                        <div class="thanks-corner corner-bl"></div>
+                        <div class="thanks-corner corner-br"></div>
+
+                        <!-- Red KHQR Header -->
+                        <div class="khqr-header-bar">
+                          <div class="khqr-header-left">
+                            <span class="khqr-symbol">❖</span>
+                            <span class="khqr-logo-text">KHQR</span>
+                          </div>
+                          <span class="khqr-bank-tag">{{ invitation.giftAccounts[activeQrTab].bank }}</span>
+                        </div>
+
+                        <!-- Account Owner Info -->
+                        <div class="khqr-owner-box">
+                          <span class="khqr-owner-role">{{ activeQrTab === 'groom' ? 'កូនកំលោះ' : 'កូនក្រមុំ' }}</span>
+                          <span class="khqr-owner-name-kh">{{ invitation.giftAccounts[activeQrTab].nameKh }}</span>
+                          <span class="khqr-owner-name-en">{{ invitation.giftAccounts[activeQrTab].nameEn }}</span>
+                        </div>
+
+                        <!-- QR Code Matrix Frame with Scan Glow -->
+                        <div class="khqr-matrix-box" @click="zoomQr(activeQrTab === 'groom' ? cardGroomKhqr : cardBrideKhqr)" title="ចុចដើម្បីពង្រីក / Tap to Zoom">
+                          <div class="khqr-qr-border">
+                            <img
+                              :src="activeQrTab === 'groom' ? qrGroomImg : qrBrideImg"
+                              :alt="`QR Code ${activeQrTab}`"
+                              class="khqr-code-img"
+                            />
+                          </div>
+                          <div class="khqr-tap-hint">
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                            <span>ចុចដើម្បីពង្រីក</span>
+                          </div>
+                        </div>
+
+                        <!-- Account Number with One-Click Copy -->
+                        <div class="khqr-acc-strip">
+                          <div class="khqr-acc-details">
+                            <span class="khqr-acc-label">លេខគណនី (A/C No.)</span>
+                            <span class="khqr-acc-number">{{ invitation.giftAccounts[activeQrTab].accountNumber }}</span>
+                          </div>
+                          <button
+                            class="khqr-copy-btn"
+                            @click="copyAccountNumber(invitation.giftAccounts[activeQrTab].accountNumber)"
+                            title="ចម្លងលេខកុង"
+                          >
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>ចម្លង</span>
+                          </button>
+                        </div>
+
+                        <!-- Currencies & Supported Banks Strip -->
+                        <div class="khqr-footer-strip">
+                          <div class="khqr-curr-pills">
+                            <span class="curr-pill">USD ($)</span>
+                            <span class="curr-pill">KHR (៛)</span>
+                          </div>
+                          <span class="khqr-compat-text">{{ invitation.giftAccounts[activeQrTab].note }}</span>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <!-- Download QR Action Button -->
+                    <div class="gift-actions-row anim-item" style="transition-delay: 0.35s">
+                      <a
+                        :href="activeQrTab === 'groom' ? cardGroomKhqr : cardBrideKhqr"
+                        :download="`KHQR_${activeQrTab === 'groom' ? 'Him_Somnang' : 'Khorn_Saren'}.png`"
+                        class="gift-download-btn"
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>រក្សាទុករូបភាព QR (Save QR)</span>
+                      </a>
+                    </div>
+
+                    <!-- Subtle Gold Divider -->
+                    <div class="gift-bottom-divider anim-item" style="transition-delay: 0.4s">
+                      <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                    </div>
+
+                  </div>
+                </section>
+
+                <!-- PAGE 6: Words of Gratitude Section (សេចក្តីថ្លែងអំណរគុណ) -->
+                <section class="snap-page section-thanks" id="page-thanks" :class="{ 'section-animate-in': isThanksInView }">
+                  <div class="page-content-wrapper thanks-page-content">
+
+                    <!-- Title Header -->
+                    <div class="thanks-header-wrapper anim-item" style="transition-delay: 0.1s">
+                      <div class="thanks-title-row">
+                        <span class="thanks-ornament-wing ornament-left"></span>
+                        <h2 class="section-title thanks-title-header">
+                          <img
+                            :src="thanksTitleKhmerImg"
+                            :alt="invitation.thanksTitle"
+                            class="thanks-title-img"
+                          />
+                        </h2>
+                        <span class="thanks-ornament-wing ornament-right"></span>
+                      </div>
+                      <span class="thanks-subtitle-en">WORDS OF GRATITUDE</span>
+                    </div>
+
+                    <!-- Luxury Gratitude Card -->
+                    <div class="thanks-card-container anim-item" style="transition-delay: 0.25s">
+                      <div class="thanks-gold-frame">
+                        <!-- Corner Filigree Ornaments -->
+                        <div class="thanks-corner corner-tl"></div>
+                        <div class="thanks-corner corner-tr"></div>
+                        <div class="thanks-corner corner-bl"></div>
+                        <div class="thanks-corner corner-br"></div>
+
+                        <!-- Monogram Crest -->
+                        <div class="thanks-crest-box">
+                          <img :src="monogramCrestImg" alt="Wedding Monogram Crest" class="thanks-crest-img" />
+                        </div>
+
+                        <!-- Couple Names Banner -->
+                        <div class="thanks-couple-names">
+                          <span class="thanks-groom">{{ invitation.groomName }}</span>
+                          <span class="thanks-heart">❦</span>
+                          <span class="thanks-bride">{{ invitation.brideName }}</span>
+                        </div>
+
+                        <div class="thanks-divider">
+                          <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                        </div>
+
+                        <!-- Paragraph 1: Respectful Gratitude to Guests -->
+                        <p class="thanks-text-para thanks-para-1">
+                          {{ invitation.thanksPara1 }}
+                        </p>
+
+                        <!-- The 4 Traditional Buddhist Blessings (ពរទាំងបួនប្រការ) -->
+                        <div class="thanks-blessings-card">
+                          <div class="blessings-header-line">
+                            <span class="blessings-tag">ពរទាំងបួនប្រការ</span>
+                          </div>
+                          <div class="thanks-blessings-grid">
+                            <div class="blessing-pill">
+                              <span class="blessing-kh">អាយុ</span>
+                              <span class="blessing-en">Longevity</span>
+                            </div>
+                            <div class="blessing-pill">
+                              <span class="blessing-kh">វណ្ណៈ</span>
+                              <span class="blessing-en">Beauty</span>
+                            </div>
+                            <div class="blessing-pill">
+                              <span class="blessing-kh">សុខៈ</span>
+                              <span class="blessing-en">Happiness</span>
+                            </div>
+                            <div class="blessing-pill">
+                              <span class="blessing-kh">ពលៈ</span>
+                              <span class="blessing-en">Strength</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Paragraph 2: Best Wishes & Blessings -->
+                        <p class="thanks-text-para thanks-para-2">
+                          {{ invitation.thanksPara2 }}
+                        </p>
+
+                        <div class="thanks-divider">
+                          <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                        </div>
+
+                        <!-- Respectful Closing -->
+                        <div class="thanks-closing-wrapper">
+                          <span class="thanks-closing-text">{{ invitation.thanksClosing }}</span>
+                          <span class="thanks-closing-sub">THANK YOU</span>
+                        </div>
+
+                        <!-- Signatures of Parents -->
+                        <div class="thanks-parents-row">
+                          <div class="thanks-parent-col">
+                            <span class="thanks-parent-title">មាតាបិតាខាងកូនប្រុស</span>
+                            <span class="thanks-parent-names">{{ invitation.groomFather.role }} {{ invitation.groomFather.name }}</span>
+                            <span class="thanks-parent-names">{{ invitation.groomMother.role }} {{ invitation.groomMother.name }}</span>
+                          </div>
+                          <div class="thanks-parent-col">
+                            <span class="thanks-parent-title">មាតាបិតាខាងកូនស្រី</span>
+                            <span class="thanks-parent-names">{{ invitation.brideFather.role }} {{ invitation.brideFather.name }}</span>
+                            <span class="thanks-parent-names">{{ invitation.brideMother.role }} {{ invitation.brideMother.name }}</span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </section>
               </div>
 
               <!-- Fixed Bottom Actions -->
               <div class="fixed-bottom-actions">
                 <div class="scroll-up-hint" @click="scrollToNextPage" style="cursor: pointer;">
-                  <div class="chevrons" :class="{ 'is-flipped': isGalleryInView }">
+                  <div class="chevrons" :class="{ 'is-flipped': isThanksInView }">
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                   </div>
-                  <span class="scroll-up-text">{{ isGalleryInView ? 'ត្រឡប់ទៅលើ' : invitation.scrollUpText }}</span>
+                  <span class="scroll-up-text">{{ isThanksInView ? 'ត្រឡប់ទៅលើ' : invitation.scrollUpText }}</span>
                 </div>
                 <div class="action-buttons">
-                  <button class="action-btn" @click="scrollToPage('cover')" title="Calendar / Date"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
-                  <button class="action-btn" @click="scrollToPage('agenda')" title="Agenda"><img :src="agendaIcons.hall" alt="Agenda" class="action-icon" /></button>
-                  <button class="action-btn" @click="scrollToPage('location')" title="Location"><img :src="goldMapImg" alt="Location" class="action-icon" /></button>
-                  <button class="action-btn" @click="scrollToPage('gallery')" title="Gallery"><img :src="btnGallery" alt="Gallery" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isCoverInView }" @click="scrollToPage('cover')" title="Calendar / Date"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isAgendaInView }" @click="scrollToPage('agenda')" title="Agenda"><img :src="agendaIcons.hall" alt="Agenda" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isLocationInView }" @click="scrollToPage('location')" title="Location"><img :src="goldMapImg" alt="Location" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isGalleryInView }" @click="scrollToPage('gallery')" title="Gallery"><img :src="btnGallery" alt="Gallery" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isGiftInView }" @click="scrollToPage('gift')" title="QR Gift"><img :src="btnQR" alt="QR Gift" class="action-icon" /></button>
+                  <button class="action-btn" :class="{ 'is-active': isThanksInView }" @click="scrollToPage('thanks')" title="Gratitude"><img :src="btnWishes" alt="Gratitude" class="action-icon" /></button>
                 </div>
               </div>
             </div>
@@ -505,6 +751,34 @@
       </div>
     </Transition>
 
+    <!-- Zoomed QR Code Modal -->
+    <Transition name="lightbox-fade">
+      <div v-if="zoomedQr" class="qr-zoom-modal" @click="closeZoomQr">
+        <button class="lightbox-close-btn" @click="closeZoomQr" title="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+        <div class="qr-zoom-box" @click.stop>
+          <img :src="zoomedQr" class="qr-zoom-img" alt="Zoomed KHQR" />
+          <div class="qr-zoom-footer">
+            <span class="qr-zoom-text">{{ activeQrTab === 'groom' ? invitation.giftAccounts.groom.nameKh : invitation.giftAccounts.bride.nameKh }}</span>
+            <span class="qr-zoom-sub">{{ activeQrTab === 'groom' ? invitation.giftAccounts.groom.accountNumber : invitation.giftAccounts.bride.accountNumber }}</span>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Copied Toast Notification -->
+    <Transition name="toast-fade">
+      <div v-if="copiedNotice" class="copied-toast">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>{{ copiedNotice }}</span>
+      </div>
+    </Transition>
+
   </div>
 </template>
 
@@ -518,6 +792,7 @@ import soamKouropAnjeyImg from '@/assets/soam_kourop_anjey_transparent.png'
 import agendaTitleKhmerImg from '@/assets/agenda_title_khmer_transparent.png'
 import locationTitleKhmerImg from '@/assets/location_title_khmer_transparent.png'
 import galleryTitleKhmerImg from '@/assets/gallery_title_khmer_transparent.png'
+import thanksTitleKhmerImg from '@/assets/thanks_title_khmer_transparent.png'
 import galleryBannerImg from '@/assets/gallery/album_01_banner.webp'
 import gallery01Img from '@/assets/gallery/gallery_01_royal.webp'
 import gallery02Img from '@/assets/gallery/gallery_02_traditional.webp'
@@ -544,7 +819,12 @@ import btnCalendar from '@/assets/items/btn_calendar.svg'
 import btnLocation from '@/assets/items/btn_location.svg'
 import goldMapImg from '@/assets/gold_map.webp'
 import btnGallery from '@/assets/items/btn_gallery.svg'
+import btnQR from '@/assets/items/btn_qr.svg'
 import btnWishes from '@/assets/items/btn_wishes.svg'
+import qrGroomImg from '@/assets/qr/qr_groom_khqr.png'
+import qrBrideImg from '@/assets/qr/qr_bride_khqr.png'
+import cardGroomKhqr from '@/assets/qr/card_groom_khqr.png'
+import cardBrideKhqr from '@/assets/qr/card_bride_khqr.png'
 import iconWelcome from '@/assets/items/agenda_01_welcome.webp'
 import iconFruit from '@/assets/items/agenda_02_fruit.webp'
 import iconHall from '@/assets/items/agenda_03_hall.webp'
@@ -580,6 +860,11 @@ const isCoverInView = ref(true)
 const isAgendaInView = ref(false)
 const isLocationInView = ref(false)
 const isGalleryInView = ref(false)
+const isGiftInView = ref(false)
+const isThanksInView = ref(false)
+const activeQrTab = ref('groom')
+const copiedNotice = ref('')
+const zoomedQr = ref(null)
 
 const galleryPhotos = [
   {
@@ -671,7 +956,7 @@ const toKhmerNumber = (numStr) => {
 const scrollToNextPage = () => {
   const container = document.querySelector('.invitation-card')
   if (!container) return
-  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 60) {
+  if (isThanksInView.value || (container.scrollTop + container.clientHeight >= container.scrollHeight - 60)) {
     const coverEl = document.getElementById('page-cover')
     if (coverEl) {
       coverEl.scrollIntoView({ behavior: 'smooth' })
@@ -705,6 +990,8 @@ const setupScrollObserver = () => {
     const agendaEl = document.getElementById('page-agenda')
     const locationEl = document.getElementById('page-location')
     const galleryEl = document.getElementById('page-gallery')
+    const giftEl = document.getElementById('page-gift')
+    const thanksEl = document.getElementById('page-thanks')
     
     if (observer) observer.disconnect()
     observer = new IntersectionObserver((entries) => {
@@ -713,14 +1000,32 @@ const setupScrollObserver = () => {
         if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
         if (entry.target.id === 'page-location') isLocationInView.value = entry.isIntersecting
         if (entry.target.id === 'page-gallery') isGalleryInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-gift') isGiftInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-thanks') isThanksInView.value = entry.isIntersecting
       })
     }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
     if (coverEl) observer.observe(coverEl)
     if (agendaEl) observer.observe(agendaEl)
     if (locationEl) observer.observe(locationEl)
     if (galleryEl) observer.observe(galleryEl)
+    if (giftEl) observer.observe(giftEl)
+    if (thanksEl) observer.observe(thanksEl)
   }, 150)
 }
+
+const copyAccountNumber = async (accNum) => {
+  try {
+    await navigator.clipboard.writeText(accNum.replace(/\s+/g, ''))
+    copiedNotice.value = 'បានចម្លងលេខគណនីរួចរាល់!'
+    setTimeout(() => { copiedNotice.value = '' }, 2500)
+  } catch (e) {
+    copiedNotice.value = 'លេខគណនី: ' + accNum
+    setTimeout(() => { copiedNotice.value = '' }, 3000)
+  }
+}
+
+const zoomQr = (src) => { zoomedQr.value = src }
+const closeZoomQr = () => { zoomedQr.value = null }
 
 const onVideoTimeUpdate = () => {
   if (!previewVideoRef.value) return
