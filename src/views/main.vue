@@ -226,7 +226,13 @@
           <!-- PAGE 2: Agenda Section -->
           <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
             <div class="page-content-wrapper agenda-page-content">
-              <h2 class="section-title anim-item" style="transition-delay: 0.1s">{{ invitation.agendaTitle }}</h2>
+              <h2 class="section-title anim-item" style="transition-delay: 0.1s">
+                <img
+                  :src="agendaTitleKhmerImg"
+                  :alt="invitation.agendaTitle"
+                  class="section-title-img"
+                />
+              </h2>
               <div v-for="(day, dIdx) in invitation.agendaDays" :key="dIdx" class="agenda-day">
                 <h3 class="agenda-day-title anim-item" style="transition-delay: 0.2s">{{ day.dayTitle }}</h3>
                 <div class="agenda-timeline">
@@ -331,6 +337,7 @@ import lotusImg from '@/assets/lotus-transparent.png'
 import lotusTallImg from '@/assets/lotus-tall-transparent.png'
 import lotus3Img from '@/assets/lotus-3-transparent.png'
 import weddingCoupleImg from '@/assets/wedding-couple-2-transparent.png'
+import agendaTitleKhmerImg from '@/assets/agenda_title_khmer_transparent.png'
 import invitation from '@/config/invitation.js'
 import btnCalendar from '@/assets/items/btn_calendar.svg'
 import btnLocation from '@/assets/items/btn_location.svg'
@@ -1012,11 +1019,26 @@ onUnmounted(() => {
   animation: slideDownFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .section-title {
-  font-family: 'Moul', cursive;
-  font-size: 18px;
-  color: #835b12;
-  margin-bottom: 20px;
-  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 20px 0;
+  padding: 0;
+  width: 100%;
+}
+.section-title-img {
+  width: min(85%, 260px);
+  height: auto;
+  max-height: 72px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px #ffffff)
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95))
+          drop-shadow(0 1px 3px rgba(255, 255, 255, 1))
+          drop-shadow(0 2px 4px rgba(90, 60, 10, 0.2));
 }
 .agenda-day {
   margin-bottom: 20px;

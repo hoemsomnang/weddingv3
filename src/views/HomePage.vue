@@ -209,9 +209,15 @@
                 <!-- PAGE 3: Agenda Section -->
                 <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
                   <div class="page-content-wrapper agenda-page-content">
-                    <h2 class="section-title anim-item" style="transition-delay: 0.1s">{{ invitation.agendaTitle }}</h2>
+                    <h2 class="section-title anim-item" style="transition-delay: 0.1s">
+                      <img
+                        :src="agendaTitleKhmerImg"
+                        :alt="invitation.agendaTitle"
+                        class="section-title-img"
+                      />
+                    </h2>
                     <div v-for="(day, dIdx) in invitation.agendaDays" :key="dIdx" class="agenda-day">
-                      <h3 class="agenda-day-title anim-item" style="transition-delay: 0.2s">{{ day.dayTitle }}</h3>
+                     
                       <div class="agenda-timeline">
                         <div v-for="(item, iIdx) in day.schedule" :key="iIdx" class="agenda-item anim-item" :style="`transition-delay: ${0.3 + (iIdx * 0.15)}s`">
                           <div class="agenda-icon-wrapper">
@@ -268,6 +274,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { weddingText } from '@/data/weddingText.js'
 import weddingTitleKhmerImg from '@/assets/wedding_title_khmer_transparent.png'
 import soamKouropAnjeyImg from '@/assets/soam_kourop_anjey_transparent.png'
+import agendaTitleKhmerImg from '@/assets/agenda_title_khmer_transparent.png'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
