@@ -2371,8 +2371,7 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1.5px solid rgba(190, 142, 45, 0.45);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(90, 65, 15, 0.12),
+  box-shadow: 0 10px 30px rgba(231, 162, 23, 0.12),
               inset 0 1px 2px rgba(255, 255, 255, 0.95),
               0 0 0 1px rgba(255, 255, 255, 0.6);
   padding: 16px 14px 14px;
@@ -2383,7 +2382,7 @@
   box-sizing: border-box;
 }
 
-/* Corner filigree accents */
+/* Corner filigree accents (strictly for .thanks-corner filigree elements) */
 .thanks-corner {
   position: absolute;
   width: 14px;
@@ -2392,36 +2391,79 @@
   border-color: rgba(184, 131, 32, 0.7);
 }
 
-.corner-tl {
+.thanks-corner.corner-tl {
   top: 6px;
   left: 6px;
-  border-top: 1.5px solid;
-  border-left: 1.5px solid;
+  border-top: 1.5px solid rgba(184, 131, 32, 0.7);
+  border-left: 1.5px solid rgba(184, 131, 32, 0.7);
   border-top-left-radius: 4px;
 }
 
-.corner-tr {
+.thanks-corner.corner-tr {
   top: 6px;
   right: 6px;
-  border-top: 1.5px solid;
-  border-right: 1.5px solid;
+  border-top: 1.5px solid rgba(184, 131, 32, 0.7);
+  border-right: 1.5px solid rgba(184, 131, 32, 0.7);
   border-top-right-radius: 4px;
 }
 
-.corner-bl {
+.thanks-corner.corner-bl {
   bottom: 6px;
   left: 6px;
-  border-bottom: 1.5px solid;
-  border-left: 1.5px solid;
+  border-bottom: 1.5px solid rgba(184, 131, 32, 0.7);
+  border-left: 1.5px solid rgba(184, 131, 32, 0.7);
   border-bottom-left-radius: 4px;
 }
 
-.corner-br {
+.thanks-corner.corner-br {
   bottom: 6px;
   right: 6px;
-  border-bottom: 1.5px solid;
-  border-right: 1.5px solid;
+  border-bottom: 1.5px solid rgba(184, 131, 32, 0.7);
+  border-right: 1.5px solid rgba(184, 131, 32, 0.7);
   border-bottom-right-radius: 4px;
+}
+
+/* 3D Gold Khmer Corner Ornaments (images) */
+.thanks-kbach-corner {
+  position: absolute;
+  width: clamp(38px, 11vw, 50px);
+  height: clamp(38px, 11vw, 50px);
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 2px 4px rgba(180, 130, 30, 0.3));
+  user-select: none;
+}
+
+.thanks-kbach-corner-tl,
+.thanks-kbach-corner.corner-tl {
+  top: 0;
+  left: 0;
+  border: none !important;
+}
+
+.thanks-kbach-corner-tr,
+.thanks-kbach-corner.corner-tr {
+  top: 0;
+  right: 0;
+  border: none !important;
+}
+
+.thanks-kbach-corner-bl,
+.thanks-kbach-corner.corner-bl {
+  bottom: 0;
+  left: 0;
+  border: none !important;
+}
+
+.thanks-kbach-corner-br,
+.thanks-kbach-corner.corner-br {
+  bottom: 0;
+  right: 0;
+  border: none !important;
 }
 
 .thanks-crest-box {

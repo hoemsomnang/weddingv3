@@ -579,17 +579,17 @@
                         </h2>
                         <span class="thanks-ornament-wing ornament-right"></span>
                       </div>
-                      <span class="thanks-subtitle-en">WORDS OF GRATITUDE</span>
+                     
                     </div>
 
                     <!-- Luxury Gratitude Card -->
                     <div class="thanks-card-container anim-item" style="transition-delay: 0.25s">
                       <div class="thanks-gold-frame">
-                        <!-- Corner Filigree Ornaments -->
-                        <div class="thanks-corner corner-tl"></div>
-                        <div class="thanks-corner corner-tr"></div>
-                        <div class="thanks-corner corner-bl"></div>
-                        <div class="thanks-corner corner-br"></div>
+                        <!-- 3D Gold Khmer Corner Ornaments -->
+                        <img :src="corner3dTl" alt="3D Khmer Corner TL" class="thanks-kbach-corner thanks-kbach-corner-tl" />
+                        <img :src="corner3dTr" alt="3D Khmer Corner TR" class="thanks-kbach-corner thanks-kbach-corner-tr" />
+                        <img :src="corner3dBl" alt="3D Khmer Corner BL" class="thanks-kbach-corner thanks-kbach-corner-bl" />
+                        <img :src="corner3dBr" alt="3D Khmer Corner BR" class="thanks-kbach-corner thanks-kbach-corner-br" />
 
                         <!-- Monogram Crest -->
                         <div class="thanks-crest-box">
@@ -649,7 +649,7 @@
                         <!-- Respectful Closing -->
                         <div class="thanks-closing-wrapper">
                           <span class="thanks-closing-text">{{ invitation.thanksClosing }}</span>
-                          <span class="thanks-closing-sub">THANK YOU</span>
+                
                         </div>
 
                         <!-- Signatures of Parents -->
@@ -825,6 +825,10 @@ import qrGroomImg from '@/assets/qr/qr_groom_khqr.png'
 import qrBrideImg from '@/assets/qr/qr_bride_khqr.png'
 import cardGroomKhqr from '@/assets/qr/card_groom_khqr.png'
 import cardBrideKhqr from '@/assets/qr/card_bride_khqr.png'
+import corner3dTl from '@/assets/items/khmer_corner_gold_3d_tl.png'
+import corner3dTr from '@/assets/items/khmer_corner_gold_3d_tr.png'
+import corner3dBl from '@/assets/items/khmer_corner_gold_3d_bl.png'
+import corner3dBr from '@/assets/items/khmer_corner_gold_3d_br.png'
 import iconWelcome from '@/assets/items/agenda_01_welcome.webp'
 import iconFruit from '@/assets/items/agenda_02_fruit.webp'
 import iconHall from '@/assets/items/agenda_03_hall.webp'
