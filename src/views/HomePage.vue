@@ -206,7 +206,7 @@
 
 
 
-                <!-- PAGE 3: Agenda Section -->
+                <!-- PAGE 2: Agenda Section -->
                 <section class="snap-page section-agenda" id="page-agenda" :class="{ 'section-animate-in': isAgendaInView }">
                   <div class="page-content-wrapper agenda-page-content">
                     <h2 class="section-title anim-item" style="transition-delay: 0.1s">
@@ -235,22 +235,123 @@
                     </div>
                   </div>
                 </section>
+
+                <!-- PAGE 3: Location Section (ទីតាំងប្រារព្ធពិធី) -->
+                <section class="snap-page section-location" id="page-location" :class="{ 'section-animate-in': isLocationInView }">
+                  <div class="page-content-wrapper location-page-content">
+                    <!-- Title Header -->
+                    <div class="location-header-wrapper anim-item" style="transition-delay: 0.1s">
+                      <div class="location-title-row">
+                        <span class="location-ornament-wing ornament-left"></span>
+                        <h2 class="location-title-khmer">{{ invitation.venueTitle }}</h2>
+                        <span class="location-ornament-wing ornament-right"></span>
+                      </div>
+                      
+                    </div>
+
+                    <!-- Venue Info Box -->
+                    <div class="location-card-box anim-item" style="transition-delay: 0.25s">
+                      <!-- Venue Name -->
+                      <div class="location-info-row venue-title-row">
+                        <div class="location-icon-circle">
+                          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M12 3L2 12h3v8h6v-5h2v5h6v-8h3L12 3z"/>
+                          </svg>
+                        </div>
+                        <div class="location-text-col">
+                          <span class="location-label">ទីកន្លែងទទួលភ្ញៀវ</span>
+                          <span class="location-name-text">{{ invitation.venueName }}</span>
+                        </div>
+                      </div>
+
+                      <div class="location-divider-line"></div>
+
+                      <!-- Venue Address -->
+                      <div class="location-info-row">
+                        <div class="location-icon-circle">
+                          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                          </svg>
+                        </div>
+                        <div class="location-text-col">
+                          <span class="location-label">អាសយដ្ឋាន</span>
+                          <span class="location-address-text">{{ invitation.venueAddress }}</span>
+                        </div>
+                      </div>
+
+                      <div class="location-divider-line"></div>
+
+                      <!-- Reception Time -->
+                      <div class="location-info-row">
+                        <div class="location-icon-circle">
+                          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                          </svg>
+                        </div>
+                        <div class="location-text-col">
+                          <span class="location-label">ពេលវេលាទទួលភ្ញៀវ</span>
+                          <span class="location-time-text">{{ invitation.venueReceptionTime }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Google Map Interactive Frame -->
+                    <div class="location-map-frame anim-item" style="transition-delay: 0.4s">
+                      <iframe
+                        :src="invitation.venueEmbedUrl"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Google Maps Location"
+                      ></iframe>
+                      <div class="map-center-pin">
+                        <img :src="goldMapImg" alt="Location Pin" class="map-center-pin-img" />
+                      </div>
+                    </div>
+
+                    <!-- Open in Google Maps CTA Button -->
+                    <a
+                      :href="invitation.venueMapsUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="location-map-btn anim-item"
+                      style="transition-delay: 0.5s"
+                    >
+                      <img :src="goldMapImg" alt="Location Map Pin" class="map-btn-icon" />
+                      <span class="map-btn-text">{{ invitation.venueButtonText }}</span>
+                      <svg class="map-btn-arrow" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7z"/>
+                      </svg>
+                    </a>
+
+                    <!-- Closing Courtesy Note & Gold Divider -->
+                    <div class="location-footer-note anim-item" style="transition-delay: 0.6s">
+                      <p class="location-closing-wish">{{ invitation.venueClosingWish }}</p>
+                      <div class="schedule-divider">
+                        <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                      </div>
+                    </div>
+                  </div>
+                </section>
               </div>
 
               <!-- Fixed Bottom Actions -->
               <div class="fixed-bottom-actions">
                 <div class="scroll-up-hint" @click="scrollToNextPage" style="cursor: pointer;">
-                  <div class="chevrons">
+                  <div class="chevrons" :class="{ 'is-flipped': isLocationInView }">
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                   </div>
-                  <span class="scroll-up-text">{{ invitation.scrollUpText }}</span>
+                  <span class="scroll-up-text">{{ isLocationInView ? 'ត្រឡប់ទៅលើ' : invitation.scrollUpText }}</span>
                 </div>
                 <div class="action-buttons">
-                  <button class="action-btn"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
-                  <button class="action-btn"><img :src="btnLocation" alt="Location" class="action-icon" /></button>
-                  <button class="action-btn"><img :src="btnGallery" alt="Gallery" class="action-icon" /></button>
-                  <button class="action-btn"><img :src="btnWishes" alt="Wishes" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('cover')" title="Calendar / Date"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('location')" title="Location"><img :src="goldMapImg" alt="Location" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('agenda')" title="Agenda"><img :src="btnGallery" alt="Agenda" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('cover')" title="Wishes"><img :src="btnWishes" alt="Wishes" class="action-icon" /></button>
                 </div>
               </div>
             </div>
@@ -293,6 +394,7 @@ import weddingCoupleImg from '@/assets/wedding-couple-2-transparent.png'
 import invitation from '@/config/invitation.js'
 import btnCalendar from '@/assets/items/btn_calendar.svg'
 import btnLocation from '@/assets/items/btn_location.svg'
+import goldMapImg from '@/assets/gold_map.webp'
 import btnGallery from '@/assets/items/btn_gallery.svg'
 import btnWishes from '@/assets/items/btn_wishes.svg'
 import iconWelcome from '@/assets/items/agenda_01_welcome.webp'
@@ -328,6 +430,7 @@ const agendaIcons = { welcome: iconWelcome, fruit: iconFruit, hall: iconHall, mo
 const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
 const isCoverInView = ref(true)
 const isAgendaInView = ref(false)
+const isLocationInView = ref(false)
 const previewVideoRef = ref(null)
 const isEmergingFromDoor = ref(false)
 let doorTransitionTimer = null
@@ -341,7 +444,24 @@ const toKhmerNumber = (numStr) => {
 
 const scrollToNextPage = () => {
   const container = document.querySelector('.invitation-card')
-  if (container) container.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
+  if (!container) return
+  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 60) {
+    const coverEl = document.getElementById('page-cover')
+    if (coverEl) {
+      coverEl.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      container.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  } else {
+    container.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })
+  }
+}
+
+const scrollToPage = (pageId) => {
+  const el = document.getElementById(`page-${pageId}`)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
 const onCardScroll = (e) => {
@@ -355,18 +475,21 @@ const setupScrollObserver = () => {
     const cardEl = document.querySelector('.invitation-card')
     if (cardEl && cardEl.scrollLeft !== 0) cardEl.scrollLeft = 0
 
-    const agendaEl = document.getElementById('page-agenda')
     const coverEl = document.getElementById('page-cover')
+    const agendaEl = document.getElementById('page-agenda')
+    const locationEl = document.getElementById('page-location')
     
     if (observer) observer.disconnect()
     observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
         if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-location') isLocationInView.value = entry.isIntersecting
       })
     }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
     if (coverEl) observer.observe(coverEl)
     if (agendaEl) observer.observe(agendaEl)
+    if (locationEl) observer.observe(locationEl)
   }, 150)
 }
 
