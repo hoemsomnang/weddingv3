@@ -240,14 +240,13 @@
                 <section class="snap-page section-location" id="page-location" :class="{ 'section-animate-in': isLocationInView }">
                   <div class="page-content-wrapper location-page-content">
                     <!-- Title Header -->
-                    <div class="location-header-wrapper anim-item" style="transition-delay: 0.1s">
-                      <div class="location-title-row">
-                        <span class="location-ornament-wing ornament-left"></span>
-                        <h2 class="location-title-khmer">{{ invitation.venueTitle }}</h2>
-                        <span class="location-ornament-wing ornament-right"></span>
-                      </div>
-                      
-                    </div>
+                    <h2 class="section-title anim-item" style="transition-delay: 0.1s">
+                      <img
+                        :src="locationTitleKhmerImg"
+                        :alt="invitation.venueTitle"
+                        class="location-title-img"
+                      />
+                    </h2>
 
                     <!-- Venue Info Box -->
                     <div class="location-card-box anim-item" style="transition-delay: 0.25s">
@@ -328,8 +327,100 @@
                     </a>
 
                     <!-- Closing Courtesy Note & Gold Divider -->
+                    <!-- Closing Courtesy Note & Gold Divider -->
                     <div class="location-footer-note anim-item" style="transition-delay: 0.6s">
                       <p class="location-closing-wish">{{ invitation.venueClosingWish }}</p>
+                      <div class="schedule-divider">
+                        <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- PAGE 4: Gallery Section (វិចិត្រសាល) -->
+                <section class="snap-page section-gallery" id="page-gallery" :class="{ 'section-animate-in': isGalleryInView }">
+                  <div class="page-content-wrapper gallery-page-content">
+                    <!-- Title Header -->
+                    <h2 class="section-title anim-item" style="transition-delay: 0.1s">
+                      <img
+                        :src="galleryTitleKhmerImg"
+                        :alt="invitation.galleryTitle"
+                        class="gallery-title-img"
+                      />
+                    </h2>
+
+                    <!-- Subtitle & Love Quote -->
+                    <div class="gallery-subtitle-wrapper anim-item" style="transition-delay: 0.2s">
+                      <span class="gallery-subtitle-en">{{ invitation.gallerySubtitle }}</span>
+                      <p class="gallery-wishes-text">{{ invitation.galleryWishes }}</p>
+                    </div>
+
+                    <!-- Featured Hero Panoramic Banner -->
+                    <div class="gallery-hero-card anim-item" style="transition-delay: 0.3s" @click="openLightbox(0)">
+                      <div class="gallery-hero-frame">
+                        <!-- Golden Shimmer Skeleton -->
+                        <div class="gallery-img-skeleton" :class="{ 'is-hidden': loadedPhotos[0] }">
+                          <div class="skeleton-shimmer"></div>
+                          <div class="skeleton-spinner">
+                            <div class="spinner-ring"></div>
+                            <div class="spinner-sparkle">✦</div>
+                          </div>
+                        </div>
+
+                        <img
+                          :src="galleryPhotos[0].src"
+                          :alt="galleryPhotos[0].alt"
+                          class="gallery-hero-img"
+                          :class="{ 'is-loaded': loadedPhotos[0] }"
+                          @load="onPhotoLoad(0)"
+                          loading="lazy"
+                        />
+                        <div class="gallery-hero-badge">
+                          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                          </svg>
+                          <span>{{ galleryPhotos[0].caption }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 2-Column Photo Grid -->
+                    <div class="gallery-grid anim-item" style="transition-delay: 0.4s">
+                      <div
+                        v-for="(photo, idx) in galleryPhotos.slice(1)"
+                        :key="idx"
+                        class="gallery-grid-item"
+                        :class="{ 'gallery-grid-item-featured': idx === 4 }"
+                        @click="openLightbox(idx + 1)"
+                      >
+                        <div class="gallery-item-inner">
+                          <!-- Golden Shimmer Skeleton -->
+                          <div class="gallery-img-skeleton" :class="{ 'is-hidden': loadedPhotos[idx + 1] }">
+                            <div class="skeleton-shimmer"></div>
+                            <div class="skeleton-spinner">
+                              <div class="spinner-ring"></div>
+                              <div class="spinner-sparkle">✦</div>
+                            </div>
+                          </div>
+
+                          <img
+                            :src="photo.src"
+                            :alt="photo.alt"
+                            class="gallery-grid-img"
+                            :class="{ 'is-loaded': loadedPhotos[idx + 1] }"
+                            @load="onPhotoLoad(idx + 1)"
+                            loading="lazy"
+                          />
+                          <div class="gallery-item-overlay">
+                            <span class="gallery-item-label">{{ photo.caption }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Closing Courtesy Note & Gold Divider -->
+                    <div class="gallery-footer-note anim-item" style="transition-delay: 0.5s">
+                      <p class="gallery-closing-wish">{{ invitation.albumWishes }}</p>
                       <div class="schedule-divider">
                         <img :src="goldDividerImg" alt="Gold Wedding Divider" class="divider-graphic" />
                       </div>
@@ -341,17 +432,17 @@
               <!-- Fixed Bottom Actions -->
               <div class="fixed-bottom-actions">
                 <div class="scroll-up-hint" @click="scrollToNextPage" style="cursor: pointer;">
-                  <div class="chevrons" :class="{ 'is-flipped': isLocationInView }">
+                  <div class="chevrons" :class="{ 'is-flipped': isGalleryInView }">
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
                   </div>
-                  <span class="scroll-up-text">{{ isLocationInView ? 'ត្រឡប់ទៅលើ' : invitation.scrollUpText }}</span>
+                  <span class="scroll-up-text">{{ isGalleryInView ? 'ត្រឡប់ទៅលើ' : invitation.scrollUpText }}</span>
                 </div>
                 <div class="action-buttons">
                   <button class="action-btn" @click="scrollToPage('cover')" title="Calendar / Date"><img :src="btnCalendar" alt="Calendar" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('agenda')" title="Agenda"><img :src="agendaIcons.hall" alt="Agenda" class="action-icon" /></button>
                   <button class="action-btn" @click="scrollToPage('location')" title="Location"><img :src="goldMapImg" alt="Location" class="action-icon" /></button>
-                  <button class="action-btn" @click="scrollToPage('agenda')" title="Agenda"><img :src="btnGallery" alt="Agenda" class="action-icon" /></button>
-                  <button class="action-btn" @click="scrollToPage('cover')" title="Wishes"><img :src="btnWishes" alt="Wishes" class="action-icon" /></button>
+                  <button class="action-btn" @click="scrollToPage('gallery')" title="Gallery"><img :src="btnGallery" alt="Gallery" class="action-icon" /></button>
                 </div>
               </div>
             </div>
@@ -365,6 +456,55 @@
         </div>
     </Transition>
 
+    <!-- Fullscreen Gallery Lightbox Modal -->
+    <Transition name="lightbox-fade">
+      <div
+        v-if="activeLightboxIndex !== null"
+        class="gallery-lightbox-modal"
+        @click.self="closeLightbox"
+      >
+        <button class="lightbox-close-btn" @click="closeLightbox" title="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+
+        <div class="lightbox-content-box">
+          <button class="lightbox-nav-btn btn-prev" @click.stop="prevPhoto" title="Previous Photo">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+
+          <div class="lightbox-img-wrapper">
+            <!-- Lightbox Golden Loading Indicator -->
+            <div v-if="isLightboxLoading" class="lightbox-loading-overlay">
+              <div class="lightbox-spinner-ring"></div>
+              <span class="lightbox-loading-text">កំពុងផ្ទុករូបភាព...</span>
+            </div>
+
+            <img
+              :src="galleryPhotos[activeLightboxIndex].src"
+              :alt="galleryPhotos[activeLightboxIndex].alt"
+              class="lightbox-main-img"
+              :class="{ 'is-loaded': !isLightboxLoading }"
+              @load="onLightboxImgLoad"
+            />
+            <div class="lightbox-caption-bar">
+              <span class="lightbox-counter">{{ toKhmerNumber(String(activeLightboxIndex + 1)) }} / {{ toKhmerNumber(String(galleryPhotos.length)) }}</span>
+              <span class="lightbox-caption-text">{{ galleryPhotos[activeLightboxIndex].caption }}</span>
+            </div>
+          </div>
+
+          <button class="lightbox-nav-btn btn-next" @click.stop="nextPhoto" title="Next Photo">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Transition>
+
   </div>
 </template>
 
@@ -376,6 +516,14 @@ import { weddingText } from '@/data/weddingText.js'
 import weddingTitleKhmerImg from '@/assets/wedding_title_khmer_transparent.png'
 import soamKouropAnjeyImg from '@/assets/soam_kourop_anjey_transparent.png'
 import agendaTitleKhmerImg from '@/assets/agenda_title_khmer_transparent.png'
+import locationTitleKhmerImg from '@/assets/location_title_khmer_transparent.png'
+import galleryTitleKhmerImg from '@/assets/gallery_title_khmer_transparent.png'
+import galleryBannerImg from '@/assets/gallery/album_01_banner.webp'
+import gallery01Img from '@/assets/gallery/gallery_01_royal.webp'
+import gallery02Img from '@/assets/gallery/gallery_02_traditional.webp'
+import gallery03Img from '@/assets/gallery/gallery_03_modern.webp'
+import gallery04Img from '@/assets/gallery/gallery_04_sunset.webp'
+import gallery05Img from '@/assets/gallery/gallery_05_intimate.webp'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
@@ -431,6 +579,84 @@ const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
 const isCoverInView = ref(true)
 const isAgendaInView = ref(false)
 const isLocationInView = ref(false)
+const isGalleryInView = ref(false)
+
+const galleryPhotos = [
+  {
+    src: galleryBannerImg,
+    alt: 'Angkor Wat Royal Blessing',
+    caption: 'ពិធីហែជំនូនមុខប្រាសាទអង្គរវត្តដ៏ពិសិដ្ឋ'
+  },
+  {
+    src: gallery01Img,
+    alt: 'Royal Attire Portrait',
+    caption: 'សម្លៀកបំពាក់ប្រពៃណីព្រះរាជទ្រព្យ'
+  },
+  {
+    src: gallery02Img,
+    alt: 'Traditional Purple Splendor',
+    caption: 'សម្រស់ផ្កាពណ៌ស្វាយនៃក្តីស្រឡាញ់'
+  },
+  {
+    src: gallery03Img,
+    alt: 'Modern Wedding Elegance',
+    caption: 'រ៉ូបកូនក្រមុំពណ៌សដ៏ប្រណិត'
+  },
+  {
+    src: gallery04Img,
+    alt: 'Sunset Romance',
+    caption: 'ស្នាមញញឹមក្រោមពន្លឺថ្ងៃរៀបលិច'
+  },
+  {
+    src: gallery05Img,
+    alt: 'Intimate Royal Moment',
+    caption: 'អនុស្សាវរីយ៍ដ៏ផ្អែមល្ហែមរវាងគូស្នេហ៍'
+  }
+]
+
+const loadedPhotos = ref({})
+const isLightboxLoading = ref(false)
+
+const onPhotoLoad = (idx) => {
+  loadedPhotos.value[idx] = true
+}
+
+const onLightboxImgLoad = () => {
+  isLightboxLoading.value = false
+}
+
+const activeLightboxIndex = ref(null)
+
+const openLightbox = (index) => {
+  isLightboxLoading.value = true
+  activeLightboxIndex.value = index
+}
+
+const closeLightbox = () => {
+  activeLightboxIndex.value = null
+  isLightboxLoading.value = false
+}
+
+const prevPhoto = () => {
+  if (activeLightboxIndex.value !== null) {
+    isLightboxLoading.value = true
+    activeLightboxIndex.value = (activeLightboxIndex.value - 1 + galleryPhotos.length) % galleryPhotos.length
+  }
+}
+
+const nextPhoto = () => {
+  if (activeLightboxIndex.value !== null) {
+    isLightboxLoading.value = true
+    activeLightboxIndex.value = (activeLightboxIndex.value + 1) % galleryPhotos.length
+  }
+}
+
+const onKeyDown = (e) => {
+  if (activeLightboxIndex.value === null) return
+  if (e.key === 'Escape') closeLightbox()
+  if (e.key === 'ArrowLeft') prevPhoto()
+  if (e.key === 'ArrowRight') nextPhoto()
+}
 const previewVideoRef = ref(null)
 const isEmergingFromDoor = ref(false)
 let doorTransitionTimer = null
@@ -478,6 +704,7 @@ const setupScrollObserver = () => {
     const coverEl = document.getElementById('page-cover')
     const agendaEl = document.getElementById('page-agenda')
     const locationEl = document.getElementById('page-location')
+    const galleryEl = document.getElementById('page-gallery')
     
     if (observer) observer.disconnect()
     observer = new IntersectionObserver((entries) => {
@@ -485,11 +712,13 @@ const setupScrollObserver = () => {
         if (entry.target.id === 'page-cover') isCoverInView.value = entry.isIntersecting
         if (entry.target.id === 'page-agenda') isAgendaInView.value = entry.isIntersecting
         if (entry.target.id === 'page-location') isLocationInView.value = entry.isIntersecting
+        if (entry.target.id === 'page-gallery') isGalleryInView.value = entry.isIntersecting
       })
     }, { root: document.querySelector('.invitation-card'), threshold: 0.25 })
     if (coverEl) observer.observe(coverEl)
     if (agendaEl) observer.observe(agendaEl)
     if (locationEl) observer.observe(locationEl)
+    if (galleryEl) observer.observe(galleryEl)
   }, 150)
 }
 
@@ -673,7 +902,12 @@ const toggleEnvelope = () => {
   }
 }
 
+onMounted(() => {
+  window.addEventListener('keydown', onKeyDown)
+})
+
 onUnmounted(() => {
+  window.removeEventListener('keydown', onKeyDown)
   if (timerInterval) clearInterval(timerInterval)
   if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
   if (observer) observer.disconnect()
