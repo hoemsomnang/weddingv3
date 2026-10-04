@@ -369,7 +369,7 @@
 .cover-title-khmer-img {
   width: min(84%, 280px);
   height: auto;
-  max-height: 64px;
+  max-height: 80px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
@@ -378,16 +378,6 @@
   transition: transform 0.3s ease;
 }
 
-.cover-khmer-sub {
-  font-family: 'Moul', 'Kantumruy Pro', cursive !important;
-  font-size: 18px !important;
-  font-weight: bold !important;
-  color: #a8812c !important;
-  margin: 0;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 2px 4px rgba(90, 65, 15, 0.2);
-}
 
 /* 2. Center Gold Seal: gold-seal-transparent.png */
 .cover-seal-box {
@@ -482,14 +472,24 @@
 }
 
 .cover-khmer-sub {
-  font-family: 'Moul', 'Kantumruy Pro', cursive !important;
-  font-size: 18px !important;
-  font-weight: bold !important;
-  color: #a8812c !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 2px 4px rgba(90, 65, 15, 0.2);
+  padding: 0;
+  width: 100%;
+}
+
+.cover-khmer-sub-img {
+  width: min(78%, 230px);
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 0.3s ease;
 }
 
 .cover-en-sub {
@@ -668,9 +668,12 @@
   .cover-header {
     margin-bottom: 14px;
   }
-  .cover-title-khmer,
-  .cover-khmer-sub {
-    font-size: 16px !important;
+  .cover-title-khmer-img {
+    max-height: 60px;
+  }
+  .cover-khmer-sub-img {
+    max-height: 44px;
+    width: min(75%, 190px);
   }
   .cover-seal-box {
     width: 126px;
@@ -1116,7 +1119,7 @@
 }
 
 .page-content-wrapper {
-  padding: 17.5vh 12px 150px;
+  padding: 11vh 12px 150px;
   width: 100%;
   max-width: 100%;
   display: flex;
@@ -1259,40 +1262,52 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  color: #a67212;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2);
 }
 
 .invitation-heading-img {
   width: min(80%, 250px);
   height: auto;
-  max-height: 52px;
+  max-height: 64px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
   user-select: none;
   pointer-events: none;
+  filter: drop-shadow(0 0 4px #ffffff) 
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95)) 
+          drop-shadow(0 1px 3px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 2px 4px rgba(90, 60, 10, 0.2));
 }
 .parents-row { display: flex; justify-content: space-between; width: 100%; max-width: 100%; gap: 10px; margin-top: 2px; box-sizing: border-box; }
 .parents-group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .groom-parents { text-align: left; }
 .bride-parents { text-align: right; }
 .parent-entry { font-family: 'Kantumruy Pro', sans-serif; font-size: 13px; color: #1a241e; line-height: 1.45; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); word-break: break-word; }
-.parent-role { color: #4a3610; margin-right: 3px; font-weight: 600; font-size: 12.5px; }
-.parent-name { font-weight: 700; color: #4a3610; font-size: 13.5px; }
+.parent-role { color: #4a3610; margin-right: 3px; font-weight: 600; font-size: 13.5px; }
+.parent-name {
+  font-family: 'Moul', 'Kantumruy Pro', cursive;
+  font-size: 13.5px;
+  color: #a67212;
+  line-height: 1.35;
+  text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2);
+}
 .honor-invite-section { margin-top: 2px; padding: 4px 2px; width: 100%; max-width: 100%; box-sizing: border-box; }
 .honor-invite-title { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #a67212; margin: 0 0 4px 0; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
-.invitation-line { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; font-weight: 700; line-height: 1.65; color: #4a3610; margin: 0; text-align: center; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
+.invitation-line { font-family: 'Kantumruy Pro', sans-serif; font-size: 12.5px; font-weight: 700; line-height: 1.65; color: #4a3610; margin: 0; text-align: center; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
 .couple-section { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 100%; gap: 8px; margin-top: 3px; padding: 6px 2px; box-sizing: border-box; }
 .couple-side { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; min-width: 0; }
-.couple-role { font-family: 'Kantumruy Pro', sans-serif; font-size: 11.5px; color: #4a3610; font-weight: 700; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
+.couple-role { font-family: 'Kantumruy Pro', sans-serif; font-size: 12.5px; color: #4a3610; font-weight: 700; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
 .couple-name { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 15.5px; color: #a67212; letter-spacing: 0.3px; line-height: 1.35; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); word-break: break-word; }
 .couple-ampersand { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 68px; height: 68px; }
 .couple-crest-img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.18)); }
 .event-schedule-section { margin-top: 3px; display: flex; flex-direction: column; align-items: center; gap: 3px; width: 100%; max-width: 100%; box-sizing: border-box; }
-.lunar-date { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; color: #2b3931; margin: 0; line-height: 1.45; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
+.lunar-date { font-family: 'Kantumruy Pro', sans-serif; font-size: 12px; font-weight: 700; color: #2b3931; margin: 0; line-height: 1.45; text-shadow: 0 0 3px #ffffff, 0 0 7px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 1); }
 .solar-date { font-family: 'Moul', 'Kantumruy Pro', cursive; font-size: 13px; color: #a67212; margin: 0; line-height: 1.4; text-shadow: 0 0 4px #ffffff, 0 0 8px rgba(255, 255, 255, 0.95), 0 1px 3px rgba(255, 255, 255, 1), 0 2px 4px rgba(90, 60, 10, 0.2); }
 .schedule-divider { width: 180px; max-width: 65%; margin: 3px 0; display: flex; align-items: center; justify-content: center; }
 .divider-graphic { width: 100%; height: auto; display: block; filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.95)); }
-.reception-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 11px; font-weight: 700; line-height: 1.55; color: #4a3610; margin: 0; text-align: center; max-width: 96%; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
+.reception-time { font-family: 'Kantumruy Pro', sans-serif; font-size: 12px; font-weight: 700; line-height: 1.55; color: #4a3610; margin: 0; text-align: center; max-width: 96%; text-shadow: 0 0 3px #ffffff, 0 0 8px rgba(255, 255, 255, 0.98), 0 1px 2px rgba(255, 255, 255, 1); }
 .countdown-section { margin-top: 8px; width: 100%; }
 .countdown-grid { display: flex; justify-content: center; gap: 12px; }
 .countdown-item { display: flex; flex-direction: column; align-items: center; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(184, 135, 40, 0.4); border-radius: 8px; padding: 6px 10px; min-width: 45px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); backdrop-filter: blur(2px); }

@@ -81,7 +81,13 @@
               <img ref="coverSealImgRef" :src="goldSealCoverImg" :alt="weddingText.accessibility.coverSealAlt" class="cover-seal-img" />
             </div>
             <div class="cover-footer">
-              <h2 class="cover-khmer-sub">{{ weddingText.cover.invitationKhmer }}</h2>
+              <h2 class="cover-khmer-sub">
+                <img
+                  :src="soamKouropAnjeyImg"
+                  :alt="weddingText.cover.invitationKhmer"
+                  class="cover-khmer-sub-img"
+                />
+              </h2>
               <div class="tap-hint-pill">
                 <span class="pulse-dot"></span>
                 <span>{{ weddingText.cover.tapHint }}</span>
@@ -261,6 +267,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // ── Envelope imports ──
 import { weddingText } from '@/data/weddingText.js'
 import weddingTitleKhmerImg from '@/assets/wedding_title_khmer_transparent.png'
+import soamKouropAnjeyImg from '@/assets/soam_kourop_anjey_transparent.png'
 import goldSealCoverImg from '@/assets/envelope/gold-seal-transparent.webp'
 import flapImg from '@/assets/envelope/envelope-flap.webp'
 import pocketImg from '@/assets/envelope/envelope-pocket.webp'
