@@ -1,0 +1,27 @@
+d:\Learn\AI\02.Weeding\03_V3\public\animated-flower.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_gold_3d_transparent.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_vector_bl.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_vector_br.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_vector_tl.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_vector_tr.png
+d:\Learn\AI\02.Weeding\03_V3\public\khmer_corner_vector_transparent.png
+d:\Learn\AI\02.Weeding\03_V3\public\soam_kourop_anjey_gold_matched.png
+d:\Learn\AI\02.Weeding\03_V3\public\soam_kourop_anjey_original_gold.png
+d:\Learn\AI\02.Weeding\03_V3\public\thanks_title_khmer_cropped.png
+d:\Learn\AI\02.Weeding\03_V3\public\thanks_title_khmer_full.png
+d:\Learn\AI\02.Weeding\03_V3\public\wedding_title_khmer_cropped.png
+d:\Learn\AI\02.Weeding\03_V3\scripts\wedding-envelope-scallop.jpg
+d:\Learn\AI\02.Weeding\03_V3\src\assets\invitation_floral_frame copy.jpg
+d:\Learn\AI\02.Weeding\03_V3\src\assets\soam_kourop_anjey_gold_matched.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\soam_kourop_anjey_original_gold.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\thanks_title_khmer_cropped.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\thanks_title_khmer_full.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\wedding_title_khmer_cropped.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\wedding_title_khmer_transparent copy.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\wedding_title_khmer_transparent_raw.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_gold_3d_transparent.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_vector_bl.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_vector_br.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_vector_tl.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_vector_tr.png
+d:\Learn\AI\02.Weeding\03_V3\src\assets\items\khmer_corner_vector_transparent.png
