@@ -454,14 +454,14 @@
                     <div class="gift-header-wrapper anim-item" style="transition-delay: 0.1s">
                       <div class="gift-title-row">
                         <span class="gift-ornament-wing ornament-left"></span>
-                        <h2 class="gift-title-khmer">{{ invitation.giftTitle }}</h2>
+                        <img src="/gift-title-khmer.png" alt="Wedding Gift" class="gift-title-khmer-img" />
                         <span class="gift-ornament-wing ornament-right"></span>
                       </div>
                     
                     </div>
 
                     <!-- Intro note -->
-                    <p class="gift-intro-text anim-item" style="transition-delay: 0.15s">
+                    <p class="gift-intro-text reception-time anim-item" style="transition-delay: 0.15s">
                       {{ invitation.giftDesc }}
                     </p>
 
