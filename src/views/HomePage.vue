@@ -874,7 +874,7 @@ const coverSealImgRef = ref(null)
 // ── Main invitation state ──
 const agendaIcons = { welcome: iconWelcome, fruit: iconFruit, hall: iconHall, monks: iconMonks, haircut: iconHaircut, thread: iconThread, lunch: iconLunch, banquet: iconBanquet }
 const timeLeft = ref({ days: 0, hours: 0, mins: 0, secs: 0 })
-const isCoverInView = ref(true)
+const isCoverInView = ref(false)
 const isAgendaInView = ref(false)
 const isLocationInView = ref(false)
 const isGalleryInView = ref(false)
@@ -1067,17 +1067,29 @@ const onVideoEnded = () => {
     try { sealVideoRef.value.pause() } catch (e) {}
   }
   isVideoPlaying.value = false
+  isCoverInView.value = false
   showInvitation.value = true
+
   updateCountdown()
   if (timerInterval) clearInterval(timerInterval)
   timerInterval = setInterval(updateCountdown, 1000)
-  setupScrollObserver()
 
-  // Transition smoothly into Agenda Section as requested
+  // Ensure scroll is at top so invitation-card section (page-cover) is displayed
   nextTick(() => {
+    const cardContainer = document.querySelector('.invitation-card')
+    if (cardContainer) {
+      cardContainer.scrollTop = 0
+    }
+    const coverEl = document.getElementById('page-cover')
+    if (coverEl) {
+      coverEl.scrollIntoView({ behavior: 'auto' })
+    }
+
+    // Trigger staggered text loading animation like scrolling up or down
     setTimeout(() => {
-      scrollToPage('agenda')
-    }, 150)
+      isCoverInView.value = true
+      setupScrollObserver()
+    }, 200)
   })
 }
 
@@ -1179,6 +1191,8 @@ const returnToCover = () => {
     } catch (e) {}
   }
   isVideoPlaying.value = false
+  isCoverInView.value = false
+  showInvitation.value = false
   isReturning.value = true
   isCoverOpen.value = false
   isOpen.value = false
