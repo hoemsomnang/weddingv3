@@ -30,7 +30,7 @@
   z-index: 2;
 }
 
-/* 1. Envelope Back Wall (Transparent to reveal background) */
+/* 1. Envelope Back Wall (Reveals video on open seal) */
 .envelope-back {
   position: absolute;
   inset: 0;
@@ -41,6 +41,28 @@
   transform: translateZ(0px);
   -webkit-transform: translateZ(0px);
   pointer-events: none;
+}
+
+.envelope-scene.is-open .envelope-back {
+  pointer-events: auto;
+}
+
+/* Background video on open seal */
+.seal-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.seal-bg-video.is-active {
+  opacity: 1;
 }
 
 /* Warm Golden Glow Inside Chamber */

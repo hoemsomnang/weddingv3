@@ -12,14 +12,12 @@
       <!-- 1. Envelope Back Wall -->
       <div class="envelope-back">
         <video 
-          ref="previewVideoRef" 
-          src="/video/preview_video_compressed.mp4" 
+          ref="sealVideoRef" 
+          src="/video/preview.mp4" 
           playsinline 
-          muted
+          class="seal-bg-video"
+          :class="{ 'is-active': isVideoPlaying }"
           @ended="onVideoEnded"
-          @timeupdate="onVideoTimeUpdate"
-          @click.stop="skipVideo"
-          :style="{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: showVideoScreen ? 1 : 0, transition: 'opacity 0.4s ease', cursor: 'pointer' }"
         ></video>
       </div>
 
@@ -114,11 +112,9 @@
          MAIN INVITATION (emerges from palace door)
     ════════════════════════════════════════════════ -->
     <Transition name="door-emerge">
-      <div v-if="showInvitation" class="main-on-top" :class="{ 'is-door-emerging': isEmergingFromDoor }">
+      <div v-if="showInvitation" class="main-on-top">
 
         <div class="main-page">
-          <!-- Golden radiance aura bursting from the palace doors -->
-          <div v-if="isEmergingFromDoor" class="door-light-radiance"></div>
 
           <div class="main-screen">
             <!-- 1. Fullscreen Base Backdrop -->
@@ -801,7 +797,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 
 // ── Envelope imports ──
 import { weddingText } from '@/data/weddingText.js'
@@ -862,14 +858,14 @@ import './HomePage.css'
 const isCoverOpen = ref(false)
 const isOpen = ref(false)
 const isReturning = ref(false)
-const hasPlayedVideo = ref(false)
-const videoFailed = ref(false)
 const isDisappearingOther = ref(false)
 const isAnimatingCover = ref(false)
 const showInvitation = ref(false)
-const showVideoScreen = ref(false)
+const sealVideoRef = ref(null)
+const isVideoPlaying = ref(false)
 let currentGlideAnim = null
 let returnTimer = null
+let videoFallbackTimer = null
 
 const envelopeSealRef = ref(null)
 const coverSealBoxRef = ref(null)
@@ -964,9 +960,6 @@ const onKeyDown = (e) => {
   if (e.key === 'ArrowLeft') prevPhoto()
   if (e.key === 'ArrowRight') nextPhoto()
 }
-const previewVideoRef = ref(null)
-const isEmergingFromDoor = ref(false)
-let doorTransitionTimer = null
 let timerInterval = null
 let observer = null
 
@@ -1049,50 +1042,6 @@ const copyAccountNumber = async (accNum) => {
 const zoomQr = (src) => { zoomedQr.value = src }
 const closeZoomQr = () => { zoomedQr.value = null }
 
-const onVideoTimeUpdate = () => {
-  if (!previewVideoRef.value) return
-
-  // Trigger door emergence when video reaches 10.00s
-  if (previewVideoRef.value.currentTime >= 10.00 && showVideoScreen.value && !showInvitation.value) {
-    showInvitation.value = true
-    isEmergingFromDoor.value = true
-
-    updateCountdown()
-    if (timerInterval) clearInterval(timerInterval)
-    timerInterval = setInterval(updateCountdown, 1000)
-    setupScrollObserver()
-
-    // Video plays as doors open and card emerges from door
-    if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
-    doorTransitionTimer = setTimeout(() => {
-      if (previewVideoRef.value) {
-        previewVideoRef.value.pause()
-      }
-      showVideoScreen.value = false
-      isEmergingFromDoor.value = false
-    }, 1400)
-  }
-}
-
-const onVideoEnded = () => {
-  if (!showVideoScreen.value && showInvitation.value) return
-  if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
-  if (previewVideoRef.value) {
-    previewVideoRef.value.pause()
-  }
-  showVideoScreen.value = false
-  showInvitation.value = true
-  isEmergingFromDoor.value = false
-  
-  updateCountdown()
-  if (timerInterval) clearInterval(timerInterval)
-  timerInterval = setInterval(updateCountdown, 1000)
-  setupScrollObserver()
-}
-
-const skipVideo = () => {
-  onVideoEnded()
-}
 
 const updateCountdown = () => {
   if (!invitation.targetDate) return
@@ -1111,23 +1060,50 @@ const updateCountdown = () => {
 }
 
 // ── Envelope logic ──
+const onVideoEnded = () => {
+  if (showInvitation.value) return
+  if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
+  if (sealVideoRef.value) {
+    try { sealVideoRef.value.pause() } catch (e) {}
+  }
+  isVideoPlaying.value = false
+  showInvitation.value = true
+  updateCountdown()
+  if (timerInterval) clearInterval(timerInterval)
+  timerInterval = setInterval(updateCountdown, 1000)
+  setupScrollObserver()
+
+  // Transition smoothly into Agenda Section as requested
+  nextTick(() => {
+    setTimeout(() => {
+      scrollToPage('agenda')
+    }, 150)
+  })
+}
+
+
 const openCover = async () => {
   if (isCoverOpen.value || isAnimatingCover.value) return
   isReturning.value = false
   clearTimeout(returnTimer)
   isAnimatingCover.value = true
 
-  // Ensure video can play by starting it synchronously with the click
-  if (previewVideoRef.value && !hasPlayedVideo.value) {
-    previewVideoRef.value.currentTime = 0;
-    const playPromise = previewVideoRef.value.play();
+  // Start video synchronously on user tap
+  if (sealVideoRef.value) {
+    sealVideoRef.value.currentTime = 0
+    sealVideoRef.value.muted = false
+    const playPromise = sealVideoRef.value.play()
     if (playPromise !== undefined) {
-      playPromise.catch(e => {
-        console.log('Autoplay prevented initially:', e);
-        videoFailed.value = true;
-      });
+      playPromise.catch(() => {
+        // Fallback to muted playback if audio is restricted
+        if (sealVideoRef.value) {
+          sealVideoRef.value.muted = true
+          sealVideoRef.value.play().catch(e => console.log('Autoplay error:', e))
+        }
+      })
     }
   }
+
 
   const coverSealEl = coverSealBoxRef.value
   const targetSealEl = envelopeSealRef.value
@@ -1146,7 +1122,7 @@ const openCover = async () => {
   const targetScale = targetRect.width / sourceRect.width
 
   isDisappearingOther.value = true
-  await new Promise(resolve => setTimeout(resolve, 850))
+  await new Promise(resolve => setTimeout(resolve, 350))
 
   try {
     currentGlideAnim = coverSealEl.animate(
@@ -1155,45 +1131,34 @@ const openCover = async () => {
         { transform: `translate(${deltaX * 0.38}px, ${deltaY * 0.42}px) scale(${1 - (1 - targetScale) * 0.68})`, filter: 'drop-shadow(0 10px 20px rgba(60, 42, 10, 0.48))', offset: 0.45 },
         { transform: `translate(${deltaX}px, ${deltaY}px) scale(${targetScale})`, filter: 'drop-shadow(0 6px 12px rgba(60, 42, 10, 0.45))', offset: 1 }
       ],
-      { duration: 1100, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+      { duration: 850, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
     )
     await currentGlideAnim.finished
-    await new Promise(resolve => setTimeout(resolve, 80))
+    await new Promise(resolve => setTimeout(resolve, 60))
 
     isCoverOpen.value = true
-    await new Promise(resolve => setTimeout(resolve, 450))
+    await new Promise(resolve => setTimeout(resolve, 350))
     isOpen.value = true
+    isVideoPlaying.value = true
 
-    if (!hasPlayedVideo.value) {
-      hasPlayedVideo.value = true
-      
-      if (videoFailed.value) {
-        // If it failed to play initially, skip it completely so we don't get stuck
-        onVideoEnded()
-      } else {
-        // Show video shortly after envelope starts opening
-        await new Promise(resolve => setTimeout(resolve, 800))
-        showVideoScreen.value = true
-        
-        // Video is already playing in the background, we just fade it in!
-        // In case it somehow paused, try playing again, but gracefully fallback if it fails.
-        if (previewVideoRef.value && previewVideoRef.value.paused) {
-          previewVideoRef.value.play().catch(e => {
-            console.log('Autoplay prevented at fade-in', e)
-            onVideoEnded()
-          })
-        }
-      }
-    } else {
-      // Skip video entirely on subsequent opens
-      showInvitation.value = true
-      updateCountdown()
-      setupScrollObserver()
+    // Restart from beginning so full 8s plays while envelope is open
+    if (sealVideoRef.value) {
+      sealVideoRef.value.currentTime = 0
+      sealVideoRef.value.play().catch(e => console.log('Video play error:', e))
     }
+
+    // Safety fallback timer (preview.mp4 duration is 8.17s)
+    clearTimeout(videoFallbackTimer)
+    videoFallbackTimer = setTimeout(() => {
+      if (isVideoPlaying.value && !showInvitation.value) {
+        onVideoEnded()
+      }
+    }, 9500)
 
   } catch (err) {
     isCoverOpen.value = true
     isOpen.value = true
+    onVideoEnded()
   } finally {
     isDisappearingOther.value = false
     isAnimatingCover.value = false
@@ -1206,6 +1171,14 @@ const returnToCover = () => {
     try { currentGlideAnim.cancel() } catch (e) {}
     currentGlideAnim = null
   }
+  if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
+  if (sealVideoRef.value) {
+    try {
+      sealVideoRef.value.pause()
+      sealVideoRef.value.currentTime = 0
+    } catch (e) {}
+  }
+  isVideoPlaying.value = false
   isReturning.value = true
   isCoverOpen.value = false
   isOpen.value = false
@@ -1216,7 +1189,7 @@ const returnToCover = () => {
 }
 
 const toggleEnvelope = () => {
-  if (showVideoScreen.value || showInvitation.value) return
+  if (isVideoPlaying.value || showInvitation.value) return
   if (isOpen.value) {
     isReturning.value = true
     isOpen.value = false
@@ -1236,7 +1209,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeyDown)
   if (timerInterval) clearInterval(timerInterval)
-  if (doorTransitionTimer) clearTimeout(doorTransitionTimer)
+  if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
   if (observer) observer.disconnect()
 })
 </script>
