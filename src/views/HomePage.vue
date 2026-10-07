@@ -2,6 +2,18 @@
   <div class="home-container">
 
     <!-- ═══════════════════════════════════════════════
+         LUXURIOUS LIGHT LEAK & FLASH CROSSFADE OVERLAY
+    ════════════════════════════════════════════════ -->
+    <div
+      class="light-leak-transition"
+      :class="{
+        'is-active': isLightLeakActive,
+        'is-fading-out': isLightLeakFadingOut
+      }"
+      aria-hidden="true"
+    ></div>
+
+    <!-- ═══════════════════════════════════════════════
          ENVELOPE SCENE (unchanged)
     ════════════════════════════════════════════════ -->
     <div
@@ -17,6 +29,7 @@
           playsinline 
           class="seal-bg-video"
           :class="{ 'is-active': isVideoPlaying }"
+          @timeupdate="onVideoTimeUpdate"
           @ended="onVideoEnded"
         ></video>
       </div>
@@ -120,6 +133,9 @@
             <!-- 1. Fullscreen Base Backdrop -->
             <img :src="backdropImg" alt="Sage Wedding Backdrop" class="main-bg-img" />
 
+            <!-- Ambient Magical Floating Particles & Sparkles Canvas -->
+            <canvas ref="sparklesCanvasRef" class="ambient-particles-canvas" aria-hidden="true"></canvas>
+
             <!-- 2. Tiered Crystal Chandelier -->
             <div class="chandelier-layer">
               <img :src="tieredChandelierImg" alt="Tiered Crystal Chandelier" class="layer-img chandelier-img" />
@@ -156,7 +172,7 @@
               <div class="invitation-card" @scroll="onCardScroll">
                 <!-- PAGE 1: Cover & Countdown -->
                 <section class="snap-page section-cover" id="page-cover" :class="{ 'section-animate-in': isCoverInView }">
-                  <div class="page-content-wrapper cover-page-content">
+                  <div class="page-content-wrapper cover-page-content" :class="{ 'cinematic-camera-zoom': isCoverInView }">
                     <h1 class="invitation-heading anim-cover-item">
                       <img
                         :src="weddingTitleKhmerImg"
@@ -168,6 +184,9 @@
                     <!-- Dedicated Invitation Luxury Card Container with Background Frame -->
                     <div class="invitation-card-container anim-item" style="transition-delay: 0.25s">
                       <div class="invitation-gold-frame">
+                        <!-- Gold Foil Shimmer Specular Light Sweep -->
+                        <div class="gold-foil-shimmer-sweep" aria-hidden="true"></div>
+
                         <!-- 3D Gold Khmer Corner Ornaments -->
                         <img :src="corner3dTl" alt="3D Khmer Corner TL" class="invitation-kbach-corner corner-tl" />
                         <img :src="corner3dTr" alt="3D Khmer Corner TR" class="invitation-kbach-corner corner-tr" />
@@ -866,6 +885,14 @@ const isVideoPlaying = ref(false)
 let currentGlideAnim = null
 let returnTimer = null
 let videoFallbackTimer = null
+let videoTimeCheckInterval = null
+
+// ── 5-Second Transition, Light Leak & Ambient Particles State ──
+const isLightLeakActive = ref(false)
+const isLightLeakFadingOut = ref(false)
+const hasTriggeredCoverTransition = ref(false)
+const sparklesCanvasRef = ref(null)
+let particlesAnimId = null
 
 const envelopeSealRef = ref(null)
 const coverSealBoxRef = ref(null)
@@ -1059,40 +1086,160 @@ const updateCountdown = () => {
   }
 }
 
-// ── Envelope logic ──
+// ── Ambient Floating Particles & Sparkles Simulation ──
+const initAmbientParticles = () => {
+  const canvas = sparklesCanvasRef.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2)
+  const rect = canvas.getBoundingClientRect()
+  const w = (rect.width || 420) * dpr
+  const h = (rect.height || 750) * dpr
+  canvas.width = w
+  canvas.height = h
+
+  const numParticles = 42
+  const particles = []
+
+  for (let i = 0; i < numParticles; i++) {
+    const isSparkle = Math.random() < 0.28
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      radius: (Math.random() * 1.6 + 1.2) * dpr,
+      vx: (Math.random() - 0.5) * 0.22 * dpr,
+      vy: -(Math.random() * 0.32 + 0.14) * dpr, // gentle upward floating dust
+      baseAlpha: Math.random() * 0.45 + 0.25,
+      pulseSpeed: Math.random() * 0.025 + 0.015,
+      pulseOffset: Math.random() * Math.PI * 2,
+      isSparkle,
+      sparkleAngle: Math.random() * Math.PI,
+      rotSpeed: (Math.random() - 0.5) * 0.015
+    })
+  }
+
+  const drawDiamondSparkle = (cx, cy, size, alpha, angle) => {
+    ctx.save()
+    ctx.translate(cx, cy)
+    ctx.rotate(angle)
+    ctx.beginPath()
+    const rOuter = size * 1.9
+    const rInner = size * 0.35
+    for (let i = 0; i < 4; i++) {
+      const a = (i * Math.PI) / 2
+      ctx.lineTo(Math.cos(a) * rOuter, Math.sin(a) * rOuter)
+      ctx.lineTo(Math.cos(a + Math.PI / 4) * rInner, Math.sin(a + Math.PI / 4) * rInner)
+    }
+    ctx.closePath()
+    ctx.fillStyle = `rgba(255, 250, 220, ${alpha})`
+    ctx.shadowColor = 'rgba(255, 225, 120, 0.75)'
+    ctx.shadowBlur = 6 * dpr
+    ctx.fill()
+    ctx.restore()
+  }
+
+  const render = (time) => {
+    if (!showInvitation.value) return
+    ctx.clearRect(0, 0, w, h)
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i]
+      p.x += p.vx
+      p.y += p.vy
+      p.sparkleAngle += p.rotSpeed
+
+      if (p.y < -15) p.y = h + 15
+      if (p.x < -15) p.x = w + 15
+      if (p.x > w + 15) p.x = -15
+
+      const currentAlpha = Math.max(0.1, Math.min(0.85, p.baseAlpha + Math.sin(time * 0.002 * p.pulseSpeed * 60 + p.pulseOffset) * 0.3))
+
+      if (p.isSparkle) {
+        drawDiamondSparkle(p.x, p.y, p.radius * 1.5, currentAlpha, p.sparkleAngle)
+      } else {
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.2)
+        grad.addColorStop(0, `rgba(255, 252, 230, ${currentAlpha})`)
+        grad.addColorStop(0.5, `rgba(254, 230, 140, ${currentAlpha * 0.6})`)
+        grad.addColorStop(1, 'rgba(212, 175, 55, 0)')
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.radius * 2.2, 0, Math.PI * 2)
+        ctx.fillStyle = grad
+        ctx.fill()
+      }
+    }
+
+    particlesAnimId = requestAnimationFrame(render)
+  }
+
+  if (particlesAnimId) cancelAnimationFrame(particlesAnimId)
+  particlesAnimId = requestAnimationFrame(render)
+}
+
+// ── 5-Second Transition & Light Leak Crossfade Logic ──
+const triggerCoverTransition = () => {
+  if (hasTriggeredCoverTransition.value || showInvitation.value) return
+  hasTriggeredCoverTransition.value = true
+
+  // Step 1: Soft glowing light leak & warm white/gold flash blooms across the screen
+  isLightLeakActive.value = true
+  isLightLeakFadingOut.value = false
+
+  // Step 2: At the light bloom crest (~250ms), dissolve & crossfade the cover page into view
+  setTimeout(() => {
+    showInvitation.value = true
+    isCoverInView.value = true
+
+    updateCountdown()
+    if (timerInterval) clearInterval(timerInterval)
+    timerInterval = setInterval(updateCountdown, 1000)
+
+    nextTick(() => {
+      const cardContainer = document.querySelector('.invitation-card')
+      if (cardContainer) cardContainer.scrollTop = 0
+      const coverEl = document.getElementById('page-cover')
+      if (coverEl) coverEl.scrollIntoView({ behavior: 'auto' })
+      setupScrollObserver()
+      initAmbientParticles()
+    })
+  }, 250)
+
+  // Step 3: Gently fade out the light leak, seamlessly revealing the cover page
+  setTimeout(() => {
+    isLightLeakFadingOut.value = true
+    if (sealVideoRef.value) {
+      try { sealVideoRef.value.pause() } catch (e) {}
+    }
+  }, 750)
+
+  // Step 4: Finalize transition
+  setTimeout(() => {
+    isLightLeakActive.value = false
+    isLightLeakFadingOut.value = false
+    isVideoPlaying.value = false
+    if (videoTimeCheckInterval) {
+      clearInterval(videoTimeCheckInterval)
+      videoTimeCheckInterval = null
+    }
+  }, 1600)
+}
+
+const onVideoTimeUpdate = () => {
+  if (sealVideoRef.value && !hasTriggeredCoverTransition.value && isVideoPlaying.value) {
+    // Exactly at the 5-second mark (5.0s) of the peacock video
+    if (sealVideoRef.value.currentTime >= 5.0) {
+      triggerCoverTransition()
+    }
+  }
+}
+
 const onVideoEnded = () => {
   if (showInvitation.value) return
   if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
-  if (sealVideoRef.value) {
-    try { sealVideoRef.value.pause() } catch (e) {}
-  }
-  isVideoPlaying.value = false
-  isCoverInView.value = false
-  showInvitation.value = true
-
-  updateCountdown()
-  if (timerInterval) clearInterval(timerInterval)
-  timerInterval = setInterval(updateCountdown, 1000)
-
-  // Ensure scroll is at top so invitation-card section (page-cover) is displayed
-  nextTick(() => {
-    const cardContainer = document.querySelector('.invitation-card')
-    if (cardContainer) {
-      cardContainer.scrollTop = 0
-    }
-    const coverEl = document.getElementById('page-cover')
-    if (coverEl) {
-      coverEl.scrollIntoView({ behavior: 'auto' })
-    }
-
-    // Trigger staggered text loading animation like scrolling up or down
-    setTimeout(() => {
-      isCoverInView.value = true
-      setupScrollObserver()
-    }, 200)
-  })
+  triggerCoverTransition()
 }
-
 
 const openCover = async () => {
   if (isCoverOpen.value || isAnimatingCover.value) return
@@ -1115,7 +1262,6 @@ const openCover = async () => {
       })
     }
   }
-
 
   const coverSealEl = coverSealBoxRef.value
   const targetSealEl = envelopeSealRef.value
@@ -1152,25 +1298,36 @@ const openCover = async () => {
     await new Promise(resolve => setTimeout(resolve, 350))
     isOpen.value = true
     isVideoPlaying.value = true
+    hasTriggeredCoverTransition.value = false
 
-    // Restart from beginning so full 8s plays while envelope is open
+    // Restart from beginning so peacock video plays smoothly while envelope is open
     if (sealVideoRef.value) {
       sealVideoRef.value.currentTime = 0
       sealVideoRef.value.play().catch(e => console.log('Video play error:', e))
     }
 
-    // Safety fallback timer (preview.mp4 duration is 8.17s)
+    // High-resolution interval check for exactly the 5.0s transition mark
+    if (videoTimeCheckInterval) clearInterval(videoTimeCheckInterval)
+    videoTimeCheckInterval = setInterval(() => {
+      if (sealVideoRef.value && !hasTriggeredCoverTransition.value && isVideoPlaying.value) {
+        if (sealVideoRef.value.currentTime >= 5.0) {
+          triggerCoverTransition()
+        }
+      }
+    }, 40)
+
+    // Safety fallback timer
     clearTimeout(videoFallbackTimer)
     videoFallbackTimer = setTimeout(() => {
       if (isVideoPlaying.value && !showInvitation.value) {
-        onVideoEnded()
+        triggerCoverTransition()
       }
-    }, 9500)
+    }, 6000)
 
   } catch (err) {
     isCoverOpen.value = true
     isOpen.value = true
-    onVideoEnded()
+    triggerCoverTransition()
   } finally {
     isDisappearingOther.value = false
     isAnimatingCover.value = false
@@ -1184,12 +1341,23 @@ const returnToCover = () => {
     currentGlideAnim = null
   }
   if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
+  if (videoTimeCheckInterval) {
+    clearInterval(videoTimeCheckInterval)
+    videoTimeCheckInterval = null
+  }
+  if (particlesAnimId) {
+    cancelAnimationFrame(particlesAnimId)
+    particlesAnimId = null
+  }
   if (sealVideoRef.value) {
     try {
       sealVideoRef.value.pause()
       sealVideoRef.value.currentTime = 0
     } catch (e) {}
   }
+  hasTriggeredCoverTransition.value = false
+  isLightLeakActive.value = false
+  isLightLeakFadingOut.value = false
   isVideoPlaying.value = false
   isCoverInView.value = false
   showInvitation.value = false
@@ -1224,6 +1392,8 @@ onUnmounted(() => {
   window.removeEventListener('keydown', onKeyDown)
   if (timerInterval) clearInterval(timerInterval)
   if (videoFallbackTimer) clearTimeout(videoFallbackTimer)
+  if (videoTimeCheckInterval) clearInterval(videoTimeCheckInterval)
+  if (particlesAnimId) cancelAnimationFrame(particlesAnimId)
   if (observer) observer.disconnect()
 })
 </script>
